@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Базовая страница</title>
+    <!-- Bootstrap CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Фон с изображением */
+        body {
+          background-image: url('./static/images/background.jpg');
+          background-size: cover;
+          background-position: center;
+          min-height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+<!-- Навигационная панель -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Мой сайт</a>
+        <div class="d-flex ms-auto">
+            <!-- Кнопки перехода -->
+            <a class="btn btn-outline-primary me-2" href="#">Страница 1</a>
+            <a class="btn btn-outline-primary me-2" href="#">Страница 2</a>
+            <!-- Круглая кнопка с фотографией -->
+            <a href="профиль.html" class="d-flex align-items-center">
+                <img src="#" alt="Профиль" class="profile-img"/>
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- Центрированный контент -->
+<div class="rov">
+    <div class="col-8 container mt-5">
+
+    {% block content %}
+    {% endblock %}
+
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
