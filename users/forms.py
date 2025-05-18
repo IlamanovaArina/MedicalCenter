@@ -58,6 +58,9 @@ class UserRegisterForm(UserCreationForm):
         self.fields["email"].widget.attrs.update(
             {"class": "form-control", "placeholder": "Введите электронную почту"}
         )
+        self.fields["tg_id"].widget.attrs.update(
+            {"class": "form-control", "placeholder": "Введите свой телеграмм ID"}
+        )
         self.fields["avatar"].widget.attrs.update(
             {"class": "form-control", "placeholder": "Добавьте изображение"}
         )

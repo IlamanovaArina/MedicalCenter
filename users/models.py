@@ -5,21 +5,18 @@ from django.utils import timezone
 
 class User(AbstractUser):
     username = None
-    first_name = models.CharField(max_length=50, verbose_name="name", help_text="Имя", )
-    last_name = models.CharField(max_length=50, verbose_name="surname", help_text="Фамилия", )
-    patronymic = models.CharField(max_length=50, blank=True, null=True, verbose_name="patronymic",
-                                  help_text="Отчество (если есть)", )
-    email = models.EmailField(unique=True, verbose_name="email", help_text="Электронная почта", )
-    avatar = models.ImageField(upload_to="users/", blank=True, null=True, verbose_name="avatar",
-                               help_text="Фотография", )
-    phone = models.CharField(max_length=11, blank=True, null=True, verbose_name="phone", help_text="Номер телефона", )
-    city = models.CharField(max_length=50, blank=True, null=True, verbose_name="city", help_text="Город", )
-    country = models.CharField(max_length=255, blank=True, null=True,
-                               verbose_name="country", help_text="Гражданство", )
+    first_name = models.CharField(max_length=50, verbose_name="Имя")
+    last_name = models.CharField(max_length=50, verbose_name="Фамилия")
+    patronymic = models.CharField(max_length=50, blank=True, null=True, verbose_name="Отчество")
+    email = models.EmailField(unique=True, verbose_name="Email")
+    avatar = models.ImageField(upload_to="users/", blank=True, null=True, verbose_name="Фотография")
+    phone = models.CharField(max_length=11, blank=True, null=True, verbose_name="Телефон")
+    city = models.CharField(max_length=50, blank=True, null=True, verbose_name="Город")
+    country = models.CharField(max_length=255, blank=True, null=True, verbose_name="Страна")
     token = models.CharField(max_length=150, verbose_name="token", blank=True, null=True)
     tg_id = models.CharField(max_length=255, blank=True, null=True, verbose_name="Telegram ID")
-    created_at = models.DateTimeField(default=timezone.now, help_text="Дата регистрации")
-    updated_at = models.DateTimeField(auto_now=True, help_text="Дата изменения")
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True,)
     is_active = models.BooleanField(blank=True, null=True)
 
     USERNAME_FIELD = "email"

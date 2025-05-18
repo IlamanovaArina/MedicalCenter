@@ -22,12 +22,12 @@ class Reviews(models.Model):
         ("1", "Категорически не устроило"),
     ]
 
-    text = models.TextField(max_length=500, help_text="Отзыв", blank=True, null=True)
+    text = models.TextField(max_length=500, verbose_name="Отзыв", blank=True, null=True)
     rate = models.CharField(
-        help_text="Количество звезд", max_length=100, choices=DOCTOR_RATE
+        verbose_name="Количество звезд", max_length=100, choices=DOCTOR_RATE
     )
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
-                              help_text='Пользователь, оставивший отзыв')
+                              verbose_name='Пользователь, оставивший отзыв')
 
 
 class Doctors(models.Model):
@@ -43,21 +43,21 @@ class Doctors(models.Model):
     """
 
     first_name = models.CharField(
-        max_length=255, help_text="Имя", blank=True, null=True
+        max_length=255, verbose_name="Имя", blank=True, null=True
     )
     last_name = models.CharField(
-        max_length=255, help_text="Фамилия", null=True, blank=True
+        max_length=255, verbose_name="Фамилия", null=True, blank=True
     )
     specialization = models.CharField(
-        max_length=255, help_text="Специальность", null=True, blank=True
+        max_length=255, verbose_name="Специальность", null=True, blank=True
     )
     experience = models.CharField(
-        max_length=255, help_text="Стаж работы", null=True, blank=True
+        max_length=255, verbose_name="Стаж работы", null=True, blank=True
     )
     reviews = models.ForeignKey(Reviews, verbose_name="Отзывы на врача",
                                 null=True, blank=True, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
-                              help_text='Пользователь создавший этот экземпляр модели')
+                              verbose_name='Пользователь создавший этот экземпляр модели')
 
 
 class Services(models.Model):
@@ -68,7 +68,7 @@ class Services(models.Model):
     name = models.CharField(max_length=500, verbose_name="Название услуги")
     description = models.CharField(max_length=500, verbose_name="Описание услуги")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
-                              help_text='Пользователь создавший этот экземпляр модели')
+                              verbose_name='Пользователь создавший этот экземпляр модели')
 
 
 class Information(models.Model):
@@ -80,11 +80,11 @@ class Information(models.Model):
         address (str): Адрес клиники.
     """
 
-    phone = models.CharField(max_length=11, blank=True, null=True, verbose_name="phone", help_text="Номер телефона")
-    address = models.CharField(max_length=255, help_text="Адрес клиники", null=True, blank=True)
-    information = models.TextField(max_length=500 ,help_text="Главная информация", blank=True, null=True)
+    phone = models.CharField(max_length=11, blank=True, null=True, verbose_name="Номер телефона")
+    address = models.CharField(max_length=255, verbose_name="Адрес клиники", null=True, blank=True)
+    information = models.TextField(max_length=500 ,verbose_name="Главная информация", blank=True, null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
-                              help_text='Пользователь создавший этот экземпляр модели')
+                              verbose_name='Пользователь создавший этот экземпляр модели')
 
 
 class Appointment(models.Model):
@@ -107,10 +107,10 @@ class Appointment(models.Model):
     address = models.CharField(max_length=255, verbose_name="Адрес клиники",
                               null=True, blank=True, choices=ADDRESS_CLINIC,)
     doctor = models.ForeignKey(Doctors, on_delete=models.CASCADE)
-    appointment_date = models.DateTimeField(help_text="Дата приёма")
+    appointment_date = models.DateTimeField(verbose_name="Дата приёма")
     services = models.ForeignKey(Services, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
-                              help_text='Пациент')
+                              verbose_name='Пациент')
 
 
 class DiagnosticResults(models.Model):
@@ -126,4 +126,4 @@ class DiagnosticResults(models.Model):
                                     null=True, blank=True, on_delete=models.CASCADE)
     results = models.CharField(max_length=255, verbose_name="Результаты диагностики", null=True, blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
-                              help_text='Пользователь создавший этот экземпляр модели')
+                              verbose_name='Пользователь создавший этот экземпляр модели')
