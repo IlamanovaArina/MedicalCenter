@@ -1,96 +1,36 @@
 {% extends 'base.html' %}
 
 {% load my_tags %}
-{% block title %}Удаление{% endblock %}
+{% block title %}Услуги{% endblock %}
 
 {% block content %}
 
-  <div class="container my-5">
+<div class="container my-5">
 
     <!-- Заголовок -->
     <header class="text-center mb-5">
-      <h1 class="display-4 fw-bold">Наши услуги</h1>
-      <p class="lead text-muted">Профессиональные медицинские услуги для вашего здоровья</p>
+        <h1 class="display-4 fw-bold">Наши услуги</h1>
+        <p class="lead text-muted">Профессиональные медицинские услуги для вашего здоровья</p>
     </header>
 
     <!-- Перечень услуг -->
     <section class="section" id="services-list">
-      <h2 class="text-center mb-4">Перечень услуг</h2>
-      <div class="row g-4" id="services">
-        <!-- Услуга 1 -->
-        <div class="col-md-4">
-          <div class="card service-card h-100 border-0 shadow rounded p-4 bg-white">
-            <h4 class="mb-3">Общий осмотр</h4>
-            <p>Комплексная диагностика и первичный осмотр для определения состояния здоровья.</p>
-            <div class="mt-3 price">от 1500 ₽</div>
-          </div>
+        <h2 class="text-center mb-4">Перечень услуг</h2>
+        <div class="row g-4" id="services">
+
+            {% for service in services %}
+            <div class="col-md-4">
+                <div class="card service-card h-100 border-0 shadow rounded p-4 bg-white">
+                    <h4 class="mb-3">{{ service.name }}</h4>
+                    <p>{{ service.description }}</p>
+                    <div class="mt-3 price">{{ service.price }}</div>
+                </div>
+            </div>
+            {% endfor %}
+
         </div>
-        <!-- Услуга 2 -->
-        <div class="col-md-4">
-          <div class="card service-card h-100 border-0 shadow rounded p-4 bg-white">
-            <h4 class="mb-3">Кардиология</h4>
-            <p>Диагностика и лечение сердечно-сосудистых заболеваний, ЭКГ, консультации кардиолога.</p>
-            <div class="mt-3 price">от 3000 ₽</div>
-          </div>
-        </div>
-        <!-- Услуга 3 -->
-        <div class="col-md-4">
-          <div class="card service-card h-100 border-0 shadow rounded p-4 bg-white">
-            <h4 class="mb-3">Педиатрия</h4>
-            <p>Обследование и лечение детей, вакцинация, консультации по развитию.</p>
-            <div class="mt-3 price">от 2000 ₽</div>
-          </div>
-        </div>
-        <!-- Можно добавить больше услуг -->
-      </div>
     </section>
 
-    <!-- Подробное описание услуг -->
-    <section class="section" id="service-details">
-      <h2 class="text-center mb-4">Подробное описание услуг</h2>
-      <div class="accordion" id="servicesAccordion">
-        <!-- Детали услуги 1 -->
-        <div class="accordion-item mb-3">
-          <h2 class="accordion-header" id="headingOne">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-              Общий осмотр
-            </button>
-          </h2>
-          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#servicesAccordion">
-            <div class="accordion-body">
-              В рамках общего осмотра врач проведет первичное обследование, измерит давление, пульс, оценит общее состояние организма и даст рекомендации по дальнейшему лечению или профилактике.
-            </div>
-          </div>
-        </div>
-        <!-- Детали услуги 2 -->
-        <div class="accordion-item mb-3">
-          <h2 class="accordion-header" id="headingTwo">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-              Кардиология
-            </button>
-          </h2>
-          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#servicesAccordion">
-            <div class="accordion-body">
-              Включает проведение ЭКГ, ультразвукового исследования сердца, консультации кардиолога, подбор медикаментов и рекомендаций по образу жизни для профилактики сердечно-сосудистых заболеваний.
-            </div>
-          </div>
-        </div>
-        <!-- Детали услуги 3 -->
-        <div class="accordion-item mb-3">
-          <h2 class="accordion-header" id="headingThree">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-              Педиатрия
-            </button>
-          </h2>
-          <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#servicesAccordion">
-            <div class="accordion-body">
-              Включает профилактические осмотры, вакцинацию, лечение острых и хронических заболеваний у детей, рекомендации по развитию и питанию.
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </div>
+</div>
 
 {% endblock %}

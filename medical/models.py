@@ -1,3 +1,5 @@
+from django.utils import timezone
+
 from django.db import models
 
 from config import settings
@@ -28,14 +30,11 @@ class Reviews(models.Model):
         verbose_name="Количество звезд", max_length=100, choices=DOCTOR_RATE
     )
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
-                              verbose_name='Пользователь, оставивший отзыв')
+                             verbose_name='Пользователь, оставивший отзыв')
 
     class Meta:
         verbose_name = 'Отзыв'
         verbose_name_plural = 'Отзывы'
-
-    def __str__(self):
-        return self.text
 
 
 # Доктора
@@ -51,29 +50,18 @@ class Doctors(models.Model):
         reviews (ForeignKey): Связь с моделью Reviews для хранения отзывов.
     """
 
-    first_name = models.CharField(
-        max_length=255, verbose_name="Имя", blank=True, null=True
-    )
-    last_name = models.CharField(
-        max_length=255, verbose_name="Фамилия", null=True, blank=True
-    )
-    specialization = models.CharField(
-        max_length=255, verbose_name="Специальность", null=True, blank=True
-    )
-    experience = models.CharField(
-        max_length=255, verbose_name="Стаж работы", null=True, blank=True
-    )
+    first_name = models.CharField(max_length=255, verbose_name="Имя", blank=True, null=True)
+    last_name = models.CharField(max_length=255, verbose_name="Фамилия", null=True, blank=True)
+    specialization = models.CharField(max_length=255, verbose_name="Специальность", null=True, blank=True)
+    experience = models.CharField(max_length=255, verbose_name="Стаж работы", null=True, blank=True)
     reviews = models.ForeignKey(Reviews, verbose_name="Отзывы на врача",
                                 null=True, blank=True, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
-                              verbose_name='Пользователь создавший этот экземпляр модели')
+                             verbose_name='Пользователь создавший этот экземпляр модели')
 
     class Meta:
         verbose_name = 'Доктор'
         verbose_name_plural = 'Доктора'
-
-    def __str__(self):
-        return self.last_name
 
 
 # Услуги
@@ -84,15 +72,13 @@ class Services(models.Model):
 
     name = models.CharField(max_length=500, verbose_name="Название услуги")
     description = models.CharField(max_length=500, verbose_name="Описание услуги")
+    price = models.IntegerField(null=True, blank=True, verbose_name='Цена')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
-                              verbose_name='Пользователь создавший этот экземпляр модели')
+                             verbose_name='Пользователь создавший этот экземпляр модели')
 
     class Meta:
         verbose_name = 'Услуга'
         verbose_name_plural = 'Услуги'
-
-    def __str__(self):
-        return self.name
 
 
 # Информация
@@ -104,19 +90,39 @@ class Information(models.Model):
         phone (str): Номер телефона клиники.
         address (str): Адрес клиники.
     """
-
-    phone = models.CharField(max_length=11, blank=True, null=True, verbose_name="Номер телефона")
+    text_from_the_main_page = models.CharField(max_length=500, null=True, blank=True, verbose_name="Информация с главной страницы")
+    company_history = models.CharField(max_length=500, null=True, blank=True, verbose_name="История компании со страницы \"О компании\"")
+    mission = models.CharField(max_length=100, null=True, blank=True, verbose_name="Миссия со страницы \"О компании\"")
+    purposes = models.CharField(max_length=100, null=True, blank=True, verbose_name="Цели со страницы \"О компании\"")
+    description_of_services = models.CharField(max_length=100, null=True, blank=True, verbose_name="Подробное описание услуг")
+    cardiology = models.CharField(max_length=100, null=True, blank=True, verbose_name="Кардиология")
+    pediatrics = models.CharField(max_length=100, null=True, blank=True, verbose_name="Педиатрия")
+    phone = models.CharField(max_length=11, verbose_name="Номер телефона")
+    email = models.EmailField(unique=True, verbose_name="Email")
     address = models.CharField(max_length=255, verbose_name="Адрес клиники", null=True, blank=True)
-    information = models.TextField(max_length=500 ,verbose_name="Главная информация", blank=True, null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
-                              verbose_name='Пользователь создавший этот экземпляр модели')
+                             verbose_name='Пользователь создавший этот экземпляр модели')
+
+    # добавьте метод для получения или создания единственной записи
+    @classmethod
+    def get_solo(cls):
+        obj, created = cls.objects.get_or_create(id=1)
+        return obj
 
     class Meta:
         verbose_name = 'Информация'
         verbose_name_plural = 'Информации'
 
-    def __str__(self):
-        return self.information
+
+# Ценности (информация со страницы)
+class CompanyValues(models.Model):
+    """ Ценности компании (информация со страницы) """
+    name = models.CharField(max_length=50, verbose_name="Название Ценности")
+    description = models.CharField(max_length=100, verbose_name="Описание Ценности")
+
+    class Meta:
+        verbose_name = 'Ценность'
+        verbose_name_plural = 'Ценности'
 
 
 # Запись на приём
@@ -138,19 +144,16 @@ class Appointment(models.Model):
         ("Медицинская лаборатория", "Ул.Луначарского 308, 1 этаж"),
     ]
     address = models.CharField(max_length=255, verbose_name="Адрес клиники",
-                              null=True, blank=True, choices=ADDRESS_CLINIC,)
+                               null=True, blank=True, choices=ADDRESS_CLINIC, )
     doctor = models.ForeignKey(Doctors, on_delete=models.CASCADE, verbose_name="Доктор")
     appointment_date = models.DateTimeField(verbose_name="Дата приёма")
     services = models.ForeignKey(Services, on_delete=models.CASCADE, verbose_name="Услуга")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
-                              verbose_name='Пациент')
+                             verbose_name='Пациент')
 
     class Meta:
         verbose_name = 'Запись'
         verbose_name_plural = 'Записи'
-
-    def __str__(self):
-        return self.services
 
 
 # Результаты диагностики
@@ -167,24 +170,22 @@ class DiagnosticResults(models.Model):
                                     null=True, blank=True, on_delete=models.CASCADE)
     results = models.CharField(max_length=255, verbose_name="Результаты диагностики", null=True, blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
-                              verbose_name='Пользователь создавший этот экземпляр модели')
+                             verbose_name='Пользователь создавший этот экземпляр модели')
+    doctor = models.ForeignKey(Doctors, on_delete=models.CASCADE, verbose_name="Доктор")
 
     class Meta:
-        verbose_name = 'Результат'
-        verbose_name_plural = 'Результаты'
-
-    def __str__(self):
-        return self.appointment
+        verbose_name = 'Результат диагностики'
+        verbose_name_plural = 'Результаты диагностики'
 
 
 # Обратная связь
 class Feedback(models.Model):
-    topic = models.CharField(max_length=100, verbose_name="Тема обращения")
-
+    subject = models.CharField(max_length=100, verbose_name="Тема обращения")
+    feedback = models.CharField(max_length=500, verbose_name="Сообщение")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
+                             verbose_name='Пользователь создавший этот экземпляр модели')
+    created_at = models.DateTimeField(default=timezone.now, help_text="Дата и время создания")
 
     class Meta:
-        verbose_name = 'Результат'
-        verbose_name_plural = 'Результаты'
-
-    def __str__(self):
-        return self.appointment
+        verbose_name = 'Сообщение'
+        verbose_name_plural = 'Сообщения'

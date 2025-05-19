@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% load my_tags %}
-{% block title %}Удаление{% endblock %}
+{% block title %}О компании{% endblock %}
 
 {% block content %}
 
@@ -15,22 +15,16 @@
 
     <!-- История компании -->
     <section class="section" id="history">
-        <h2 class="text-center mb-4">История компании</h2>
+        <h2 class="text-center  mb-4">История компании</h2>
         <div class="row align-items-center">
             <div class="col-md-6 mb-4 mb-md-0">
-                <img src="https://avatars.mds.yandex.net/i?id=d02d244dc4e4650c5ae0fed7bc20703f_l-9154408-images-thumbs&n=13"
+                <img src="https://sun9-80.userapi.com/s/v1/ig2/BtgfowHtx6HyW_gOKTPcCXXzqOQxX3aKzSZpKGCJTchpdXaqdLH7F9U1XXqOGxqqZBGMoad-wiR_aL2xv64spn0g.jpg?quality=95&as=32x18,48x27,72x40,108x60,160x89,240x133,360x199,480x266,540x299,640x354,720x399,1080x598,1280x709,1300x720&from=bu&u=mkIU9Ez64LnA_srYKVLqLvrlnSi5NexeR2LtMMwBx2g&cs=807x447"
                      class="img-fluid rounded shadow" alt="История компании"/>
             </div>
             <div class="col-md-6">
-                <h5>
-                    Наша компания была основана в 2010 году с целью предоставления высококачественных медицинских услуг.
-                    За годы работы мы выросли в команду профессионалов, которые ценят каждого пациента и стремятся к
-                    постоянному развитию.
-                </h5>
-                <h5>
-                    Сегодня мы — ведущая клиника в регионе, предлагающая широкий спектр медицинских услуг, основанных на
-                    современных технологиях и индивидуальном подходе.
-                </h5>
+                <p>
+                    {{ information.company_history }}
+                </p>
             </div>
         </div>
     </section>
@@ -42,26 +36,23 @@
             <div class="col-md-4 mb-4">
                 <div class="p-4 bg-white rounded shadow h-100">
                     <h4 class="mb-3">Миссия</h4>
-                    <p>Обеспечивать нашим пациентам доступ к современным и безопасным медицинским услугам, заботясь о их
-                        здоровье и благополучии.</p>
+                    <p>{{ information.mission }}</p>
                 </div>
             </div>
             <div class="col-md-4 mb-4">
                 <div class="p-4 bg-white rounded shadow h-100">
                     <h4 class="mb-3">Ценности</h4>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><strong>Профессионализм:</strong> команда экспертов</li>
-                        <li class="mb-2"><strong>Ответственность:</strong> за здоровье каждого пациента</li>
-                        <li class="mb-2"><strong>Инновации:</strong> использование современных технологий</li>
-                        <li class="mb-2"><strong>Забота:</strong> о каждом клиенте</li>
+                        {% for value in company_values %}
+                        <li class="mb-2"><strong>{{ value.name }}:</strong> {{ value.description }}</li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>
             <div class="col-md-4 mb-4">
                 <div class="p-4 bg-white rounded shadow h-100">
                     <h4 class="mb-3">Наши цели</h4>
-                    <p>Постоянное развитие, расширение спектра услуг и повышение качества обслуживания для наших
-                        пациентов.</p>
+                    <p>{{ value.purposes }}</p>
                 </div>
             </div>
         </div>
@@ -87,36 +78,7 @@
               </div>
             </div>
           </div>
-            <div class="col-md-3 col-sm-6">
-            <div class="card border-0 shadow team-member">
-              <img src="https://avatars.mds.yandex.net/i?id=1850c909881c544fc4f252c0f7840f07_l-5236416-images-thumbs&n=13"
-                   class="card-img-top team-img" alt="Врач 1"/>
-              <div class="card-body text-center">
-                <h5 class="card-title mb-0">Иван Иванов</h5>
-                <p class="text-muted small">Кардиолог</p>
-              </div>
-            </div>
-          </div>
-            <div class="col-md-3 col-sm-6">
-            <div class="card border-0 shadow team-member">
-              <img src="https://avatars.mds.yandex.net/i?id=1850c909881c544fc4f252c0f7840f07_l-5236416-images-thumbs&n=13"
-                   class="card-img-top team-img" alt="Врач 1"/>
-              <div class="card-body text-center">
-                <h5 class="card-title mb-0">Иван Иванов</h5>
-                <p class="text-muted small">Кардиолог</p>
-              </div>
-            </div>
-          </div>
-            <div class="col-md-3 col-sm-6">
-            <div class="card border-0 shadow team-member">
-              <img src="https://avatars.mds.yandex.net/i?id=1850c909881c544fc4f252c0f7840f07_l-5236416-images-thumbs&n=13"
-                   class="card-img-top team-img" alt="Врач 1"/>
-              <div class="card-body text-center">
-                <h5 class="card-title mb-0">Иван Иванов</h5>
-                <p class="text-muted small">Кардиолог</p>
-              </div>
-            </div>
-          </div>
+
           <!-- Можно добавить еще карточки в этот слайд -->
         </div>
       </div>
@@ -124,6 +86,7 @@
       <!-- Второй слайд (если есть больше врачей) -->
       <div class="carousel-item">
         <div class="row g-4 justify-content-center">
+
           <!-- Карточки следующего слайда -->
           <div class="col-md-3 col-sm-6">
             <div class="card border-0 shadow team-member">

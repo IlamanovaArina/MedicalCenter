@@ -1,117 +1,111 @@
 {% extends 'base.html' %}
 
 {% load my_tags %}
-{% block title %}Удаление{% endblock %}
+{% block title %}Профиль{% endblock %}
 
 {% block content %}
 
-  <div class="container my-5">
+<div class="container my-5">
 
     <!-- Заголовок -->
     <header class="text-center mb-5">
-      <h1 class="display-4 fw-bold">Личный кабинет</h1>
-      <p class="lead text-muted">Управляйте своим здоровьем и записями</p>
+        <h1 class="display-4 fw-bold">Личный кабинет</h1>
+        <p class="lead text-muted">Управляйте своим здоровьем и записями</p>
     </header>
 
-    <!-- Регистрация и авторизация -->
     <section class="section" id="auth">
-      <h2 class="text-center mb-4">Регистрация и вход</h2>
-      <div class="row g-4 justify-content-center">
-        <!-- Регистрация -->
-        <div class="col-md-5">
-          <div class="card p-4 shadow-sm border-0">
-            <h4 class="mb-3 text-center">Регистрация</h4>
-            <form>
-              <div class="mb-3">
-                <label for="regEmail" class="form-label">Email</label>
-                <input type="email" class="form-control" id="regEmail" placeholder="you@example.com" required>
-              </div>
-              <div class="mb-3">
-                <label for="regPassword" class="form-label">Пароль</label>
-                <input type="password" class="form-control" id="regPassword" placeholder="Введите пароль" required>
-              </div>
-              <div class="mb-3">
-                <label for="regName" class="form-label">Имя</label>
-                <input type="text" class="form-control" id="regName" placeholder="Ваше имя" required>
-              </div>
-              <button type="submit" class="btn btn-primary w-100">Зарегистрироваться</button>
-            </form>
-          </div>
+        {% if user.is_authenticated %}
+        <h2 class="text-center mb-4">Профиль</h2>
+        <div class="row g-4 justify-content-center">
+            <div class="card mb-4 shadow-sm" style="max-width: 350px; margin: auto;">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <img src="https://i.pinimg.com/originals/3c/fa/27/3cfa27ea902a9b756e1b6fd0db3b5d2e.png" alt="Аватар" class="rounded-circle"
+                             style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #dee2e6;">
+                    </div>
+                    <h5 class="card-title mb-2">{{ user.email }}</h5>
+                    <ul class="list-group list-group-flush text-start">
+                        <li class="list-group-item d-flex align-items-center">
+                            <svg class="bi me-2" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M3.5 3a.5.5 0 0 1 .5.5v.5h8v-.5a.5.5 0 0 1 1 0v.5h.5A1.5 1.5 0 0 1 15 5.5v7A1.5 1.5 0 0 1 13.5 14h-11A1.5 1.5 0 0 1 1 12.5v-7A1.5 1.5 0 0 1 2.5 4h.5V3.5a.5.5 0 0 1 .5-.5zM2 5v7.5a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V5H2z"/>
+                            </svg>
+                            {{ user.phone }}
+                        </li>
+                        <li class="list-group-item d-flex align-items-center">
+                            <svg class="bi me-2" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm0 1a7 7 0 1 1 0 14A7 7 0 0 1 8 1z"/>
+                                <path d="M8 3a.5.5 0 0 1 .5.5v4.793l2.146 2.147a.5.5 0 0 1-.708.708L7.5 9.707V3.5A.5.5 0 0 1 8 3z"/>
+                            </svg>
+                            {{ user.country }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            {% else %}
+            <h2 class="text-center mb-4">Профиль</h2>
+            <div class="row g-4 justify-content-center">
+                <!-- Регистрация и авторизация если не осуществлён вход -->
+                {% include "login_and_registration.html" %}
+            </div>
+            {% endif %}
         </div>
-        <!-- Вход -->
-        <div class="col-md-5">
-          <div class="card p-4 shadow-sm border-0">
-            <h4 class="mb-3 text-center">Вход</h4>
-            <form>
-              <div class="mb-3">
-                <label for="loginEmail" class="form-label">Email</label>
-                <input type="email" class="form-control" id="loginEmail" placeholder="you@example.com" required>
-              </div>
-              <div class="mb-3">
-                <label for="loginPassword" class="form-label">Пароль</label>
-                <input type="password" class="form-control" id="loginPassword" placeholder="Введите пароль" required>
-              </div>
-              <button type="submit" class="btn btn-success w-100">Войти</button>
-            </form>
-          </div>
-        </div>
-      </div>
     </section>
 
     <!-- Запись на прием -->
     <section class="section" id="appointment">
-      <h2 class="text-center mb-4">Запись на прием</h2>
-      <div class="row justify-content-center">
-        <div class="col-lg-8">
-          <div class="card p-4 shadow-sm border-0">
-            <form>
-              <div class="mb-3">
-                <label for="date" class="form-label">Дата</label>
-                <input type="date" class="form-control" id="date" required>
-              </div>
-              <div class="mb-3">
-                <label for="time" class="form-label">Время</label>
-                <input type="time" class="form-control" id="time" required>
-              </div>
-              <div class="mb-3">
-                <label for="doctor" class="form-label">Врач</label>
-                <select class="form-select" id="doctor" required>
-                  <option selected disabled>Выберите врача</option>
-                  <option>Иван Иванов — Кардиолог</option>
-                  <option>Мария Петрова — Педиатр</option>
-                  <option>Алексей Смирнов — Терапевт</option>
-                </select>
-              </div>
-              <button type="submit" class="btn btn-primary w-100">Записаться</button>
-            </form>
-          </div>
+        <h2 class="text-center mb-4">Запись на прием</h2>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card p-4 shadow-sm border-0">
+                    <form>
+                        <div class="mb-3">
+                            <label for="date" class="form-label">Дата</label>
+                            <input type="date" class="form-control" id="date" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="time" class="form-label">Время</label>
+                            <input type="time" class="form-control" id="time" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="doctor" class="form-label">Врач</label>
+                            <select class="form-select" id="doctor" required>
+                                <option selected disabled>Выберите врача</option>
+                                <option>Иван Иванов — Кардиолог</option>
+                                <option>Мария Петрова — Педиатр</option>
+                                <option>Алексей Смирнов — Терапевт</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Записаться</button>
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
     </section>
 
     <!-- История записей и результаты -->
     <section class="section" id="history">
-      <h2 class="text-center mb-4">История записей и результатов</h2>
-      <div class="row g-4 records-grid">
-        <!-- Пример записи -->
-        <div class="col-md-4">
-          <div class="card record-card p-3 bg-white rounded shadow-sm">
-            <h5 class="mb-2">Запись 01.09.2024</h5>
-            <p class="mb-1"><strong>Врач:</strong> Иван Иванов</p>
-            <p class="mb-1"><strong>Результаты диагностики:</strong> Всё в порядке</p>
-          </div>
+        <h2 class="text-center mb-4">История записей и результатов</h2>
+        <div class="row g-4 records-grid">
+            <!-- Пример записи -->
+            <div class="col-md-4">
+                <div class="card record-card p-3 bg-white rounded shadow-sm">
+                    <h5 class="mb-2">Запись 01.09.2024</h5>
+                    <p class="mb-1"><strong>Врач:</strong> Иван Иванов</p>
+                    <p class="mb-1"><strong>Результаты диагностики:</strong> Всё в порядке</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card record-card p-3 bg-white rounded shadow-sm">
+                    <h5 class="mb-2">Запись 15.11.2024</h5>
+                    <p class="mb-1"><strong>Врач:</strong> Мария Петрова</p>
+                    <p class="mb-1"><strong>Результаты диагностики:</strong> Нет отклонений</p>
+                </div>
+            </div>
+            <!-- Добавляйте свои записи -->
         </div>
-        <div class="col-md-4">
-          <div class="card record-card p-3 bg-white rounded shadow-sm">
-            <h5 class="mb-2">Запись 15.11.2024</h5>
-            <p class="mb-1"><strong>Врач:</strong> Мария Петрова</p>
-            <p class="mb-1"><strong>Результаты диагностики:</strong> Нет отклонений</p>
-          </div>
-        </div>
-        <!-- Добавляйте свои записи -->
-      </div>
     </section>
 
-  </div>
+</div>
 
 {% endblock %}
