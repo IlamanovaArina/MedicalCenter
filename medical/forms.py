@@ -98,7 +98,7 @@ class InformationForm(forms.ModelForm):
 
 
 class AppointmentForm(forms.ModelForm):
-    """ Форма для хранения контактной информации клиники """
+    """ Форма для записи на приём """
 
     class Meta:
         model = Appointment

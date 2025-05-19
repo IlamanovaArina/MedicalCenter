@@ -6,7 +6,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -18,22 +17,26 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='appointment',
             name='user',
-            field=models.ForeignKey(blank=True, help_text='Пациент', null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(blank=True, help_text='Пациент', null=True,
+                                    on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='diagnosticresults',
             name='appointment',
-            field=models.ForeignKey(blank=True, max_length=255, null=True, on_delete=django.db.models.deletion.CASCADE, to='medical.appointment', verbose_name='Запись'),
+            field=models.ForeignKey(blank=True, max_length=255, null=True, on_delete=django.db.models.deletion.CASCADE,
+                                    to='medical.appointment', verbose_name='Запись'),
         ),
         migrations.AddField(
             model_name='diagnosticresults',
             name='user',
-            field=models.ForeignKey(blank=True, help_text='Пользователь создавший этот экземпляр модели', null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(blank=True, help_text='Пользователь создавший этот экземпляр модели', null=True,
+                                    on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='doctors',
             name='user',
-            field=models.ForeignKey(blank=True, help_text='Пользователь создавший этот экземпляр модели', null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(blank=True, help_text='Пользователь создавший этот экземпляр модели', null=True,
+                                    on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='appointment',
@@ -43,22 +46,26 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='information',
             name='user',
-            field=models.ForeignKey(blank=True, help_text='Пользователь создавший этот экземпляр модели', null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(blank=True, help_text='Пользователь создавший этот экземпляр модели', null=True,
+                                    on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='reviews',
             name='user',
-            field=models.ForeignKey(blank=True, help_text='Пользователь, оставивший отзыв', null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(blank=True, help_text='Пользователь, оставивший отзыв', null=True,
+                                    on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='doctors',
             name='reviews',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='medical.reviews', verbose_name='Отзывы на врача'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE,
+                                    to='medical.reviews', verbose_name='Отзывы на врача'),
         ),
         migrations.AddField(
             model_name='services',
             name='user',
-            field=models.ForeignKey(blank=True, help_text='Пользователь создавший этот экземпляр модели', null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(blank=True, help_text='Пользователь создавший этот экземпляр модели', null=True,
+                                    on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='appointment',

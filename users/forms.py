@@ -7,8 +7,8 @@ from users.models import User
 class UserRegisterForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ("first_name", "last_name", "patronymic", "email", "avatar", "phone", "city", "country", "tg_id", "password1",
-                  "password2")
+        fields = ("first_name", "last_name", "patronymic", "email", "avatar", "phone", "city",
+                  "country", "tg_id", "password1", "password2")
         exclude = ['created_at', 'updated_at', "token", "is_active"]
 
     # def create_password_fields(self, *args, **kwargs):

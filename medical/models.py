@@ -3,6 +3,7 @@ from django.db import models
 from config import settings
 
 
+# Отзывы
 class Reviews(models.Model):
     """
     Модель для хранения отзывов о врачах.
@@ -29,7 +30,15 @@ class Reviews(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
                               verbose_name='Пользователь, оставивший отзыв')
 
+    class Meta:
+        verbose_name = 'Отзыв'
+        verbose_name_plural = 'Отзывы'
 
+    def __str__(self):
+        return self.text
+
+
+# Доктора
 class Doctors(models.Model):
     """
     Модель для хранения информации о врачах.
@@ -59,7 +68,15 @@ class Doctors(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
                               verbose_name='Пользователь создавший этот экземпляр модели')
 
+    class Meta:
+        verbose_name = 'Доктор'
+        verbose_name_plural = 'Доктора'
 
+    def __str__(self):
+        return self.last_name
+
+
+# Услуги
 class Services(models.Model):
     """
     Модель для хранения информации о медицинских услугах.
@@ -70,7 +87,15 @@ class Services(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
                               verbose_name='Пользователь создавший этот экземпляр модели')
 
+    class Meta:
+        verbose_name = 'Услуга'
+        verbose_name_plural = 'Услуги'
 
+    def __str__(self):
+        return self.name
+
+
+# Информация
 class Information(models.Model):
     """
     Модель для хранения контактной информации клиники.
@@ -86,7 +111,15 @@ class Information(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
                               verbose_name='Пользователь создавший этот экземпляр модели')
 
+    class Meta:
+        verbose_name = 'Информация'
+        verbose_name_plural = 'Информации'
 
+    def __str__(self):
+        return self.information
+
+
+# Запись на приём
 class Appointment(models.Model):
     """
     Модель для хранения записей пациентов на прием к врачам.
@@ -106,13 +139,21 @@ class Appointment(models.Model):
     ]
     address = models.CharField(max_length=255, verbose_name="Адрес клиники",
                               null=True, blank=True, choices=ADDRESS_CLINIC,)
-    doctor = models.ForeignKey(Doctors, on_delete=models.CASCADE)
+    doctor = models.ForeignKey(Doctors, on_delete=models.CASCADE, verbose_name="Доктор")
     appointment_date = models.DateTimeField(verbose_name="Дата приёма")
-    services = models.ForeignKey(Services, on_delete=models.CASCADE)
+    services = models.ForeignKey(Services, on_delete=models.CASCADE, verbose_name="Услуга")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
                               verbose_name='Пациент')
 
+    class Meta:
+        verbose_name = 'Запись'
+        verbose_name_plural = 'Записи'
 
+    def __str__(self):
+        return self.services
+
+
+# Результаты диагностики
 class DiagnosticResults(models.Model):
     """
     Модель для хранения результатов диагностики, связанных с записями пациентов.
@@ -127,3 +168,23 @@ class DiagnosticResults(models.Model):
     results = models.CharField(max_length=255, verbose_name="Результаты диагностики", null=True, blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
                               verbose_name='Пользователь создавший этот экземпляр модели')
+
+    class Meta:
+        verbose_name = 'Результат'
+        verbose_name_plural = 'Результаты'
+
+    def __str__(self):
+        return self.appointment
+
+
+# Обратная связь
+class Feedback(models.Model):
+    topic = models.CharField(max_length=100, verbose_name="Тема обращения")
+
+
+    class Meta:
+        verbose_name = 'Результат'
+        verbose_name_plural = 'Результаты'
+
+    def __str__(self):
+        return self.appointment

@@ -6,7 +6,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -20,24 +19,43 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('password', models.CharField(max_length=128, verbose_name='password')),
                 ('last_login', models.DateTimeField(blank=True, null=True, verbose_name='last login')),
-                ('is_superuser', models.BooleanField(default=False, help_text='Designates that this user has all permissions without explicitly assigning them.', verbose_name='superuser status')),
-                ('is_staff', models.BooleanField(default=False, help_text='Designates whether the user can log into this admin site.', verbose_name='staff status')),
+                ('is_superuser', models.BooleanField(default=False,
+                                                     help_text='Designates that this user has all '
+                                                               'permissions without explicitly assigning them.',
+                                                     verbose_name='superuser status')),
+                ('is_staff', models.BooleanField(default=False,
+                                                 help_text='Designates whether the user can log into this admin site.',
+                                                 verbose_name='staff status')),
                 ('date_joined', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date joined')),
                 ('first_name', models.CharField(help_text='Имя', max_length=50, verbose_name='name')),
                 ('last_name', models.CharField(help_text='Фамилия', max_length=50, verbose_name='surname')),
-                ('patronymic', models.CharField(blank=True, help_text='Отчество (если есть)', max_length=50, null=True, verbose_name='patronymic')),
-                ('email', models.EmailField(help_text='Электронная почта', max_length=254, unique=True, verbose_name='email')),
-                ('avatar', models.ImageField(blank=True, help_text='Фотография', null=True, upload_to='users/', verbose_name='avatar')),
-                ('phone', models.CharField(blank=True, help_text='Номер телефона', max_length=11, null=True, verbose_name='phone')),
-                ('city', models.CharField(blank=True, help_text='Город', max_length=50, null=True, verbose_name='city')),
-                ('country', models.CharField(blank=True, help_text='Гражданство', max_length=255, null=True, verbose_name='country')),
+                ('patronymic', models.CharField(blank=True, help_text='Отчество (если есть)', max_length=50, null=True,
+                                                verbose_name='patronymic')),
+                ('email',
+                 models.EmailField(help_text='Электронная почта', max_length=254, unique=True, verbose_name='email')),
+                ('avatar', models.ImageField(blank=True, help_text='Фотография', null=True, upload_to='users/',
+                                             verbose_name='avatar')),
+                ('phone', models.CharField(blank=True, help_text='Номер телефона', max_length=11, null=True,
+                                           verbose_name='phone')),
+                ('city', models.CharField(blank=True, help_text='Город', max_length=50, null=True,
+                                          verbose_name='city')),
+                ('country', models.CharField(blank=True, help_text='Гражданство', max_length=255, null=True,
+                                             verbose_name='country')),
                 ('token', models.CharField(blank=True, max_length=150, null=True, verbose_name='token')),
                 ('tg_id', models.CharField(blank=True, max_length=255, null=True, verbose_name='Telegram ID')),
                 ('created_at', models.DateTimeField(default=django.utils.timezone.now, help_text='Дата регистрации')),
                 ('updated_at', models.DateTimeField(auto_now=True, help_text='Дата изменения')),
                 ('is_active', models.BooleanField(blank=True, null=True)),
-                ('groups', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.group', verbose_name='groups')),
-                ('user_permissions', models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', to='auth.permission', verbose_name='user permissions')),
+                ('groups', models.ManyToManyField(blank=True,
+                                                  help_text='The groups this user belongs to. '
+                                                            'A user will get all permissions '
+                                                            'granted to each of their groups.',
+                                                  related_name='user_set', related_query_name='user', to='auth.group',
+                                                  verbose_name='groups')),
+                ('user_permissions', models.ManyToManyField(blank=True,
+                                                            help_text='Specific permissions for this user.',
+                                                            related_name='user_set', related_query_name='user',
+                                                            to='auth.permission', verbose_name='user permissions')),
             ],
             options={
                 'verbose_name': 'Пользователь',

@@ -4,30 +4,181 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Базовая страница</title>
-    <!-- Bootstrap CSS -->
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet"/>
+    <!-- Иконки -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <style>
         /* Фон с изображением */
         body {
-          background-image: url('./static/images/background.jpg');
+          background-image: url('https://i.pinimg.com/originals/b5/36/6e/b5366e76dd1d77389dc35e5dc3a6e238.jpg');
           background-size: cover;
           background-position: center;
+          background-attachment: fixed; /* закрепление фона */
           min-height: 100vh;
         }
+        .custom-navbar {
+          background-color: rgba(255, 255, 255, 0.5);
+        }
+        .profile-img {
+          width: 40px;
+          height: 40px;
+          object-fit: cover;
+          border-radius: 50%;
+        }
+        .section {
+      padding: 60px 20px;
+      background-color: #fff;
+      margin-bottom: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    h2 {
+      font-weight: 700;
+      margin-bottom: 30px;
+      position: relative;
+      display: inline-block;
+    }
+    h2::after {
+      content: "";
+      display: block;
+      width: 60px;
+      height: 3px;
+      background-color: #007bff;
+      margin-top: 8px;
+      border-radius: 2px;
+    }
+    /* Фото команды */
+    .team-member {
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .team-member:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+    }
+    .team-img {
+      width: 100%;
+      height: auto;
+      border-radius: 15px;
+    }
+    /* Адаптивные карточки команды */
+    @media(max-width: 768px) {
+      .team-grid {
+        flex-direction: column;
+      }
+    }
+    /* Стиль для карточек услуг */
+    .service-card {
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+    }
+    /* Адаптивные карточки команды */
+    @media(max-width: 768px) {
+      .team-grid {
+        flex-direction: column;
+      }
+    }
+        /* Карточки услуги */
+    .service-card {
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+    }
+    /* Цены */
+    .price {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #007bff;
+    }
+    /* Адаптивность */
+    @media(max-width: 768px) {
+      .cards-row {
+        flex-direction: column;
+      }
+    }
+        /* Карта */
+    .map-container {
+      height: 400px;
+      width: 100%;
+      border-radius: 15px;
+      overflow: hidden;
+    }
+    /* Адаптивность для карты */
+    @media(max-width: 768px) {
+      .map-container {
+        height: 300px;
+      }
+    }
+        /* Карточки для истории и результатов */
+    .record-card {
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .record-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+    }
+    /* Адаптивность */
+    @media(max-width: 768px) {
+      .records-grid {
+        flex-direction: column;
+      }
+    }
+            .service-link {
+        display: block; /* чтобы ссылка занимала всю площадь карточки */
+        text-decoration: none; /* убираем подчёркивание */
+        color: inherit; /* наследуем цвет текста */
+    }
+    .service-link:hover {
+        text-decoration: none; /* при наведении тоже убираем подчёркивание */
+    }
+        /* Карточки оборудования и врачей */
+    .card-hover:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+    }
+    /* Отзывы */
+    .review {
+      background-color: #f1f1f1;
+      padding: 20px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+    }
+    /* Предложения */
+    .offer {
+      background-color: #e0f7fa;
+      padding: 20px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+    }
+    /* Адаптивность */
+    @media(max-width: 768px) {
+      .header-section h1 {
+        font-size: 2rem;
+      }
+    }
+
     </style>
 </head>
 
 <body>
 <!-- Навигационная панель -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg custom-navbar">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Мой сайт</a>
         <div class="d-flex ms-auto">
             <!-- Кнопки перехода -->
-            <a class="btn btn-outline-primary me-2" href="#">Страница 1</a>
-            <a class="btn btn-outline-primary me-2" href="#">Страница 2</a>
+            <a class="btn btn-outline-primary me-2" href="/">Главная</a>
+            <a class="btn btn-outline-primary me-2" href="/company/">О компании</a>
+            <a class="btn btn-outline-primary me-2" href="/services/">Услуги</a>
+            <a class="btn btn-outline-primary me-2" href="/contacts/">Контакты</a>
             <!-- Круглая кнопка с фотографией -->
-            <a href="профиль.html" class="d-flex align-items-center">
+            <a href="profile/" class="d-flex align-items-center">
                 <img src="#" alt="Профиль" class="profile-img"/>
             </a>
         </div>
@@ -36,13 +187,27 @@
 
 <!-- Центрированный контент -->
 <div class="rov">
-    <div class="col-8 container mt-5">
+    <div class="col-10 container mt-5">
 
-    {% block content %}
-    {% endblock %}
+        {% block content %}
+        {% endblock %}
 
     </div>
 </div>
+
+<!-- Футер -->
+<footer class="footer mt-5" id="contact">
+    <div class="container text-center">
+        <h5>Свяжитесь с нами</h5>
+        <p>г. Москва, ул. Примерная, д. 10 | Телефон: +7 (123) 456-78-90</p>
+        <p>
+            <a href="#" class="me-3"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="me-3"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+        </p>
+        <p class="small">&copy; 2025 Муниципальная служба. Все права защищены.</p>
+    </div>
+</footer>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

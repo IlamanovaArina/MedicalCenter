@@ -1,10 +1,88 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block title %}Главная страница{% endblock %}
+{% load my_tags %}
+{% block content %}
+
+<div class="container my-5">
+
+    <!-- Заголовок страницы -->
+    <header class="text-center mb-5">
+        <h1 class="display-4 fw-bold">Добро пожаловать!</h1>
+        <p class="lead text-muted">Узнайте больше о нашей компании и услугах</p>
+    </header>
+
+    <!-- Описание компании -->
+    <section class="section" id="about-company">
+        <h2 class="text-center mb-4">О компании</h2>
+        <div class="row align-items-center">
+            <div class="col-md-6 mb-4 mb-md-0">
+                <img src="https://care-potential-production.s3.amazonaws.com/uploads/job_profile/picture/774/AdobeStock_111650969.jpeg"
+                     class="img-fluid rounded shadow" alt="О компании"/>
+            </div>
+            <div class="col-md-6">
+                <p>
+                    Наша компания занимается предоставлением высококачественных услуг в области информационных
+                    технологий. Мы стремимся обеспечить наших клиентов современными решениями и индивидуальным подходом.
+                </p>
+                <p>
+                    За годы работы мы выросли в команду профессионалов, которые ценят каждого клиента и постоянно
+                    развиваются, чтобы быть на шаг впереди.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Перечень услуг -->
+    <section class="section" id="services">
+        <h2 class="text-center mb-4">Наши услуги</h2>
+        <div class="row g-4">
+
+            {% for service in services %}
+
+            <a class="col-md-4 service-link" href="service/{{ service.id }}">
+                <div class="card service-card h-100 border-0 shadow rounded p-4 bg-white">
+                    <h4 class="mb-3">{{ service.name }}</h4>
+                    <p>{{ service.description }}</p>
+                </div>
+            </a>
+
+            {% endfor %}
+
+        </div>
+    </section>
+
+    <!-- Контактная информация -->
+    <section class="section bg-light" id="contacts">
+        <h2 class="text-center mb-4">Контактная информация</h2>
+        <div class="row justify-content-center text-center">
+            <div class="col-md-4 mb-3">
+                <h5>Адрес</h5>
+                <p>г. Москва, ул. Примерная, д. 10</p>
+            </div>
+            <div class="col-md-4 mb-3">
+                <h5>Телефон</h5>
+                <p>+7 (495) 123-45-67</p>
+            </div>
+            <div class="col-md-4 mb-3">
+                <h5>Email</h5>
+                <p>info@company.ru</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Форма обратной связи -->
+    <section class="section" id="feedback">
+        <h2 class="text-center mb-4">Обратная связь</h2>
+
+        <form method="post" action="AppointmentCreateView">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </form>
+
+    </section>
+
+</div>
+
+{% endblock %}
