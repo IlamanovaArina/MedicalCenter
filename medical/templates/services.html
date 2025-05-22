@@ -1,35 +1,89 @@
 {% extends 'base.html' %}
 
-{% load my_tags %}
 {% block title %}Услуги{% endblock %}
 
 {% block content %}
-
 <div class="container my-5">
+    <h1 class="text-center mb-4">Наши услуги</h1>
+    <div class="row">
+        <!-- Меню слева -->
+        <nav class="col-md-3 mb-4" id="service-list">
+            <div class="list-group sticky-top">
+                {% for direction in medical_directions %}
+                <a class="list-group-item list-group-item-action" href="#{{ direction.id }}">{{ direction.name }}</a>
+                {% endfor %}
+            </div>
+        </nav>
+        <!-- Основной контент -->
+        <div class="col-md-9">
 
-    <!-- Заголовок -->
-    <header class="text-center mb-5">
-        <h1 class="display-4 fw-bold">Наши услуги</h1>
-        <p class="lead text-muted">Профессиональные медицинские услуги для вашего здоровья</p>
-    </header>
+            {% for direction in medical_directions %}
+            <section id="{{ direction.id }}" class="service-section mb-5">
+                <h2>{{ direction.name }}</h2>
 
-    <!-- Перечень услуг -->
-    <section class="section" id="services-list">
-        <h2 class="text-center mb-4">Перечень услуг</h2>
-        <div class="row g-4" id="services">
+                {% for service in direction.services.all %}
+                <div class="card mb-3" id="{{ service.id }}">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ service.name }}</h4>
+                        <p><strong>Описание:</strong> {{ service.description }}</p>
+                        <p><strong>Цена:</strong> {{ service.price }} руб.</p>
 
-            {% for service in services %}
-            <a class="col-md-4 service-link" href="/services/{{ service.id }}">
-                <div class="card service-card h-100 border-0 shadow rounded p-4 bg-white">
-                    <h4 class="mb-3">{{ service.name }}</h4>
-                    <p>{{ service.description }}</p>
+
+                        <h5>Отзывы</h5>
+                        <!--         Отзывы             -->
+                        <div id="reviewsCarousel" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                {% for review_group in grouped_reviews %}
+                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                    <div class="row g-4 justify-content-center">
+                                        {% for review in review_group %}
+                                        <div class="col-md-4">
+                                            <div class="card shadow-sm border-0 rounded review-card p-4 h-100"
+                                                 style="background-color: #fff;">
+                                                <p class="mb-4">"{{ review }}"</p>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="https://ae01.alicdn.com/kf/HTB1SLh5SFXXXXb2XpXXq6xXFXXX8/Tiger-on-the-stone-needlework-5D-cube-diamond-embroidery-cross-stich-handcraft-stick-rhinestone-pasted-diamond.jpg"
+                                                         class="rounded-circle me-3"
+                                                         style="width:50px; height:50px; object-fit:cover;"
+                                                         alt="Пациент"/>
+                                                    <div>
+                                                        <strong>{{ review.user.first_name }}</strong><br/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <!-- Стрелки навигации -->
+                            <button class="carousel-control-prev" type="button" data-bs-target="#reviewsCarousel"
+                                    data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Предыдущий</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#reviewsCarousel"
+                                    data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Следующий</span>
+                            </button>
+                        </div>
+
+                        <a href="#form" class="btn btn-primary position-absolute bottom-0 end-0 m-3">Записаться на
+                            приём</a>
+
+                    </div>
                 </div>
-            </a>
+                {% empty %}
+                <p>Нет услуг для этого направления.</p>
+                {% endfor %}
+            </section>
             {% endfor %}
-
         </div>
-    </section>
-
+    </div>
 </div>
-
 {% endblock %}
+
+
+

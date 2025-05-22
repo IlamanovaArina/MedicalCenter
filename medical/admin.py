@@ -1,12 +1,20 @@
 from django.contrib import admin
 
-from .models import Reviews, Doctors, Services, Information, Appointment, DiagnosticResults, CompanyValues, Feedback
+from .models import *
+
+
+# Направление в медицине
+@admin.register(MedicalDirection)
+class ReviewsAdmin(admin.ModelAdmin):
+    list_display = ("id", "name", "description",)
+    list_filter = ("name",)
+    search_fields = ("name",)
 
 
 # Отзывы
 @admin.register(Reviews)
 class ReviewsAdmin(admin.ModelAdmin):
-    list_display = ("id", "text", "rate", "user",)
+    list_display = ("id", "text", "rate", "doctors", "services", "user",)
     list_filter = ("rate",)
     search_fields = ("rate",)
 
@@ -14,15 +22,16 @@ class ReviewsAdmin(admin.ModelAdmin):
 # Доктора
 @admin.register(Doctors)
 class DoctorsAdmin(admin.ModelAdmin):
-    list_display = ("id", "first_name", "last_name", "specialization", "experience", "user",)
-    list_filter = ("last_name", "specialization", "reviews")
-    search_fields = ("experience", "id",)
+    list_display = ("id", "first_name", "last_name", "patronymic", "medical_direction",
+                    "avatar", "specialization", "experience", "user", )
+    list_filter = ("last_name", "specialization", "reviews", "medical_direction",)
+    search_fields = ("experience", "id", "medical_direction", )
 
 
 # Услуги
 @admin.register(Services)
 class ServicesAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "description", "user",)
+    list_display = ("id", "name", "medical_direction", "description", "price", "user",)
     list_filter = ("name", "description",)
     search_fields = ("name", "description",)
 
@@ -31,7 +40,8 @@ class ServicesAdmin(admin.ModelAdmin):
 @admin.register(Information)
 class InformationAdmin(admin.ModelAdmin):
     list_display = ("id", "text_from_the_main_page", "company_history",
-                    "mission", "purposes", "description_of_services", "cardiology", "pediatrics", "phone", "email", "address", "user",)
+                    "mission", "purposes", "description_of_services", "cardiology", "pediatrics",
+                    "phone", "email", "address", "user",)
     list_filter = ("address",)
     search_fields = ("address",)
 
@@ -40,6 +50,12 @@ class InformationAdmin(admin.ModelAdmin):
 @admin.register(CompanyValues)
 class  CompanyValuesAdmin(admin.ModelAdmin):
     list_display = ("name", "description", )
+
+
+# Адрес клиники
+@admin.register(AddressHospital)
+class  CompanyValuesAdmin(admin.ModelAdmin):
+    list_display = ("name", "address_line", "latitude", "longitude",)
 
 
 # Запись на приём

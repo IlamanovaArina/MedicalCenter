@@ -58,65 +58,48 @@
         </div>
     </section>
 
-<!-- Команда врачей  -->
-<section class="section" id="team">
-  <h2 class="text-center mb-4">Команда врачей</h2>
-  <div id="doctorCarousel" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
+    <!-- Команда врачей  -->
+    <section class="section" id="team">
+        <h2 class="text-center mb-4">Команда врачей</h2>
+        <div id="doctorCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
 
-      <!-- Первый слайд -->
-      <div class="carousel-item active">
-        <div class="row g-4 justify-content-center">
-          <!-- Карточка врача -->
-          <div class="col-md-3 col-sm-6">
-            <div class="card border-0 shadow team-member">
-              <img src="https://avatars.mds.yandex.net/i?id=1850c909881c544fc4f252c0f7840f07_l-5236416-images-thumbs&n=13"
-                   class="card-img-top team-img" alt="Врач 1"/>
-              <div class="card-body text-center">
-                <h5 class="card-title mb-0">Иван Иванов</h5>
-                <p class="text-muted small">Кардиолог</p>
-              </div>
+                {% for doctors in grouped_doctors %}
+
+                <!-- Первый слайд -->
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <div class="row g-4 justify-content-center">
+                        <!-- Карточка врача -->
+                        {% for doctor in doctors %}
+                        <div class="col-md-3 col-sm-6">
+                            <div class="card border-0 shadow team-member">
+                                <img src="{{ doctor.avatar }}"
+                                     class="card-img-top team-img" alt="Врач 1"/>
+                                <div class="card-body text-center">
+                                    <h5 class="card-title mb-0">{{ doctor.first_name }} {{ doctor.last_name }}</h5>
+                                    <p class="text-muted small">{{ doctor.specialization }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                        <!-- Можно добавить еще карточки в этот слайд -->
+                    </div>
+                </div>
+                {% endfor %}
+
             </div>
-          </div>
-
-          <!-- Можно добавить еще карточки в этот слайд -->
+            <!-- Стрелки навигации -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#doctorCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Предыдущий</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#doctorCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Следующий</span>
+            </button>
         </div>
-      </div>
-
-      <!-- Второй слайд (если есть больше врачей) -->
-      <div class="carousel-item">
-        <div class="row g-4 justify-content-center">
-
-          <!-- Карточки следующего слайда -->
-          <div class="col-md-3 col-sm-6">
-            <div class="card border-0 shadow team-member">
-              <img src="https://avatars.mds.yandex.net/i?id=1850c909881c544fc4f252c0f7840f07_l-5236416-images-thumbs&n=13"
-                   class="card-img-top team-img" alt="Врач 2"/>
-              <div class="card-body text-center">
-                <h5 class="card-title mb-0">Мария Петрова</h5>
-                <p class="text-muted small">Педиатр</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Еще карточки -->
-        </div>
-      </div>
-
-      <!-- Добавляйте дополнительные слайды по необходимости -->
-
-    </div>
-    <!-- Стрелки навигации -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#doctorCarousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Предыдущий</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#doctorCarousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Следующий</span>
-    </button>
-  </div>
-</section>
+    </section>
 
 </div>
 

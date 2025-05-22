@@ -162,6 +162,30 @@
         font-size: 2rem;
       }
     }
+         /* Стиль для бокового меню */
+    #service-list {
+      position: sticky;
+      top: 20px;
+    }
+    /* Стили для разделов услуги */
+    .service-section {
+      padding: 50px 20px;
+      background-color: #fff;
+      margin-bottom: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    /* Плавное прокручивание */
+    html {
+      scroll-behavior: smooth;
+    }
+    /* Адаптивность для меню */
+    @media(max-width: 768px) {
+      #service-list {
+        position: static;
+        margin-bottom: 20px;
+      }
+    }
 
     </style>
 </head>

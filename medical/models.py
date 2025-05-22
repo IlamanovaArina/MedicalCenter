@@ -5,6 +5,19 @@ from django.db import models
 from config import settings
 
 
+# Направление в медицине
+class MedicalDirection(models.Model):
+    name = models.CharField(max_length=100, verbose_name="Направление")
+    description = models.CharField(max_length=500, verbose_name="Описание направления")
+
+    class Meta:
+        verbose_name = 'Направление в медицине'
+        verbose_name_plural = 'Направления в медицине'
+
+    def __str__(self):
+        return self.name
+
+
 # Доктора
 class Doctors(models.Model):
     """
@@ -19,6 +32,9 @@ class Doctors(models.Model):
 
     first_name = models.CharField(max_length=255, verbose_name="Имя", blank=True, null=True)
     last_name = models.CharField(max_length=255, verbose_name="Фамилия", null=True, blank=True)
+    patronymic = models.CharField(max_length=50, blank=True, null=True, verbose_name="Отчество")
+    medical_direction = models.ForeignKey(MedicalDirection, on_delete=models.SET_NULL, null=True, blank=True)
+    avatar = models.ImageField(upload_to="medical/", blank=True, null=True, verbose_name="Фотография")
     specialization = models.CharField(max_length=255, verbose_name="Специальность", null=True, blank=True)
     experience = models.CharField(max_length=255, verbose_name="Стаж работы", null=True, blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
@@ -36,6 +52,7 @@ class Services(models.Model):
     """
 
     name = models.CharField(max_length=500, verbose_name="Название услуги")
+    medical_direction = models.ForeignKey(MedicalDirection, related_name='services', on_delete=models.CASCADE)
     description = models.CharField(max_length=500, verbose_name="Описание услуги")
     price = models.IntegerField(null=True, blank=True, verbose_name='Цена')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
@@ -81,7 +98,6 @@ class Reviews(models.Model):
 
     def __str__(self):
         return self.text
-
 
 
 # Информация
@@ -131,6 +147,18 @@ class CompanyValues(models.Model):
         verbose_name_plural = 'Ценности'
 
 
+# Адрес клиники
+class AddressHospital(models.Model):
+    name = models.CharField(max_length=255, verbose_name='Название адреса')
+    address_line = models.CharField(max_length=255, verbose_name='Адрес',
+                                    help_text='Например, г. Москва, ул. Примерная, д. 10')
+    latitude = models.FloatField(verbose_name='Широта')
+    longitude = models.FloatField(verbose_name='Долгота')
+
+    def __str__(self):
+        return self.name
+
+
 # Запись на приём
 class Appointment(models.Model):
     """
@@ -145,12 +173,7 @@ class Appointment(models.Model):
         services (ForeignKey): Связь с моделью Services, указывающая на услуги, которые будут предоставлены.
     """
 
-    ADDRESS_CLINIC = [
-        ("Медицинская лаборатория", "Ул.Пролетарская 28, 1 этаж"),
-        ("Медицинская лаборатория", "Ул.Луначарского 308, 1 этаж"),
-    ]
-    address = models.CharField(max_length=255, verbose_name="Адрес клиники",
-                               null=True, blank=True, choices=ADDRESS_CLINIC, )
+    address = models.ForeignKey(AddressHospital, on_delete=models.SET_NULL, verbose_name="Адрес клиники", null=True, blank=True)
     doctor = models.ForeignKey(Doctors, on_delete=models.CASCADE, verbose_name="Доктор")
     appointment_date = models.DateTimeField(verbose_name="Дата приёма")
     services = models.ForeignKey(Services, on_delete=models.CASCADE, verbose_name="Услуга")

@@ -35,7 +35,7 @@
 
             {% for service in services %}
 
-            <a class="col-md-4 service-link" href="/services/{{ service.id }}">
+            <a class="col-md-4 service-link" href="services/#{{ service.id }}">
                 <div class="card service-card h-100 border-0 shadow rounded p-4 bg-white">
                     <h4 class="mb-3">{{ service.name }}</h4>
                     <p>{{ service.description }}</p>
@@ -70,7 +70,7 @@
     <section class="section" id="feedback">
         <h2 class="text-center mb-4">Обратная связь</h2>
 
-        <form method="post" action="HomeCreateView">
+        <form method="post" >
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit" class="btn btn-primary">Отправить</button>
