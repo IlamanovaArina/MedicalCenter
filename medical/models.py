@@ -5,38 +5,6 @@ from django.db import models
 from config import settings
 
 
-# Отзывы
-class Reviews(models.Model):
-    """
-    Модель для хранения отзывов о врачах.
-
-    Attributes:
-        DOCTOR_RATE (list[tuple[str, str]]): Список возможных оценок и их описаний.
-        text (str): Текст отзыва, может быть пустым.
-        rate (str): Оценка врача в виде звезд, выбирается из DOCTOR_RATE.
-        user (ForeignKey): Пользователь, оставивший отзыв.
-    """
-
-    DOCTOR_RATE: list[tuple[str, str]] = [
-        ("5", "Все отлично!"),
-        ("4", "Все хорошо."),
-        ("3", "Есть замечания"),
-        ("2", "Не устроило"),
-        ("1", "Категорически не устроило"),
-    ]
-
-    text = models.TextField(max_length=500, verbose_name="Отзыв", blank=True, null=True)
-    rate = models.CharField(
-        verbose_name="Количество звезд", max_length=100, choices=DOCTOR_RATE
-    )
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
-                             verbose_name='Пользователь, оставивший отзыв')
-
-    class Meta:
-        verbose_name = 'Отзыв'
-        verbose_name_plural = 'Отзывы'
-
-
 # Доктора
 class Doctors(models.Model):
     """
@@ -47,15 +15,12 @@ class Doctors(models.Model):
         last_name (str): Фамилия врача.
         specialization (str): Специальность врача.
         experience (str): Стаж работы врача.
-        reviews (ForeignKey): Связь с моделью Reviews для хранения отзывов.
     """
 
     first_name = models.CharField(max_length=255, verbose_name="Имя", blank=True, null=True)
     last_name = models.CharField(max_length=255, verbose_name="Фамилия", null=True, blank=True)
     specialization = models.CharField(max_length=255, verbose_name="Специальность", null=True, blank=True)
     experience = models.CharField(max_length=255, verbose_name="Стаж работы", null=True, blank=True)
-    reviews = models.ForeignKey(Reviews, verbose_name="Отзывы на врача",
-                                null=True, blank=True, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
                              verbose_name='Пользователь создавший этот экземпляр модели')
 
@@ -81,6 +46,44 @@ class Services(models.Model):
         verbose_name_plural = 'Услуги'
 
 
+# Отзывы
+class Reviews(models.Model):
+    """
+    Модель для хранения отзывов о врачах.
+
+    Attributes:
+        DOCTOR_RATE (list[tuple[str, str]]): Список возможных оценок и их описаний.
+        text (str): Текст отзыва, может быть пустым.
+        rate (str): Оценка врача в виде звезд, выбирается из DOCTOR_RATE.
+        user (ForeignKey): Пользователь, оставивший отзыв.
+    """
+
+    DOCTOR_RATE: list[tuple[str, str]] = [
+        ("5", "Все отлично!"),
+        ("4", "Все хорошо."),
+        ("3", "Есть замечания"),
+        ("2", "Не устроило"),
+        ("1", "Категорически не устроило"),
+    ]
+
+    text = models.TextField(max_length=500, verbose_name="Отзыв", blank=True, null=True)
+    rate = models.CharField(
+        verbose_name="Количество звезд", max_length=100, choices=DOCTOR_RATE
+    )
+    doctors = models.ForeignKey(Doctors, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Доктор")
+    services = models.ForeignKey(Services, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Услуга")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
+                             verbose_name='Пользователь, оставивший отзыв')
+
+    class Meta:
+        verbose_name = 'Отзыв'
+        verbose_name_plural = 'Отзывы'
+
+    def __str__(self):
+        return self.text
+
+
+
 # Информация
 class Information(models.Model):
     """
@@ -90,11 +93,14 @@ class Information(models.Model):
         phone (str): Номер телефона клиники.
         address (str): Адрес клиники.
     """
-    text_from_the_main_page = models.CharField(max_length=500, null=True, blank=True, verbose_name="Информация с главной страницы")
-    company_history = models.CharField(max_length=500, null=True, blank=True, verbose_name="История компании со страницы \"О компании\"")
+    text_from_the_main_page = models.CharField(max_length=500, null=True, blank=True,
+                                               verbose_name="Информация с главной страницы")
+    company_history = models.CharField(max_length=500, null=True, blank=True,
+                                       verbose_name="История компании со страницы \"О компании\"")
     mission = models.CharField(max_length=100, null=True, blank=True, verbose_name="Миссия со страницы \"О компании\"")
     purposes = models.CharField(max_length=100, null=True, blank=True, verbose_name="Цели со страницы \"О компании\"")
-    description_of_services = models.CharField(max_length=100, null=True, blank=True, verbose_name="Подробное описание услуг")
+    description_of_services = models.CharField(max_length=100, null=True, blank=True,
+                                               verbose_name="Подробное описание услуг")
     cardiology = models.CharField(max_length=100, null=True, blank=True, verbose_name="Кардиология")
     pediatrics = models.CharField(max_length=100, null=True, blank=True, verbose_name="Педиатрия")
     phone = models.CharField(max_length=11, verbose_name="Номер телефона")

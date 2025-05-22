@@ -1,10 +1,11 @@
 from django.urls import reverse_lazy
 from django.core.mail import send_mail
 from config.settings import EMAIL_HOST_USER
-from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView, TemplateView, View
 
 from medical.forms import FeedbackForm
-from medical.models import DiagnosticResults, Doctors, Information, Appointment, Reviews, Services, CompanyValues
+from medical.models import DiagnosticResults, Doctors, Information, Appointment, Reviews, Services, CompanyValues, \
+    Feedback
 from django.shortcuts import get_object_or_404, redirect
 
 
@@ -98,6 +99,14 @@ class ServicesDetailView(DetailView):
     template_name = "services_detail.html"
     context_object_name = "service"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        reviews = list(Reviews.objects.all())
+        # Группируем по 3
+        grouped_reviews = [reviews[i:i + 3] for i in range(0, len(reviews), 3)]
+        context['grouped_reviews'] = grouped_reviews
+        return context
+
 
 class ServicesListView(ListView):
     model = Services
@@ -140,8 +149,6 @@ class InformationListView(ListView):
     model = Information
     template_name = "contacts.html"
 
-    # success_url = reverse_lazy("mvita:information_form")
-    # context_object_name = "info"
 
 
 # class InformationUpdateView(UpdateView):
@@ -158,39 +165,9 @@ class InformationListView(ListView):
 # Appointment Views
 
 
-class AppointmentCreateView(CreateView):
-    model = Appointment
-    template_name = "home.html"
-    form_class = FeedbackForm
-
-    def form_valid(self, form):
-        """ Обрабатывает валидные данные формы. Устанавливаем пользователя на текущего авторизованного """
-        # Устанавливаем владельца на текущего авторизованного пользователя
-        form.instance.user = self.request.user
-        form.save()
-        return super().form_valid(form)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['services'] = Services.objects.all()
-        context['information'] = Information.get_solo()
-        return context
-
-    def post(self, request, *args, **kwargs):
-        """ При нажатии на кнопку отправить """
-        appointment_id = request.POST.get('id')
-        appointment = get_object_or_404(Appointment, id=appointment_id, user=request.user)
-
-        # Здесь происходит отправка рассылки
-        send_mail(
-            f"Вы успешно записались на приём в нашей клинике: \"Сила здоровья\".",
-            f"Вы записались на приём на {appointment.appointment_date}; по адресу: {appointment.address}; "
-            f"на услугу: {appointment.services}; к врачу: {appointment.doctor}",
-            EMAIL_HOST_USER,
-            appointment.user.email
-        )
-
-        return redirect('mailing:home')  # Перенаправьте на нужный URL после отправки
+# class AppointmentCreateView(CreateView):
+#     model = Appointment
+    # template_name =
 #
 #
 # class AppointmentListView(ListView):
@@ -259,3 +236,52 @@ class DiagnosticListView(ListView):
 #     model = DiagnosticResults
 #     # template_name = "diagnostic_delete.html"
 #     # success_url = reverse_lazy("mvita:diagnostic_form")
+
+
+class FeedbackCreateView(CreateView):
+    model = Feedback
+    template_name = "contacts.html"
+    form_class = FeedbackForm
+
+    def form_valid(self, form):
+        """ Обрабатывает валидные данные формы. Устанавливаем пользователя на текущего авторизованного """
+        # Устанавливаем владельца на текущего авторизованного пользователя
+        form.instance.user = self.request.user
+        form.save()
+        return super().form_valid(form)
+
+
+class HomeCreateView(CreateView):
+    """  """
+    model = Information
+    template_name = "home.html"
+    form_class = FeedbackForm
+
+    def form_valid(self, form):
+        """ Обрабатывает валидные данные формы. Устанавливаем пользователя на текущего авторизованного """
+        # Устанавливаем владельца на текущего авторизованного пользователя
+        form.instance.user = self.request.user
+        form.save()
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['services'] = Services.objects.all()
+        # context['information'] = Information.get_solo()
+        return context
+
+    # def post(self, request, *args, **kwargs):
+    #     """ При нажатии на кнопку 'отправить', отправляется сообщение об успешном   """
+    #     appointment_id = request.POST.get('id')
+    #     appointment = get_object_or_404(Appointment, id=appointment_id, user=request.user)
+    #
+    #     # Здесь происходит отправка рассылки
+    #     send_mail(
+    #         f"Вы успешно записались на приём в нашей клинике: \"Сила здоровья\".",
+    #         f"Вы записались на приём на {appointment.appointment_date}; по адресу: {appointment.address}; "
+    #         f"на услугу: {appointment.services}; к врачу: {appointment.doctor}",
+    #         EMAIL_HOST_USER,
+    #         appointment.user.email
+    #     )
+    #
+    #     return redirect('mailing:home')  # Перенаправьте на нужный URL после отправки

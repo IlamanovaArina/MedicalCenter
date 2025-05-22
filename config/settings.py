@@ -47,6 +47,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # Кастомный контекстный процессор
+                'medical.context_processors.information_processor',
             ],
         },
     },

@@ -59,79 +59,104 @@
         </div>
     </section>
 
-    <!-- Команда врачей -->
+    <!-- Команда врачей  -->
     <section class="section" id="team">
         <h2 class="text-center mb-4">Команда врачей</h2>
-        <div class="row g-4 justify-content-center">
-            <div class="col-md-3 col-sm-6">
-                <div class="card border-0 shadow card-hover p-3 bg-white h-100 text-center">
-                    <img src="https://images.unsplash.com/photo-1544725176-7c40e5a7b1f0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
-                         class="card-img-top rounded-circle mx-auto mb-3"
-                         style="width:150px; height:150px; object-fit:cover;" alt="Врач 1"/>
-                    <h5>Иван Иванов</h5>
-                    <p class="text-muted small">Дерматолог-лазеротерапевт</p>
+        <div id="doctorCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+
+                <!-- Первый слайд -->
+                <div class="carousel-item active">
+                    <div class="row g-4 justify-content-center">
+                        <!-- Карточка врача -->
+                        <div class="col-md-3 col-sm-6">
+                            <div class="card border-0 shadow team-member">
+                                <img src="https://avatars.mds.yandex.net/i?id=1850c909881c544fc4f252c0f7840f07_l-5236416-images-thumbs&n=13"
+                                     class="card-img-top team-img" alt="Врач 1"/>
+                                <div class="card-body text-center">
+                                    <h5 class="card-title mb-0">Иван Иванов</h5>
+                                    <p class="text-muted small">Кардиолог</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Можно добавить еще карточки в этот слайд -->
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="card border-0 shadow card-hover p-3 bg-white h-100 text-center">
-                    <img src="https://images.unsplash.com/photo-1544725176-7c40e5a7b1f0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
-                         class="card-img-top rounded-circle mx-auto mb-3"
-                         style="width:150px; height:150px; object-fit:cover;" alt="Врач 2"/>
-                    <h5>Мария Петрова</h5>
-                    <p class="text-muted small">Косметолог-лазеротерапевт</p>
+
+                <!-- Второй слайд (если есть больше врачей) -->
+                <div class="carousel-item">
+                    <div class="row g-4 justify-content-center">
+
+                        <!-- Карточки следующего слайда -->
+                        <div class="col-md-3 col-sm-6">
+                            <div class="card border-0 shadow team-member">
+                                <img src="https://avatars.mds.yandex.net/i?id=1850c909881c544fc4f252c0f7840f07_l-5236416-images-thumbs&n=13"
+                                     class="card-img-top team-img" alt="Врач 2"/>
+                                <div class="card-body text-center">
+                                    <h5 class="card-title mb-0">Мария Петрова</h5>
+                                    <p class="text-muted small">Педиатр</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Еще карточки -->
+                    </div>
                 </div>
+
+                <!-- Добавляйте дополнительные слайды по необходимости -->
+
             </div>
+            <!-- Стрелки навигации -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#doctorCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Предыдущий</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#doctorCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Следующий</span>
+            </button>
         </div>
     </section>
 
     <!-- Отзывы -->
-    <section class="section" id="reviews">
-        <h2 class="text-center mb-4">Отзывы наших пациентов</h2>
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="review">
-                    <p>"Процедура прошла очень комфортно, результат превзошел ожидания!"</p>
-                    <div class="d-flex align-items-center mt-3">
-                        <img src="https://images.unsplash.com/photo-1544725176-7c40e5a7b1f0?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&q=80"
-                             class="rounded-circle me-3" style="width:50px; height:50px; object-fit:cover;"
-                             alt="Пациент"/>
-                        <div>
-                            <strong>Алексей</strong><br/>
-                            Пациент
+    <div id="reviewsCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            {% for review_group in grouped_reviews %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <div class="row g-4 justify-content-center">
+                    {% for review in review_group %}
+                    <div class="col-md-4">
+                        <div class="card shadow-sm border-0 rounded review-card p-4 h-100"
+                             style="background-color: #fff;">
+                            <p class="mb-4">"{{ review }}"</p>
+                            <div class="d-flex align-items-center">
+                                <img src="https://ae01.alicdn.com/kf/HTB1SLh5SFXXXXb2XpXXq6xXFXXX8/Tiger-on-the-stone-needlework-5D-cube-diamond-embroidery-cross-stich-handcraft-stick-rhinestone-pasted-diamond.jpg"
+                                     class="rounded-circle me-3" style="width:50px; height:50px; object-fit:cover;"
+                                     alt="Пациент"/>
+                                <div>
+                                    <strong>{{ review.user.first_name }}</strong><br/>
+                                    <!-- Можно добавить дату или дополнительные данные -->
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="review">
-                    <p>"Очень профессионально и результативно. Рекомендую!"</p>
-                    <div class="d-flex align-items-center mt-3">
-                        <img src="https://images.unsplash.com/photo-1544725176-7c40e5a7b1f0?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&q=80"
-                             class="rounded-circle me-3" style="width:50px; height:50px; object-fit:cover;"
-                             alt="Пациент"/>
-                        <div>
-                            <strong>Елена</strong><br/>
-                            Пациентка
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="review">
-                    <p>"Результат заметен сразу, очень доволен!"</p>
-                    <div class="d-flex align-items-center mt-3">
-                        <img src="https://images.unsplash.com/photo-1544725176-7c40e5a7b1f0?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&q=80"
-                             class="rounded-circle me-3" style="width:50px; height:50px; object-fit:cover;"
-                             alt="Пациент"/>
-                        <div>
-                            <strong>Ольга</strong><br/>
-                            Пациентка
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
-    </section>
+        <!-- Стрелки навигации -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#reviewsCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Предыдущий</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#reviewsCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Следующий</span>
+        </button>
+    </div>
+
 
     <!-- Предложения и акции -->
     <section class="section" id="offers">

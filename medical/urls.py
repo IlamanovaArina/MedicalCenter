@@ -17,8 +17,8 @@ urlpatterns = [
     # path("diagnostic/new/", DiagnosticCreateView.as_view(), name="diagnostic_create"),
     # path("diagnostic/<int:pk>/edit/", DiagnosticUpdateView.as_view(), name="diagnostic_edit"),
     # path("diagnostic/<int:pk>/delete/", DiagnosticDeleteView.as_view(), name="diagnostic_delete"),
-    #
-    path("contacts/", InformationListView.as_view(), name="contacts"),
+
+    path("contacts/", FeedbackCreateView.as_view(), name="contacts"),
     # path("information/<int:pk>/", InformationDetailView.as_view(), name="information_detail"),
     # path("information/new/", InformationCreateView.as_view(), name="information_create"),
     # path("information/<int:pk>/edit/", InformationUpdateView.as_view(), name="information_edit"),
@@ -26,7 +26,7 @@ urlpatterns = [
     #
     # path("record/", AppointmentListView.as_view()),
     # path("record/<int:pk>/", AppointmentDetailView.as_view(), name="record_detail"),
-    path("", AppointmentCreateView.as_view(), name="home"),
+    path("", HomeCreateView.as_view(), name="home"),
     # path("record/<int:pk>/edit/", AppointmentUpdateView.as_view(), name="record_edit"),
     # path("record/<int:pk>/delete/", AppointmentDeleteView.as_view(), name="record_delete"),
     #
@@ -37,9 +37,8 @@ urlpatterns = [
     # path("reviews/<int:pk>/delete/", ReviewsDeleteView.as_view(), name="reviews_delete"),
     #
     path("services/", ServicesListView.as_view(), name="services"),
-    path("service/<int:pk>/", ServicesDetailView.as_view(), name="services_detail"),
+    path("services/<int:pk>/", ServicesDetailView.as_view(), name="services_detail"),
     # path("services/new/", ServicesCreateView.as_view(), name="services_create"),
     # path("services/<int:pk>/edit/", ServicesUpdateView.as_view(), name="services_edit"),
     # path("services/<int:pk>/delete/", ServicesDeleteView.as_view(), name="services_delete"),
-
 ]
