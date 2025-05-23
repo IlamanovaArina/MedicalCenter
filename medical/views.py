@@ -3,7 +3,7 @@ from django.core.mail import send_mail
 from config.settings import EMAIL_HOST_USER
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView, TemplateView, View
 
-from medical.forms import FeedbackForm
+from medical.forms import FeedbackForm, AppointmentForm
 from medical.models import DiagnosticResults, Doctors, Information, Appointment, Reviews, Services, CompanyValues, \
     Feedback, MedicalDirection
 from django.shortcuts import get_object_or_404, redirect, render
@@ -23,21 +23,6 @@ class DoctorsListView(ListView):
         doctors = list(Doctors.objects.all())
         grouped_doctors = [doctors[i:i + 3] for i in range(0, len(doctors), 3)]
         context['grouped_doctors'] = grouped_doctors
-        return context
-
-
-class ServicesDetailView(DetailView):
-    """  """
-    model = Services
-    template_name = "services_detail.html"
-    context_object_name = "service"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        reviews = list(Reviews.objects.all())
-        # Группируем по 3
-        grouped_reviews = [reviews[i:i + 3] for i in range(0, len(reviews), 3)]
-        context['grouped_reviews'] = grouped_reviews
         return context
 
 
@@ -63,12 +48,23 @@ class InformationListView(ListView):
     template_name = "contacts.html"
 
 
-
-
-class DiagnosticListView(ListView):
+class DiagnosticListView(CreateView):
     """  """
     model = DiagnosticResults
     template_name = "profile.html"
+    form_class = AppointmentForm
+
+    def form_valid(self, form):
+        """ Обрабатывает валидные данные формы. Устанавливаем пользователя на текущего авторизованного """
+        # Устанавливаем владельца на текущего авторизованного пользователя
+        form.instance.user = self.request.user
+        form.save()
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["appointments"] = Appointment.objects.filter(user=self.request.user)
+        return context
 
 
 
@@ -98,6 +94,7 @@ class HomeCreateView(CreateView):
         # Устанавливаем владельца на текущего авторизованного пользователя
         form.instance.user = self.request.user
         form.save()
+        super().form_valid(form)
         return render(self.request, self.template_name, self.get_context_data())
 
     def get_context_data(self, **kwargs):
@@ -120,3 +117,17 @@ class HomeCreateView(CreateView):
     #     )
     #
     #     return redirect('mailing:home')  # Перенаправьте на нужный URL после отправки
+
+
+class AppointmentCreateView(CreateView):
+    model = Appointment
+    template_name = "appointment.html"
+    form_class = AppointmentForm
+    success_url = reverse_lazy('medical:appointment')
+
+    def form_valid(self, form):
+        """ Обрабатывает валидные данные формы. Устанавливаем пользователя на текущего авторизованного """
+        # Устанавливаем владельца на текущего авторизованного пользователя
+        form.instance.user = self.request.user
+        form.save()
+        return super().form_valid(form)

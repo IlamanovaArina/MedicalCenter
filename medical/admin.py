@@ -61,7 +61,7 @@ class  CompanyValuesAdmin(admin.ModelAdmin):
 # Запись на приём
 @admin.register(Appointment)
 class AppointmentAdmin(admin.ModelAdmin):
-    list_display = ("id", "address", "doctor", "appointment_date", "services", "user",)
+    list_display = ("id", "address", "doctor", "appointment_date", "services", "is_active", "user",)
     list_filter = ("appointment_date", "user", "services")
     search_fields = ("appointment_date", "user", "services")
 

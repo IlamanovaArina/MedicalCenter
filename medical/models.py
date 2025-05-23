@@ -44,6 +44,11 @@ class Doctors(models.Model):
         verbose_name = 'Доктор'
         verbose_name_plural = 'Доктора'
 
+    def __str__(self):
+        if self.patronymic:
+            return f"{self.first_name} {self.patronymic}"
+        return f"{self.last_name} {self.first_name}"
+
 
 # Услуги
 class Services(models.Model):
@@ -61,6 +66,9 @@ class Services(models.Model):
     class Meta:
         verbose_name = 'Услуга'
         verbose_name_plural = 'Услуги'
+
+    def __str__(self):
+        return self.name
 
 
 # Отзывы
@@ -156,7 +164,7 @@ class AddressHospital(models.Model):
     longitude = models.FloatField(verbose_name='Долгота')
 
     def __str__(self):
-        return self.name
+        return self.name, self.address_line
 
 
 # Запись на приём
@@ -174,9 +182,10 @@ class Appointment(models.Model):
     """
 
     address = models.ForeignKey(AddressHospital, on_delete=models.SET_NULL, verbose_name="Адрес клиники", null=True, blank=True)
-    doctor = models.ForeignKey(Doctors, on_delete=models.CASCADE, verbose_name="Доктор")
+    doctor = models.ForeignKey(Doctors, on_delete=models.CASCADE, verbose_name="Доктор", null=True, blank=True,)
+    services = models.ForeignKey(Services, on_delete=models.CASCADE, verbose_name="Услуга", null=True, blank=True,)
     appointment_date = models.DateTimeField(verbose_name="Дата приёма")
-    services = models.ForeignKey(Services, on_delete=models.CASCADE, verbose_name="Услуга")
+    is_active = models.BooleanField(default=True, verbose_name="Статус записи")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
                              verbose_name='Пациент')
 

@@ -28,7 +28,7 @@
                         <p><strong>Описание:</strong> {{ service.description }}</p>
                         <p><strong>Цена:</strong> {{ service.price }} руб.</p>
 
-
+                          {% if grouped_reviews %}
                         <h5>Отзывы</h5>
                         <!--         Отзывы             -->
                         <div id="reviewsCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -70,8 +70,14 @@
                             </button>
                         </div>
 
-                        <a href="#form" class="btn btn-primary position-absolute bottom-0 end-0 m-3">Записаться на
-                            приём</a>
+                        {% endif %}
+
+                        {% if user.is_authenticated %}
+
+                        <a href="/appointment/" class="btn btn-primary position-absolute bottom-0 end-0 m-3">
+                            Записаться на приём
+                        </a>
+                        {% endif %}
 
                     </div>
                 </div>

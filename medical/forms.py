@@ -40,11 +40,23 @@ class AppointmentForm(forms.ModelForm):
         model = Appointment
         fields = ["address", "doctor", "appointment_date", "services"]
         exclude = ["user",]
+        widgets = {
+            "appointment_date": forms.DateTimeInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Дата и время приёма",
+                    "type": "datetime-local"
+                }
+            ),
+        }
 
     def __init__(self, *args, **kwargs):
         super(AppointmentForm, self).__init__(*args, **kwargs)
         self.fields["address"].widget.attrs.update(
             {"class": "form-control", "placeholder": "Адрес клиники:"}
+        )
+        self.fields["services"].widget.attrs.update(
+            {"class": "form-control", "placeholder": "Услуга:"}
         )
         self.fields["doctor"].widget.attrs.update(
             {"class": "form-control", "placeholder": "Доктор:"}
@@ -52,9 +64,7 @@ class AppointmentForm(forms.ModelForm):
         self.fields["appointment_date"].widget.attrs.update(
             {"class": "form-control", "placeholder": "Дата приёма:"}
         )
-        self.fields["services"].widget.attrs.update(
-            {"class": "form-control", "placeholder": "Услуга:"}
-        )
+
 
 
 # Обратная связь

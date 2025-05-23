@@ -3,10 +3,10 @@ from smtplib import SMTPSenderRefused
 from django.contrib.auth import login
 from django.core.mail import send_mail
 from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 
 from config import settings
-from users.forms import UserRegisterForm
+from users.forms import UserRegisterForm, UserUpdateForm
 from users.models import User
 
 
@@ -31,3 +31,10 @@ class RegisterView(CreateView):
             send_mail(subject, message, from_email, recipient_list)
         except SMTPSenderRefused:
             return reverse_lazy('users:error')
+
+
+class ProfileUpdateView(UpdateView):
+    model = User
+    template_name = "update_profile.html"
+    form_class = UserUpdateForm
+    success_url = reverse_lazy('medical:profile')

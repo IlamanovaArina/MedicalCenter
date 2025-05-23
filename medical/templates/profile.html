@@ -14,95 +14,88 @@
     </header>
 
     <section class="section" id="auth">
-        {% if user.is_authenticated %}
         <h2 class="text-center mb-4">Профиль</h2>
-        <div class="row g-4 justify-content-center">
-            <div class="card mb-4 shadow-sm" style="max-width: 350px; margin: auto;">
-                <div class="card-body text-center">
-                    <div class="mb-3">
-                        <img src="https://i.pinimg.com/originals/3c/fa/27/3cfa27ea902a9b756e1b6fd0db3b5d2e.png" alt="Аватар" class="rounded-circle"
-                             style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #dee2e6;">
+
+        {% if user.is_authenticated %}
+        <div class="card mb-4 shadow-sm" style="max-width: 700px; margin: 0 auto;">
+            <div class="row g-0 align-items-center">
+                <div class="col-md-4 text-center p-4">
+                    {% if user.avatar %}
+                    <img src="{{ user.avatar.url }}" class="rounded-circle img-fluid" alt="Аватар"
+                         style="width:150px; height:150px; object-fit:cover;">
+                    {% else %}
+                    <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center"
+                         style="width:150px; height:150px; font-size:2rem; color:#fff;">
+                        Нет фото
                     </div>
-                    <h5 class="card-title mb-2">{{ user.email }}</h5>
-                    <ul class="list-group list-group-flush text-start">
-                        <li class="list-group-item d-flex align-items-center">
-                            <svg class="bi me-2" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M3.5 3a.5.5 0 0 1 .5.5v.5h8v-.5a.5.5 0 0 1 1 0v.5h.5A1.5 1.5 0 0 1 15 5.5v7A1.5 1.5 0 0 1 13.5 14h-11A1.5 1.5 0 0 1 1 12.5v-7A1.5 1.5 0 0 1 2.5 4h.5V3.5a.5.5 0 0 1 .5-.5zM2 5v7.5a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V5H2z"/>
-                            </svg>
-                            {{ user.phone }}
-                        </li>
-                        <li class="list-group-item d-flex align-items-center">
-                            <svg class="bi me-2" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm0 1a7 7 0 1 1 0 14A7 7 0 0 1 8 1z"/>
-                                <path d="M8 3a.5.5 0 0 1 .5.5v4.793l2.146 2.147a.5.5 0 0 1-.708.708L7.5 9.707V3.5A.5.5 0 0 1 8 3z"/>
-                            </svg>
-                            {{ user.country }}
+                    {% endif %}
+                </div>
+                <div class="col-md-8 p-4">
+                    <h3 class="card-title mb-3">{{ user.first_name }} {{ user.last_name }}</h3>
+                    <ul class="list-group list-group-flush mb-3">
+                        {% if user.patronymic %}
+                        <li class="list-group-item"><strong>Отчество:</strong> {{ user.patronymic }}</li>
+                        {% endif %}
+                        {% if user.email %}
+                        <li class="list-group-item"><strong>Email:</strong> {{ user.email }}</li>
+                        {% endif %}
+                        {% if user.phone %}
+                        <li class="list-group-item"><strong>Телефон:</strong> {{ user.phone }}</li>
+                        {% endif %}
+                        {% if user.city %}
+                        <li class="list-group-item"><strong>Город:</strong> {{ user.city }}</li>
+                        {% endif %}
+                        {% if user.country %}
+                        <li class="list-group-item"><strong>Страна:</strong> {{ user.country }}</li>
+                        {% endif %}
+                        {% if user.tg_id %}
+                        <li class="list-group-item"><strong>Telegram ID:</strong> {{ user.tg_id }}</li>
+                        {% endif %}
+                        <li class="list-group-item"><strong>Дата регистрации:</strong> {{ user.created_at|date:"d M Y"
+                            }}
                         </li>
                     </ul>
+                    <a href="/users/profile/{{ user.id }}/update/" class="btn btn-primary">Редактировать профиль</a>
                 </div>
             </div>
-
-            {% else %}
-            <h2 class="text-center mb-4">Профиль</h2>
-            <div class="row g-4 justify-content-center">
-                <!-- Регистрация и авторизация если не осуществлён вход -->
-                {% include "login_and_registration.html" %}
-            </div>
-            {% endif %}
         </div>
+        {% endif %}
+
+        <form method="post" action="/users/logout/" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="p-2 btn btn-outline-primary">Выйти
+            </button>
+        </form>
+
     </section>
 
     <!-- Запись на прием -->
-    <section class="section" id="appointment">
+    <section class="section" id="feedback">
         <h2 class="text-center mb-4">Запись на прием</h2>
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="card p-4 shadow-sm border-0">
-                    <form>
-                        <div class="mb-3">
-                            <label for="date" class="form-label">Дата</label>
-                            <input type="date" class="form-control" id="date" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="time" class="form-label">Время</label>
-                            <input type="time" class="form-control" id="time" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="doctor" class="form-label">Врач</label>
-                            <select class="form-select" id="doctor" required>
-                                <option selected disabled>Выберите врача</option>
-                                <option>Иван Иванов — Кардиолог</option>
-                                <option>Мария Петрова — Педиатр</option>
-                                <option>Алексей Смирнов — Терапевт</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">Записаться</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Записаться</button>
+        </form>
+
     </section>
 
     <!-- История записей и результаты -->
     <section class="section" id="history">
         <h2 class="text-center mb-4">История записей и результатов</h2>
         <div class="row g-4 records-grid">
+            {% for appointment in appointments %}
             <!-- Пример записи -->
             <div class="col-md-4">
                 <div class="card record-card p-3 bg-white rounded shadow-sm">
-                    <h5 class="mb-2">Запись 01.09.2024</h5>
-                    <p class="mb-1"><strong>Врач:</strong> Иван Иванов</p>
+                    <h5 class="mb-2">Запись {{ appointment.appointment_date | date:"d M Y" }}</h5>
+                    <p class="mb-1"><strong>Врач:</strong> {{ appointment.doctor }}</p>
+                    <p class="mb-1"><strong>Процедура:</strong> {{ appointment.services }}</p>
                     <p class="mb-1"><strong>Результаты диагностики:</strong> Всё в порядке</p>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card record-card p-3 bg-white rounded shadow-sm">
-                    <h5 class="mb-2">Запись 15.11.2024</h5>
-                    <p class="mb-1"><strong>Врач:</strong> Мария Петрова</p>
-                    <p class="mb-1"><strong>Результаты диагностики:</strong> Нет отклонений</p>
-                </div>
-            </div>
-            <!-- Добавляйте свои записи -->
+            {% endfor %}
         </div>
     </section>
 
