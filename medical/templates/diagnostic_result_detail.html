@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load my_tags %}
+{% block title %}Результаты медицинских анализов{% endblock %}
+{% block content %}
+
+<div class="container my-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h2 class="mb-0">Результаты медицинских анализов</h2>
+        </div>
+        <div class="card-body">
+            <!-- Общая информация -->
+            <div class="mb-4">
+                <h5>Информация о пациенте</h5>
+                <p><strong>ФИО:</strong> {{ appointment.user.get_full_name }}</p>
+                <p><strong>Дата приема:</strong> {{ appointment.appointment_date|date:"d M Y, H:i" }}</p>
+                <p><strong>Медицинское направление:</strong> {{ appointment.services }}</p>
+                <p><strong>Врач:</strong> {{ appointment.doctor }}</p>
+            </div>
+
+            <!-- Основные результаты -->
+            {% if results %}
+            <h5>Общие результаты</h5>
+            <div class="table-responsive mb-4">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">Анализ</th>
+                            <th scope="col">Результат</th>
+                            <th scope="col">Нормы</th>
+                            <th scope="col">Комментарий</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for test in results.tests.all %}
+                        <tr>
+                            <td>{{ test.name }}</td>
+                            <td>{{ test.value }}</td>
+                            <td>{{ test.norm }}</td>
+                            <td>{{ test.comment }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Общие комментарии и рекомендации -->
+            {% if results.recommendations %}
+            <h5>Рекомендации</h5>
+            <p>{{ results.recommendations }}</p>
+            {% endif %}
+
+            {% if results.general_comments %}
+            <h5>Дополнительные комментарии</h5>
+            <p>{{ results.general_comments }}</p>
+            {% endif %}
+            {% else %}
+            <p class="text-muted">Результаты анализа еще не добавлены.</p>
+            {% endif %}
+        </div>
+        <div class="card-footer text-end">
+            <a href="{% url 'medical:profile' %}" class="btn btn-secondary">Вернуться к списку</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

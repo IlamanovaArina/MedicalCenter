@@ -10,7 +10,7 @@
         <nav class="col-md-3 mb-4" id="service-list">
             <div class="list-group sticky-top">
                 {% for direction in medical_directions %}
-                <a class="list-group-item list-group-item-action" href="#{{ direction.id }}">{{ direction.name }}</a>
+                <a class="list-group-item list-group-item-action" href="#direction_{{ direction.id }}">{{ direction.name }}</a>
                 {% endfor %}
             </div>
         </nav>
@@ -18,17 +18,17 @@
         <div class="col-md-9">
 
             {% for direction in medical_directions %}
-            <section id="{{ direction.id }}" class="service-section mb-5">
+            <section id="direction_{{ direction.id }}" class="service-section mb-5">
                 <h2>{{ direction.name }}</h2>
 
                 {% for service in direction.services.all %}
-                <div class="card mb-3" id="{{ service.id }}">
+                <div class="card mb-3" id="service_{{ service.id }}">
                     <div class="card-body">
                         <h4 class="card-title">{{ service.name }}</h4>
                         <p><strong>Описание:</strong> {{ service.description }}</p>
                         <p><strong>Цена:</strong> {{ service.price }} руб.</p>
 
-                          {% if grouped_reviews %}
+                        {% if grouped_reviews %}
                         <h5>Отзывы</h5>
                         <!--         Отзывы             -->
                         <div id="reviewsCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -69,7 +69,9 @@
                                 <span class="visually-hidden">Следующий</span>
                             </button>
                         </div>
-
+                        <a href="/appointment/" class="btn btn-primary position-absolute bottom-0 end-0 m-3">
+                            Записаться на приём
+                        </a>
                         {% endif %}
 
                         {% if user.is_authenticated %}

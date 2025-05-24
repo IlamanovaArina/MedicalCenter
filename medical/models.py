@@ -33,7 +33,8 @@ class Doctors(models.Model):
     first_name = models.CharField(max_length=255, verbose_name="Имя", blank=True, null=True)
     last_name = models.CharField(max_length=255, verbose_name="Фамилия", null=True, blank=True)
     patronymic = models.CharField(max_length=50, blank=True, null=True, verbose_name="Отчество")
-    medical_direction = models.ForeignKey(MedicalDirection, on_delete=models.SET_NULL, null=True, blank=True)
+    medical_direction = models.ForeignKey(MedicalDirection, on_delete=models.SET_NULL, null=True, blank=True,
+                                          verbose_name="Медицинское направление")
     avatar = models.ImageField(upload_to="medical/", blank=True, null=True, verbose_name="Фотография")
     specialization = models.CharField(max_length=255, verbose_name="Специальность", null=True, blank=True)
     experience = models.CharField(max_length=255, verbose_name="Стаж работы", null=True, blank=True)
@@ -180,10 +181,19 @@ class Appointment(models.Model):
         appointment_date (datetime): Дата и время записи на прием.
         services (ForeignKey): Связь с моделью Services, указывающая на услуги, которые будут предоставлены.
     """
-
-    address = models.ForeignKey(AddressHospital, on_delete=models.SET_NULL, verbose_name="Адрес клиники", null=True, blank=True)
-    doctor = models.ForeignKey(Doctors, on_delete=models.CASCADE, verbose_name="Доктор", null=True, blank=True,)
-    services = models.ForeignKey(Services, on_delete=models.CASCADE, verbose_name="Услуга", null=True, blank=True,)
+    status = models.CharField(
+        max_length=50,
+        choices=[
+            ('pending', 'В ожидании'),
+            ('completed', 'Услуга оказана'),
+            # другие статусы
+        ],
+        default='pending', verbose_name="Статус"
+    )
+    address = models.ForeignKey(AddressHospital, on_delete=models.SET_NULL, verbose_name="Адрес клиники", null=True,
+                                blank=True)
+    doctor = models.ForeignKey(Doctors, on_delete=models.CASCADE, verbose_name="Доктор", null=True, blank=True, )
+    services = models.ForeignKey(Services, on_delete=models.CASCADE, verbose_name="Услуга", null=True, blank=True, )
     appointment_date = models.DateTimeField(verbose_name="Дата приёма")
     is_active = models.BooleanField(default=True, verbose_name="Статус записи")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
@@ -192,6 +202,12 @@ class Appointment(models.Model):
     class Meta:
         verbose_name = 'Запись'
         verbose_name_plural = 'Записи'
+
+    def __str__(self):
+        if self.doctor:
+            return f"{self.address}, {self.doctor}"
+        if self.services:
+            return f"{self.address}, {self.services}"
 
 
 # Результаты диагностики
@@ -206,14 +222,24 @@ class DiagnosticResults(models.Model):
 
     appointment = models.ForeignKey(Appointment, max_length=255, verbose_name="Запись",
                                     null=True, blank=True, on_delete=models.CASCADE)
-    results = models.CharField(max_length=255, verbose_name="Результаты диагностики", null=True, blank=True)
+    recommendations = models.TextField(blank=True, null=True, verbose_name="Рекомендации")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
                              verbose_name='Пользователь создавший этот экземпляр модели')
-    doctor = models.ForeignKey(Doctors, on_delete=models.CASCADE, verbose_name="Доктор")
+    general_comments = models.TextField(blank=True, null=True, verbose_name="Общие комментарии")
 
     class Meta:
         verbose_name = 'Результат диагностики'
         verbose_name_plural = 'Результаты диагностики'
+
+
+# Медицинские тесты. Результаты
+class TestResult(models.Model):
+    """  """
+    diagnostic_result = models.ForeignKey(DiagnosticResults, related_name='tests', on_delete=models.CASCADE)
+    name = models.CharField(max_length=255, null=True, blank=True, verbose_name="Название")
+    value = models.CharField(max_length=255, null=True, blank=True, verbose_name="Значение")
+    norm = models.CharField(max_length=255, null=True, blank=True, verbose_name="Норма")
+    comment = models.TextField(blank=True, null=True, verbose_name="Комментарий")
 
 
 # Обратная связь

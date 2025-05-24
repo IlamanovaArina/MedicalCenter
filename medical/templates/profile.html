@@ -13,10 +13,9 @@
         <p class="lead text-muted">Управляйте своим здоровьем и записями</p>
     </header>
 
+    {% if user.is_authenticated %}
     <section class="section" id="auth">
         <h2 class="text-center mb-4">Профиль</h2>
-
-        {% if user.is_authenticated %}
         <div class="card mb-4 shadow-sm" style="max-width: 700px; margin: 0 auto;">
             <div class="row g-0 align-items-center">
                 <div class="col-md-4 text-center p-4">
@@ -51,16 +50,16 @@
                         {% if user.tg_id %}
                         <li class="list-group-item"><strong>Telegram ID:</strong> {{ user.tg_id }}</li>
                         {% endif %}
-                        <li class="list-group-item"><strong>Дата регистрации:</strong> {{ user.created_at|date:"d M Y"
-                            }}
+                        <li class="list-group-item"><strong>Дата регистрации:</strong>
+                            {{ user.created_at | date:"d M Y" }}
                         </li>
                     </ul>
-                    <a href="/users/profile/{{ user.id }}/update/" class="btn btn-primary">Редактировать профиль</a>
+                    <a href="/users/profile/{{ user.id }}/update/" class="p-2 btn btn-outline-primary">Редактировать
+                        профиль</a>
+
                 </div>
             </div>
         </div>
-        {% endif %}
-
         <form method="post" action="/users/logout/" style="display: inline;">
             {% csrf_token %}
             <button type="submit" class="p-2 btn btn-outline-primary">Выйти
@@ -85,19 +84,36 @@
     <section class="section" id="history">
         <h2 class="text-center mb-4">История записей и результатов</h2>
         <div class="row g-4 records-grid">
+
             {% for appointment in appointments %}
-            <!-- Пример записи -->
             <div class="col-md-4">
                 <div class="card record-card p-3 bg-white rounded shadow-sm">
                     <h5 class="mb-2">Запись {{ appointment.appointment_date | date:"d M Y" }}</h5>
                     <p class="mb-1"><strong>Врач:</strong> {{ appointment.doctor }}</p>
                     <p class="mb-1"><strong>Процедура:</strong> {{ appointment.services }}</p>
-                    <p class="mb-1"><strong>Результаты диагностики:</strong> Всё в порядке</p>
+                    {% if appointment.status == 'completed' %}
+                    <p class="mb-1"><strong>Результаты диагностики:</strong>
+                        <a href="/result/{{ appointment.id }}/">Подробнее</a>
+                    </p>
+                    {% endif %}
                 </div>
             </div>
             {% endfor %}
         </div>
     </section>
+
+    {% else %}
+    <div class="d-flex justify-content-center">
+        <div class="card shadow-sm" style="max-width: 400px; width: 100%;">
+            <div class="card-body text-center">
+                <h2 class="card-title mb-4">Профиль</h2>
+                <!-- Кнопки -->
+                <a href="/users/login/" class="btn btn-primary btn-lg mb-3 w-75">Вход</a>
+                <a href="/users/register/" class="btn btn-outline-primary btn-lg w-75">Регистрация</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 
 </div>
 

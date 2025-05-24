@@ -35,7 +35,7 @@
 
             {% for service in services %}
 
-            <a class="col-md-4 service-link" href="services/#{{ service.id }}">
+            <a class="col-md-4 service-link" href="services/#service_{{ service.id }}">
                 <div class="card service-card h-100 border-0 shadow rounded p-4 bg-white">
                     <h4 class="mb-3">{{ service.name }}</h4>
                     <p>{{ service.description }}</p>
@@ -66,6 +66,7 @@
         </div>
     </section>
 
+    {% if user.is_authenticated %}
     <!-- Форма обратной связи -->
     <section class="section" id="feedback">
         <h2 class="text-center mb-4">Обратная связь</h2>
@@ -77,6 +78,7 @@
         </form>
 
     </section>
+    {% endif %}
 
 </div>
 

@@ -35,17 +35,17 @@
         </div>
     </section>
 
+    {% if user.is_authenticated %}
     <!-- Форма обратной связи -->
     <section class="section" id="feedback">
         <h2 class="text-center mb-4">Обратная связь</h2>
-
         <form method="post" action="FeedbackCreateView">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit" class="btn btn-primary">Отправить</button>
         </form>
-
     </section>
+    {% endif %}
 
 </div>
 

@@ -53,6 +53,7 @@ class DiagnosticListView(CreateView):
     model = DiagnosticResults
     template_name = "profile.html"
     form_class = AppointmentForm
+    success_url = reverse_lazy('medical:profile')
 
     def form_valid(self, form):
         """ Обрабатывает валидные данные формы. Устанавливаем пользователя на текущего авторизованного """
@@ -62,10 +63,18 @@ class DiagnosticListView(CreateView):
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
+        """ Если пользователь авторизован, отображаются данные его профиля и остальное на странице.
+         Если не авторизован, отображаются формы: "Вход", "Регистрация" """
         context = super().get_context_data(**kwargs)
-        context["appointments"] = Appointment.objects.filter(user=self.request.user)
+        user = self.request.user
+        context["is_authenticated"] = user.is_authenticated
+        if user.is_authenticated:
+            context["appointments"] = Appointment.objects.filter(user=user)
+            context["diagnostic_results"] = DiagnosticResults.objects.filter(user=user)
+        else:
+            context["appointments"] = None
+            context["diagnostic_results"] = None
         return context
-
 
 
 class FeedbackCreateView(CreateView):
@@ -123,7 +132,7 @@ class AppointmentCreateView(CreateView):
     model = Appointment
     template_name = "appointment.html"
     form_class = AppointmentForm
-    success_url = reverse_lazy('medical:appointment')
+    success_url = reverse_lazy('medical:services')
 
     def form_valid(self, form):
         """ Обрабатывает валидные данные формы. Устанавливаем пользователя на текущего авторизованного """
@@ -131,3 +140,18 @@ class AppointmentCreateView(CreateView):
         form.instance.user = self.request.user
         form.save()
         return super().form_valid(form)
+
+
+def diagnostic_results_detail(request, pk):
+    """  """
+    appointment = get_object_or_404(Appointment, id=pk)
+    diagnosticresults = get_object_or_404(DiagnosticResults, appointment=pk)
+    # Проверка, что у записи есть результаты
+    try:
+        results = diagnosticresults
+    except DiagnosticResults.DoesNotExist:
+        results = None
+    return render(request, 'diagnostic_result_detail.html', {
+        'appointment': appointment,
+        'results': results,
+    })

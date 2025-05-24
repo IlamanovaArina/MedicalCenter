@@ -61,7 +61,7 @@ class  CompanyValuesAdmin(admin.ModelAdmin):
 # Запись на приём
 @admin.register(Appointment)
 class AppointmentAdmin(admin.ModelAdmin):
-    list_display = ("id", "address", "doctor", "appointment_date", "services", "is_active", "user",)
+    list_display = ("id", "status", "address", "doctor", "appointment_date", "services", "is_active", "user",)
     list_filter = ("appointment_date", "user", "services")
     search_fields = ("appointment_date", "user", "services")
 
@@ -69,9 +69,17 @@ class AppointmentAdmin(admin.ModelAdmin):
 # Результаты диагностики
 @admin.register(DiagnosticResults)
 class DiagnosticResultsAdmin(admin.ModelAdmin):
-    list_display = ("id", "appointment", "results", "user", "doctor",)
-    list_filter = ("appointment", "results",)
-    search_fields = ("appointment", "results",)
+    list_display = ("id", "appointment", "recommendations", "user", "general_comments",)
+    list_filter = ("appointment",)
+    search_fields = ("appointment",)
+
+
+# Медицинские тесты. Результаты
+@admin.register(TestResult)
+class DiagnosticResultsAdmin(admin.ModelAdmin):
+    list_display = ("id", "diagnostic_result", "name", "value", "norm", "comment",)
+    list_filter = ("name",)
+    search_fields = ("name",)
 
 
 # Обратная связь

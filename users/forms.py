@@ -11,11 +11,6 @@ class UserRegisterForm(UserCreationForm):
                   "country", "tg_id", "password1", "password2")
         exclude = ['created_at', 'updated_at', "token", "is_active"]
 
-    # def create_password_fields(self, *args, **kwargs):
-    #     password1 = forms.CharField(verbose_name='Придумайте пароль')
-    #     password2 = forms.CharField(verbose_name='Введите повторно пароль')
-    #     super().create_password_fields(*args, **kwargs)
-
     def clean_phone_number(self):
         """ Проверка номера телефона на наличие посторонних символов """
         phone_number = self.cleaned_data.get("phone")

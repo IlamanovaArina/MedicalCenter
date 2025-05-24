@@ -203,14 +203,9 @@
             <a class="btn btn-outline-primary me-2" href="/contacts/">Контакты</a>
             <!-- Круглая кнопка с фотографией -->
 
-            {% if user.is_authenticated %}
             <a href="/profile/" class="d-flex align-items-center">
                 <img src="#" alt="Профиль" class="profile-img"/>
             </a>
-            {% else %}
-            <a class="p-2 btn btn-outline-primary" href="/users/login/">Вход</a>
-            <a class="p-2 btn btn-outline-primary" href="/users/register/">Регистрация</a>
-            {% endif %}
 
         </div>
     </div>
