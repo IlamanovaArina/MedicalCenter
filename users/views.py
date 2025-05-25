@@ -31,6 +31,10 @@ class RegisterView(CreateView):
             send_mail(subject, message, from_email, recipient_list)
         except SMTPSenderRefused:
             return reverse_lazy('users:error')
+        except Exception as e:
+            # Логируйте или выводите ошибку
+            print(e)
+            return reverse_lazy('users:error')
 
 
 class ProfileUpdateView(UpdateView):

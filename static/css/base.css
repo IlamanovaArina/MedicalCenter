@@ -1,0 +1,185 @@
+/* Фон с изображением */
+        body {
+          background-image: url('https://i.pinimg.com/originals/b5/36/6e/b5366e76dd1d77389dc35e5dc3a6e238.jpg');
+          background-size: cover;
+          background-position: center;
+          background-attachment: fixed; /* закрепление фона */
+          min-height: 100vh;
+        }
+        .custom-navbar {
+          background-color: rgba(255, 255, 255, 0.5);
+        }
+        .profile-img {
+          width: 40px;
+          height: 40px;
+          object-fit: cover;
+          border-radius: 50%;
+        }
+        .section {
+      padding: 60px 20px;
+      background-color: #fff;
+      margin-bottom: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    h2 {
+      font-weight: 700;
+      margin-bottom: 30px;
+      position: relative;
+      display: inline-block;
+    }
+    h2::after {
+      content: "";
+      display: block;
+      width: 60px;
+      height: 3px;
+      background-color: #007bff;
+      margin-top: 8px;
+      border-radius: 2px;
+    }
+    /* Фото команды */
+    .team-member {
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .team-member:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+    }
+
+    .team-img {
+      width: 100%;
+      height: auto;
+      border-radius: 15px;
+      object-fit: cover;
+      object-position: center;
+    }
+    .team-img {
+      width: 100%; /* чтобы изображение занимало всю ширину контейнера */
+      height: 100px; /* фиксированная высота, подберите по необходимости */
+
+    }
+
+    /* Адаптивные карточки команды */
+    @media(max-width: 768px) {
+      .team-grid {
+        flex-direction: column;
+      }
+    }
+    /* Стиль для карточек услуг */
+    .service-card {
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+    }
+    /* Адаптивные карточки команды */
+    @media(max-width: 768px) {
+      .team-grid {
+        flex-direction: column;
+      }
+    }
+        /* Карточки услуги */
+    .service-card {
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+    }
+    /* Цены */
+    .price {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #007bff;
+    }
+    /* Адаптивность */
+    @media(max-width: 768px) {
+      .cards-row {
+        flex-direction: column;
+      }
+    }
+        /* Карта */
+    .map-container {
+      height: 400px;
+      width: 100%;
+      border-radius: 15px;
+      overflow: hidden;
+    }
+    /* Адаптивность для карты */
+    @media(max-width: 768px) {
+      .map-container {
+        height: 300px;
+      }
+    }
+        /* Карточки для истории и результатов */
+    .record-card {
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .record-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+    }
+    /* Адаптивность */
+    @media(max-width: 768px) {
+      .records-grid {
+        flex-direction: column;
+      }
+    }
+            .service-link {
+        display: block; /* чтобы ссылка занимала всю площадь карточки */
+        text-decoration: none; /* убираем подчёркивание */
+        color: inherit; /* наследуем цвет текста */
+    }
+    .service-link:hover {
+        text-decoration: none; /* при наведении тоже убираем подчёркивание */
+    }
+        /* Карточки оборудования и врачей */
+    .card-hover:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+    }
+    /* Отзывы */
+    .review {
+      background-color: #f1f1f1;
+      padding: 20px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+    }
+    /* Предложения */
+    .offer {
+      background-color: #e0f7fa;
+      padding: 20px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+    }
+    /* Адаптивность */
+    @media(max-width: 768px) {
+      .header-section h1 {
+        font-size: 2rem;
+      }
+    }
+         /* Стиль для бокового меню */
+    #service-list {
+      position: sticky;
+      top: 20px;
+    }
+    /* Стили для разделов услуги */
+    .service-section {
+      padding: 50px 20px;
+      background-color: #fff;
+      margin-bottom: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    /* Плавное прокручивание */
+    html {
+      scroll-behavior: smooth;
+    }
+    /* Адаптивность для меню */
+    @media(max-width: 768px) {
+      #service-list {
+        position: static;
+        margin-bottom: 20px;
+      }
+    }

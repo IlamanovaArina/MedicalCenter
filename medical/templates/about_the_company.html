@@ -18,8 +18,13 @@
         <h2 class="text-center  mb-4">История компании</h2>
         <div class="row align-items-center">
             <div class="col-md-6 mb-4 mb-md-0">
-                <img src="https://sun9-80.userapi.com/s/v1/ig2/BtgfowHtx6HyW_gOKTPcCXXzqOQxX3aKzSZpKGCJTchpdXaqdLH7F9U1XXqOGxqqZBGMoad-wiR_aL2xv64spn0g.jpg?quality=95&as=32x18,48x27,72x40,108x60,160x89,240x133,360x199,480x266,540x299,640x354,720x399,1080x598,1280x709,1300x720&from=bu&u=mkIU9Ez64LnA_srYKVLqLvrlnSi5NexeR2LtMMwBx2g&cs=807x447"
-                     class="img-fluid rounded shadow" alt="История компании"/>
+                {% load static %}
+                {% if information.text_from_the_main_page and information.text_from_the_main_page.url %}
+                <img src="{{information.text_from_the_main_page.url}}" class="img-fluid rounded shadow"
+                     alt="История компании"/>
+                {% else %}
+                <img src="{% static 'images/doctor1.jpg' %}" alt="История компании" class="img-fluid rounded shadow"/>
+                {% endif %}
             </div>
             <div class="col-md-6">
                 <p>
@@ -67,14 +72,18 @@
                 {% for doctors in grouped_doctors %}
 
                 <!-- Первый слайд -->
+                {% load static %}
                 <div class="carousel-item {% if forloop.first %}active{% endif %}">
                     <div class="row g-4 justify-content-center">
-                        <!-- Карточка врача -->
                         {% for doctor in doctors %}
                         <div class="col-md-3 col-sm-6">
                             <div class="card border-0 shadow team-member">
-                                <img src="{{ doctor.avatar }}"
-                                     class="card-img-top team-img" alt="Врач 1"/>
+                                {% if doctor.avatar %}
+                                <img src="{{ doctor.avatar.url }}" class="card-img-top team-img" alt="Врач"/>
+                                {% else %}
+                                <img src="{% static 'images/default_doctor.webp' %}" class="card-img-top team-img"
+                                     alt="Врач"/>
+                                {% endif %}
                                 <div class="card-body text-center">
                                     <h5 class="card-title mb-0">{{ doctor.first_name }} {{ doctor.last_name }}</h5>
                                     <p class="text-muted small">{{ doctor.specialization }}</p>
@@ -82,10 +91,9 @@
                             </div>
                         </div>
                         {% endfor %}
-
-                        <!-- Можно добавить еще карточки в этот слайд -->
                     </div>
                 </div>
+
                 {% endfor %}
 
             </div>

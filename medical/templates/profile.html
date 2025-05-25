@@ -19,15 +19,15 @@
         <div class="card mb-4 shadow-sm" style="max-width: 700px; margin: 0 auto;">
             <div class="row g-0 align-items-center">
                 <div class="col-md-4 text-center p-4">
-                    {% if user.avatar %}
+                    {% load static %}
+                    {% if user.avatar and user.avatar.url %}
                     <img src="{{ user.avatar.url }}" class="rounded-circle img-fluid" alt="Аватар"
                          style="width:150px; height:150px; object-fit:cover;">
                     {% else %}
-                    <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center"
-                         style="width:150px; height:150px; font-size:2rem; color:#fff;">
-                        Нет фото
-                    </div>
+                    <img src="{% static 'images/prefile.webp' %}" class="rounded-circle img-fluid" alt="Аватар"
+                         style="width:150px; height:150px; object-fit:cover;">
                     {% endif %}
+
                 </div>
                 <div class="col-md-8 p-4">
                     <h3 class="card-title mb-3">{{ user.first_name }} {{ user.last_name }}</h3>

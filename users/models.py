@@ -17,7 +17,7 @@ class User(AbstractUser):
     tg_id = models.CharField(max_length=255, blank=True, null=True, verbose_name="Telegram ID")
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True,)
-    is_active = models.BooleanField(blank=True, null=True)
+    is_active = models.BooleanField(blank=True, null=True, default=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

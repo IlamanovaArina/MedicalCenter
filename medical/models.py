@@ -120,10 +120,13 @@ class Information(models.Model):
     """
     text_from_the_main_page = models.CharField(max_length=500, null=True, blank=True,
                                                verbose_name="Информация с главной страницы")
+    image_the_main_page = models.ImageField(upload_to="medical/", blank=True, null=True, verbose_name="Фото с главной страницы")
     company_history = models.CharField(max_length=500, null=True, blank=True,
                                        verbose_name="История компании со страницы \"О компании\"")
     mission = models.CharField(max_length=100, null=True, blank=True, verbose_name="Миссия со страницы \"О компании\"")
     purposes = models.CharField(max_length=100, null=True, blank=True, verbose_name="Цели со страницы \"О компании\"")
+    image_from_the_company = models.ImageField(upload_to="medical/", blank=True, null=True,
+                                            verbose_name="Фото со страницы \"О компании\"")
     description_of_services = models.CharField(max_length=100, null=True, blank=True,
                                                verbose_name="Подробное описание услуг")
     cardiology = models.CharField(max_length=100, null=True, blank=True, verbose_name="Кардиология")
@@ -161,6 +164,7 @@ class AddressHospital(models.Model):
     name = models.CharField(max_length=255, verbose_name='Название адреса')
     address_line = models.CharField(max_length=255, verbose_name='Адрес',
                                     help_text='Например, г. Москва, ул. Примерная, д. 10')
+    reception_phone = models.CharField(max_length=11, null=True, blank=True, verbose_name="Номер телефона", )
     latitude = models.FloatField(verbose_name='Широта')
     longitude = models.FloatField(verbose_name='Долгота')
 

@@ -5,7 +5,7 @@ from django.views.generic import CreateView, DeleteView, DetailView, ListView, U
 
 from medical.forms import FeedbackForm, AppointmentForm
 from medical.models import DiagnosticResults, Doctors, Information, Appointment, Reviews, Services, CompanyValues, \
-    Feedback, MedicalDirection
+    Feedback, MedicalDirection, AddressHospital
 from django.shortcuts import get_object_or_404, redirect, render
 
 
@@ -57,7 +57,6 @@ class DiagnosticListView(CreateView):
 
     def form_valid(self, form):
         """ Обрабатывает валидные данные формы. Устанавливаем пользователя на текущего авторизованного """
-        # Устанавливаем владельца на текущего авторизованного пользователя
         form.instance.user = self.request.user
         form.save()
         return super().form_valid(form)
@@ -67,7 +66,6 @@ class DiagnosticListView(CreateView):
          Если не авторизован, отображаются формы: "Вход", "Регистрация" """
         context = super().get_context_data(**kwargs)
         user = self.request.user
-        context["is_authenticated"] = user.is_authenticated
         if user.is_authenticated:
             context["appointments"] = Appointment.objects.filter(user=user)
             context["diagnostic_results"] = DiagnosticResults.objects.filter(user=user)
@@ -109,6 +107,8 @@ class HomeCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['services'] = Services.objects.all()
+        context['medical_direction'] = MedicalDirection.objects.all()
+        context['address_hospital'] = AddressHospital.objects.all()
         return context
 
     # def post(self, request, *args, **kwargs):
