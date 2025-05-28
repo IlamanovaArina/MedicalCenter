@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.db import models
 
 from config import settings
+from medical.utils import get_coordinates
 
 
 # Направление в медицине
@@ -165,11 +166,19 @@ class AddressHospital(models.Model):
     address_line = models.CharField(max_length=255, verbose_name='Адрес',
                                     help_text='Например, г. Москва, ул. Примерная, д. 10')
     reception_phone = models.CharField(max_length=11, null=True, blank=True, verbose_name="Номер телефона", )
-    latitude = models.FloatField(verbose_name='Широта')
-    longitude = models.FloatField(verbose_name='Долгота')
+    latitude = models.FloatField(verbose_name='Широта', null=True, blank=True, )
+    longitude = models.FloatField(verbose_name='Долгота', null=True, blank=True,)
+
+    def save(self, *args, **kwargs):
+        if not self.latitude or not self.longitude:
+            lat, lon = get_coordinates(self.address_line)
+            if lat and lon:
+                self.latitude = lat
+                self.longitude = lon
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.name, self.address_line
+        return f"{self.name}, {self.address_line}"
 
 
 # Запись на приём

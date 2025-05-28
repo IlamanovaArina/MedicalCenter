@@ -1,4 +1,5 @@
 from smtplib import SMTPSenderRefused
+from django.utils import timezone
 
 from django.contrib.auth import login
 from django.core.mail import send_mail
@@ -42,3 +43,10 @@ class ProfileUpdateView(UpdateView):
     template_name = "update_profile.html"
     form_class = UserUpdateForm
     success_url = reverse_lazy('medical:profile')
+
+    def form_valid(self, form):
+        # Обновляем поле updated_at вручную, если оно не обновляется автоматически
+        user = form.save(commit=False)
+        user.updated_at = timezone.now()
+        user.save()
+        return super().form_valid(form)

@@ -1,6 +1,29 @@
-from django.contrib import admin
-
 from .models import *
+
+from django.contrib import admin
+from .models import AddressHospital
+from .utils import get_coordinates
+
+
+@admin.action(description='Обновить координаты выбранных адресов')
+def update_coordinates(modeladmin, request, queryset):
+    """ Функция, которая позволяет в админке добавлять адреса,
+    а широта и долгота подставляются благодаря функции 'get_coordinates' """
+    for address in queryset:
+        full_address = address.address_line
+        lat, lon = get_coordinates(full_address)
+        if lat and lon:
+            address.latitude = lat
+            address.longitude = lon
+            address.save()
+    modeladmin.message_user(request, "Координаты успешно обновлены.")
+
+
+# Адрес клиники
+@admin.register(AddressHospital)
+class AddressHospitalAdmin(admin.ModelAdmin):
+    list_display = ('name', 'address_line', 'latitude', 'longitude')
+    actions = [update_coordinates]
 
 
 # Направление в медицине
@@ -50,12 +73,6 @@ class InformationAdmin(admin.ModelAdmin):
 @admin.register(CompanyValues)
 class  CompanyValuesAdmin(admin.ModelAdmin):
     list_display = ("name", "description", )
-
-
-# Адрес клиники
-@admin.register(AddressHospital)
-class  CompanyValuesAdmin(admin.ModelAdmin):
-    list_display = ("name", "address_line", "latitude", "longitude",)
 
 
 # Запись на приём

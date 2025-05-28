@@ -88,6 +88,11 @@ class FeedbackCreateView(CreateView):
         form.save()
         return super().form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['address_hospitals'] = AddressHospital.objects.all()
+        return context
+
 
 class HomeCreateView(CreateView):
     """  """

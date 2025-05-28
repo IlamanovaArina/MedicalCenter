@@ -79,9 +79,9 @@ class UserRegisterForm(UserCreationForm):
 class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ( "patronymic", "avatar", "phone", "city",
+        fields = ("first_name", "last_name", "patronymic", "avatar", "phone", "city",
                   "country", "tg_id",)
-        exclude = ["first_name", "last_name", "created_at", "email", "updated_at", "token", "is_active"]
+        exclude = ["created_at", "email", "updated_at", "token", "is_active"]
 
     def clean_phone_number(self):
         """ Проверка номера телефона на наличие посторонних символов """
@@ -113,6 +113,12 @@ class UserUpdateForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(UserUpdateForm, self).__init__(*args, **kwargs)
+        self.fields["first_name"].widget.attrs.update(
+            {"class": "form-control", "placeholder": "Введите имя"}
+        )
+        self.fields["last_name"].widget.attrs.update(
+            {"class": "form-control", "placeholder": "Введите фамилию"}
+        )
         self.fields["patronymic"].widget.attrs.update(
             {"class": "form-control", "placeholder": "Введите отчество(если есть)"}
         )
