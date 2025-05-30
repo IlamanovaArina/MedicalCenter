@@ -93,7 +93,7 @@ class Reviews(models.Model):
         ("1", "Категорически не устроило"),
     ]
 
-    text = models.TextField(max_length=500, verbose_name="Отзыв", blank=True, null=True)
+    text = models.CharField(max_length=100, verbose_name="Отзыв", blank=True, null=True)
     rate = models.CharField(
         verbose_name="Количество звезд", max_length=100, choices=DOCTOR_RATE
     )
@@ -119,22 +119,18 @@ class Information(models.Model):
         phone (str): Номер телефона клиники.
         address (str): Адрес клиники.
     """
-    text_from_the_main_page = models.CharField(max_length=500, null=True, blank=True,
+    text_from_the_main_page = models.TextField(null=True, blank=True,
                                                verbose_name="Информация с главной страницы")
     image_the_main_page = models.ImageField(upload_to="medical/", blank=True, null=True, verbose_name="Фото с главной страницы")
-    company_history = models.CharField(max_length=500, null=True, blank=True,
+    company_history = models.TextField(null=True, blank=True,
                                        verbose_name="История компании со страницы \"О компании\"")
     mission = models.CharField(max_length=100, null=True, blank=True, verbose_name="Миссия со страницы \"О компании\"")
     purposes = models.CharField(max_length=100, null=True, blank=True, verbose_name="Цели со страницы \"О компании\"")
     image_from_the_company = models.ImageField(upload_to="medical/", blank=True, null=True,
                                             verbose_name="Фото со страницы \"О компании\"")
-    description_of_services = models.CharField(max_length=100, null=True, blank=True,
-                                               verbose_name="Подробное описание услуг")
-    cardiology = models.CharField(max_length=100, null=True, blank=True, verbose_name="Кардиология")
-    pediatrics = models.CharField(max_length=100, null=True, blank=True, verbose_name="Педиатрия")
     phone = models.CharField(max_length=11, verbose_name="Номер телефона")
     email = models.EmailField(unique=True, verbose_name="Email")
-    address = models.CharField(max_length=255, verbose_name="Адрес клиники", null=True, blank=True)
+    address = models.CharField(max_length=255, verbose_name="Адрес центральной клиники", null=True, blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
                              verbose_name='Пользователь создавший этот экземпляр модели')
 
@@ -218,9 +214,9 @@ class Appointment(models.Model):
 
     def __str__(self):
         if self.doctor:
-            return f"{self.address}, {self.doctor}"
+            return f"{self.address}, {self.doctor}, пациент: {self.user}, дата приёма: {self.appointment_date}"
         if self.services:
-            return f"{self.address}, {self.services}"
+            return f"{self.address}, {self.services}, пациент: {self.user}, дата приёма: {self.appointment_date}"
 
 
 # Результаты диагностики
@@ -243,6 +239,9 @@ class DiagnosticResults(models.Model):
     class Meta:
         verbose_name = 'Результат диагностики'
         verbose_name_plural = 'Результаты диагностики'
+
+    def __str__(self):
+        return f"{self.appointment}"
 
 
 # Медицинские тесты. Результаты

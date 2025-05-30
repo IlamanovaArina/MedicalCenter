@@ -1,5 +1,4 @@
 from django.urls import path
-from . import views
 
 from medical.apps import MedicalConfig
 from medical.views import *
@@ -19,6 +18,8 @@ urlpatterns = [
 
     path("appointment/", AppointmentCreateView.as_view(), name="appointment"),
 
-    path('result/<int:pk>/', views.diagnostic_results_detail, name='diagnostic_results_detail')
+    # path("reviews/", ReviewsListView.as_view(), name="reviews"),
+
+    path('result/<int:pk>/', DiagnosticResultDetailView.as_view(), name='diagnostic_result_detail'),
 
 ]

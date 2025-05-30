@@ -227,6 +227,27 @@ pycodestyle = ">=2.13.0,<2.14.0"
 pyflakes = ">=3.3.0,<3.4.0"
 
 [[package]]
+name = "gunicorn"
+version = "23.0.0"
+description = "WSGI HTTP Server for UNIX"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "gunicorn-23.0.0-py3-none-any.whl", hash = "sha256:ec400d38950de4dfd418cff8328b2c8faed0edb0d517d3394e457c317908ca4d"},
+    {file = "gunicorn-23.0.0.tar.gz", hash = "sha256:f014447a0101dc57e294f6c18ca6b40227a4c90e9bdb586042628030cba004ec"},
+]
+
+[package.dependencies]
+packaging = "*"
+
+[package.extras]
+eventlet = ["eventlet (>=0.24.1,!=0.36.0)"]
+gevent = ["gevent (>=1.4.0)"]
+setproctitle = ["setproctitle"]
+testing = ["coverage", "eventlet", "gevent", "pytest", "pytest-cov"]
+tornado = ["tornado (>=0.2)"]
+
+[[package]]
 name = "idna"
 version = "3.10"
 description = "Internationalized Domain Names in Applications (IDNA)"
@@ -342,6 +363,17 @@ python-versions = ">=3.6"
 files = [
     {file = "mccabe-0.7.0-py2.py3-none-any.whl", hash = "sha256:6c2d30ab6be0e4a46919781807b4f0d834ebdd6c6e3dca0bda5a15f863427b6e"},
     {file = "mccabe-0.7.0.tar.gz", hash = "sha256:348e0240c33b60bbdf4e523192ef919f28cb2c3d7d5c7794f74009290f236325"},
+]
+
+[[package]]
+name = "packaging"
+version = "25.0"
+description = "Core utilities for Python packages"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "packaging-25.0-py3-none-any.whl", hash = "sha256:29572ef2b1f17581046b3a2227d5c611fb25ec70ca1ba8554b24b0e69331a484"},
+    {file = "packaging-25.0.tar.gz", hash = "sha256:d443872c98d677bf60f6a1f2f8c1cb748e8fe762d2bf9d3148b5599295b0fc4f"},
 ]
 
 [[package]]
@@ -768,4 +800,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "86ea7c09ae39718af42876aa2b88513ab25dd797ada37eee7d718c9f37bc83d8"
+content-hash = "0b90e8c287459a507010a48cd468b5f28b0a4003b2529034691ec68aaf495dfc"

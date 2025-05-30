@@ -62,9 +62,8 @@ class ServicesAdmin(admin.ModelAdmin):
 # Информация
 @admin.register(Information)
 class InformationAdmin(admin.ModelAdmin):
-    list_display = ("id", "text_from_the_main_page", "company_history",
-                    "mission", "purposes", "description_of_services", "cardiology", "pediatrics",
-                    "phone", "email", "address", "user",)
+    list_display = ("id", "text_from_the_main_page", "image_the_main_page", "company_history",
+                    "mission", "purposes", "image_from_the_company", "phone", "email", "address", "user",)
     list_filter = ("address",)
     search_fields = ("address",)
 

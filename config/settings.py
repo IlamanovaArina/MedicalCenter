@@ -82,9 +82,24 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8080",
+    "http://localhost:8000",
+    "http://127.0.0.1:9000",
+]
+
+CORS_ALLOW_ALL_ORIGINS = False
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:8080",
+    "http://localhost:8000",
+    "http://127.0.0.1:9000",
+    "http://158.160.182.163"
+]
+
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -93,7 +108,7 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS =  [BASE_DIR / 'static']
+STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = '/media/'

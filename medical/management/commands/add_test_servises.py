@@ -1,39 +1,48 @@
 from django.core.management import BaseCommand
-
-from medical.models import Services
+from medical.models import Services, MedicalDirection
 
 
 class Command(BaseCommand):
-    help = "Добавляет данные в таблицу Services"
+    help = "Добавить тестовые данные в Services"
 
     def handle(self, *args, **kwargs):
-        # Пример добавления одного объекта
-        my_instance_1 = Services(
-            name='Общий анализ крови',
-            description='Быстрый и точный анализ для оценки общего состояния организма.',
-            price='500',
-        )
-        my_instance_1.save()
+        data = [
+            {
+                'name': 'Общий анализ крови',
+                'medical_direction': MedicalDirection.objects.get(id=1),
+                'description': 'Быстрый и точный анализ для оценки общего состояния организма.',
+                'price': '1500'
+            },
+            {
+                'name': 'Анализ группы крови',
+                'medical_direction': MedicalDirection.objects.get(id=3),
+                'description': 'Лабораторное исследование крови, которое помогает определить общее состояние организма и диагностировать различные заболевания.',
+                'price': '800'
+            },
+            {
+                'name': 'Антитела к антигенам эритроцитов',
+                'medical_direction': MedicalDirection.objects.get(id=3),
+                'description': 'Это лабораторное определение титра иммуноглобулинов.',
+                'price': '800'
+            },
+            {
+                'name': 'Онкомаркеры в крови',
+                'medical_direction': MedicalDirection.objects.get(id=2),
+                'description': 'Метод лабораторного исследования, используемый в диагностике онкологических '
+                        '(раковых) заболеваний.',
+                'price': '800'
+            },
+            {
+                'name': 'Онкомаркеры в моче',
+                'medical_direction': MedicalDirection.objects.get(id=2),
+                'description': 'Метод лабораторного исследования, используемый в диагностике онкологических '
+                        '(раковых) заболеваний.',
+                'price': '800'
+            },
+            # добавьте сколько нужно
+        ]
 
-        my_instance_2 = Services(
-            name='Неврология',
-            description='Прием врача с осмотром.',
-            price='500',
-        )
-        my_instance_2.save()
-
-        my_instance_3 = Services(
-            name='Гинекология',
-            description='Прием врача с осмотром.',
-            price='500',
-        )
-        my_instance_3.save()
-
-        my_instance_4 = Services(
-            name='Урология',
-            description='Прием врача с осмотром.',
-            price='500',
-        )
-        my_instance_4.save()
+        for item in data:
+            Services.objects.create(**item)
 
         self.stdout.write(self.style.SUCCESS("Данные успешно добавлены!"))

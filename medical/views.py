@@ -1,12 +1,8 @@
 from django.urls import reverse_lazy
-from django.core.mail import send_mail
-from config.settings import EMAIL_HOST_USER
-from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView, TemplateView, View
-
+from django.views.generic import CreateView, DetailView, ListView
 from medical.forms import FeedbackForm, AppointmentForm
 from medical.models import DiagnosticResults, Doctors, Information, Appointment, Reviews, Services, CompanyValues, \
     Feedback, MedicalDirection, AddressHospital
-from django.shortcuts import get_object_or_404, redirect, render
 
 
 class DoctorsListView(ListView):
@@ -35,10 +31,7 @@ class ServicesListView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['medical_directions'] = MedicalDirection.objects.prefetch_related('services').all()
-        # Группируем по 3
-        reviews = list(Reviews.objects.all())
-        grouped_reviews = [reviews[i:i + 3] for i in range(0, len(reviews), 3)]
-        context['grouped_reviews'] = grouped_reviews
+        context['reviews'] = Reviews.objects.all()
         return context
 
 
@@ -99,15 +92,14 @@ class HomeCreateView(CreateView):
     model = Information
     template_name = "home.html"
     form_class = FeedbackForm
-    # success_url = reverse_lazy('medical:profile')
+    success_url = reverse_lazy('medical:profile')
 
     def form_valid(self, form):
         """ Обрабатывает валидные данные формы. Устанавливаем пользователя на текущего авторизованного """
         # Устанавливаем владельца на текущего авторизованного пользователя
         form.instance.user = self.request.user
         form.save()
-        super().form_valid(form)
-        return render(self.request, self.template_name, self.get_context_data())
+        return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -115,22 +107,6 @@ class HomeCreateView(CreateView):
         context['medical_direction'] = MedicalDirection.objects.all()
         context['address_hospital'] = AddressHospital.objects.all()
         return context
-
-    # def post(self, request, *args, **kwargs):
-    #     """ При нажатии на кнопку 'отправить', отправляется сообщение об успешном   """
-    #     appointment_id = request.POST.get('id')
-    #     appointment = get_object_or_404(Appointment, id=appointment_id, user=request.user)
-    #
-    #     # Здесь происходит отправка рассылки
-    #     send_mail(
-    #         f"Вы успешно записались на приём в нашей клинике: \"Сила здоровья\".",
-    #         f"Вы записались на приём на {appointment.appointment_date}; по адресу: {appointment.address}; "
-    #         f"на услугу: {appointment.services}; к врачу: {appointment.doctor}",
-    #         EMAIL_HOST_USER,
-    #         appointment.user.email
-    #     )
-    #
-    #     return redirect('mailing:home')  # Перенаправьте на нужный URL после отправки
 
 
 class AppointmentCreateView(CreateView):
@@ -147,16 +123,36 @@ class AppointmentCreateView(CreateView):
         return super().form_valid(form)
 
 
-def diagnostic_results_detail(request, pk):
-    """  """
-    appointment = get_object_or_404(Appointment, id=pk)
-    diagnosticresults = get_object_or_404(DiagnosticResults, appointment=pk)
-    # Проверка, что у записи есть результаты
-    try:
-        results = diagnosticresults
-    except DiagnosticResults.DoesNotExist:
-        results = None
-    return render(request, 'diagnostic_result_detail.html', {
-        'appointment': appointment,
-        'results': results,
-    })
+class DiagnosticResultDetailView(DetailView):
+    model = Appointment
+    template_name = 'diagnostic_result_detail.html'
+    pk_url_kwarg = 'pk'  # по умолчанию, можно не указывать
+
+    def get_object(self):
+        # Получаем объект Appointment по pk из URL
+        appointment = super().get_object()
+        return appointment
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        appointment = self.object
+
+        # Получаем связанный DiagnosticResults
+        try:
+            results = DiagnosticResults.objects.get(appointment=appointment)
+        except DiagnosticResults.DoesNotExist:
+            results = None
+
+        context['appointment'] = appointment
+        context['results'] = results
+        return context
+
+#
+# class ReviewsListView(ListView):
+#     model = Reviews
+#     template_name = 'reviews_detail.html'
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['reviews'] = Reviews.objects.all()
+#         return context

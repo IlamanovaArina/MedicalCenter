@@ -91,14 +91,17 @@
                     <h5 class="mb-2">Запись {{ appointment.appointment_date | date:"d M Y" }}</h5>
                     <p class="mb-1"><strong>Врач:</strong> {{ appointment.doctor }}</p>
                     <p class="mb-1"><strong>Процедура:</strong> {{ appointment.services }}</p>
+
                     {% if appointment.status == 'completed' %}
                     <p class="mb-1"><strong>Результаты диагностики:</strong>
-                        <a href="/result/{{ appointment.id }}/">Подробнее</a>
+                        <a href="{% url 'medical:diagnostic_result_detail' appointment.pk %}">Подробнее</a>
                     </p>
                     {% endif %}
+
                 </div>
             </div>
             {% endfor %}
+
         </div>
     </section>
 

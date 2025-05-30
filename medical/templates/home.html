@@ -18,8 +18,8 @@
         <div class="row align-items-center">
             <div class="col-md-6 mb-4 mb-md-0">
                 {% load static %}
-                {% if information.text_from_the_main_page and information.text_from_the_main_page.url %}
-                <img src="{{information.text_from_the_main_page.url}}"
+                {% if information.image_the_main_page and information.image_the_main_page.url %}
+                <img src="{{information.image_the_main_page.url}}"
                      class="img-fluid rounded shadow" alt="О компании"/>
                 {% else %}
                 <img src="{% static 'images/doctor1.jpg' %}" alt="О компании" class="img-fluid rounded shadow"/>
