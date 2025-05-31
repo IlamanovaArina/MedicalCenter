@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+
+{% load my_tags %}
+{% block title %}Удаление{% endblock %}
+
+{% block content %}
+
+<!-- Заголовок и описание услуги -->
+<section class="header-section mb-5">
+    <div class="container">
+        <h1>{{ service.name }}</h1>
+        <p class="lead mt-3">Современное решение для эффективного и безболезненного устранения проблем кожи и
+            здоровья</p>
+    </div>
+</section>
+
+<div class="container">
+
+    <!-- Описание услуги -->
+    <section class="section" id="description">
+        <h2 class="text-center mb-4">Описание услуги</h2>
+        <div class="row align-items-center">
+            <div class="col-md-6 mb-4 mb-md-0">
+                <img src="https://images.unsplash.com/photo-1616443448984-0f0f7f0f0f0f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                     class="img-fluid rounded shadow" alt="Лечение лазером"/>
+            </div>
+            <div class="col-md-6">
+                <p>{{ service.description }}</p>
+                <p>Длительность курса, цена и особенности процедуры уточняйте у наших специалистов.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Оборудование -->
+    <section class="section" id="equipment">
+        <h2 class="text-center mb-4">Оборудование</h2>
+        <div class="row g-4 text-center">
+            <div class="col-md-4">
+                <div class="card border-0 shadow card-hover p-4 bg-white h-100">
+                    <i class="fas fa-microscope fa-3x mb-3 text-primary"></i>
+                    <h5>Современный лазерный аппарат</h5>
+                    <p>Используем передовые лазеры, обеспечивающие безопасность и эффективность процедуры.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 shadow card-hover p-4 bg-white h-100">
+                    <i class="fas fa-thermometer-half fa-3x mb-3 text-primary"></i>
+                    <h5>Диагностическая техника</h5>
+                    <p>Перед процедурой проводится тщательное обследование для максимальной безопасности.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 shadow card-hover p-4 bg-white h-100">
+                    <i class="fas fa-vials fa-3x mb-3 text-primary"></i>
+                    <h5>Современные средства стерилизации</h5>
+                    <p>Обеспечиваем максимальную гигиену и стерильность оборудования.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Команда врачей  -->
+    <section class="section" id="team">
+        <h2 class="text-center mb-4">Команда врачей</h2>
+        <div id="doctorCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+
+                <!-- Первый слайд -->
+                <div class="carousel-item active">
+                    <div class="row g-4 justify-content-center">
+                        <!-- Карточка врача -->
+                        <div class="col-md-3 col-sm-6">
+                            <div class="card border-0 shadow team-member">
+                                <img src="https://avatars.mds.yandex.net/i?id=1850c909881c544fc4f252c0f7840f07_l-5236416-images-thumbs&n=13"
+                                     class="card-img-top team-img" alt="Врач 1"/>
+                                <div class="card-body text-center">
+                                    <h5 class="card-title mb-0">Иван Иванов</h5>
+                                    <p class="text-muted small">Кардиолог</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Можно добавить еще карточки в этот слайд -->
+                    </div>
+                </div>
+
+                <!-- Второй слайд (если есть больше врачей) -->
+                <div class="carousel-item">
+                    <div class="row g-4 justify-content-center">
+
+                        <!-- Карточки следующего слайда -->
+                        <div class="col-md-3 col-sm-6">
+                            <div class="card border-0 shadow team-member">
+                                <img src="https://avatars.mds.yandex.net/i?id=1850c909881c544fc4f252c0f7840f07_l-5236416-images-thumbs&n=13"
+                                     class="card-img-top team-img" alt="Врач 2"/>
+                                <div class="card-body text-center">
+                                    <h5 class="card-title mb-0">Мария Петрова</h5>
+                                    <p class="text-muted small">Педиатр</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Еще карточки -->
+                    </div>
+                </div>
+
+                <!-- Добавляйте дополнительные слайды по необходимости -->
+
+            </div>
+            <!-- Стрелки навигации -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#doctorCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Предыдущий</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#doctorCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Следующий</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Отзывы -->
+    <div id="reviewsCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            {% for review_group in grouped_reviews %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <div class="row g-4 justify-content-center">
+                    {% for review in review_group %}
+                    <div class="col-md-4">
+                        <div class="card shadow-sm border-0 rounded review-card p-4 h-100"
+                             style="background-color: #fff;">
+                            <p class="mb-4">"{{ review }}"</p>
+                            <div class="d-flex align-items-center">
+                                <img src="https://ae01.alicdn.com/kf/HTB1SLh5SFXXXXb2XpXXq6xXFXXX8/Tiger-on-the-stone-needlework-5D-cube-diamond-embroidery-cross-stich-handcraft-stick-rhinestone-pasted-diamond.jpg"
+                                     class="rounded-circle me-3" style="width:50px; height:50px; object-fit:cover;"
+                                     alt="Пациент"/>
+                                <div>
+                                    <strong>{{ review.user.first_name }}</strong><br/>
+                                    <!-- Можно добавить дату или дополнительные данные -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <!-- Стрелки навигации -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#reviewsCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Предыдущий</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#reviewsCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Следующий</span>
+        </button>
+    </div>
+
+
+    <!-- Предложения и акции -->
+    <section class="section" id="offers">
+        <h2 class="text-center mb-4">Специальные предложения</h2>
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="offer">
+                    <h4>Скидка 20% на первую процедуру</h4>
+                    <p>Запишитесь сейчас и получите выгодное предложение! Акция действует до конца месяца.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="offer">
+                    <h4>Комплексное лечение за выгодной ценой</h4>
+                    <p>Обратите внимание на наши пакеты услуг и сэкономьте при комплексном лечении.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+{% endblock %}

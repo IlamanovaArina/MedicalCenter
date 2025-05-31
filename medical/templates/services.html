@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Услуги{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center mb-4">Наши услуги</h1>
+    <div class="row">
+        <!-- Меню слева -->
+        <nav class="col-md-3 mb-4" id="service-list">
+            <div class="list-group sticky-top">
+                {% for direction in medical_directions %}
+                <a class="list-group-item list-group-item-action" href="#direction_{{ direction.id }}">{{ direction.name }}</a>
+                {% endfor %}
+            </div>
+        </nav>
+
+        <!-- Основной контент -->
+        <div class="col-md-9">
+
+            {% for direction in medical_directions %}
+            <section id="direction_{{ direction.id }}" class="section mb-5">
+                <h2>{{ direction.name }}</h2>
+
+                {% for service in direction.services.all %}
+                <div class="card mb-3" id="service_{{ service.id }}">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ service.name }}</h4>
+                        <p><strong>Описание:</strong> {{ service.description }}</p>
+                        <p><strong>Цена:</strong> {{ service.price }} руб.</p>
+
+                        <h5>Отзывы</h5>
+                        <!--         Отзывы             -->
+                        <a href="#">
+                            Посмотреть отзывы
+                        </a>
+
+                        {% if user.is_authenticated %}
+                        <a href="/appointment/" class="btn btn-primary position-absolute bottom-0 end-0 m-3">
+                            Записаться на приём
+                        </a>
+                        {% endif %}
+
+                    </div>
+                </div>
+                {% empty %}
+                <p>Нет услуг для этого направления.</p>
+                {% endfor %}
+            </section>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

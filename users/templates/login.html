@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% load my_tags %}
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+
+<section class="section" id="auth">
+    <h2 class="text-center mb-4">Вход</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" formmethod="post" class="btn btn-primary">Войти</button>
+    </form>
+</section>
+
+{% endblock %}
