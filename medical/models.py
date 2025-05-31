@@ -121,13 +121,14 @@ class Information(models.Model):
     """
     text_from_the_main_page = models.TextField(null=True, blank=True,
                                                verbose_name="Информация с главной страницы")
-    image_the_main_page = models.ImageField(upload_to="medical/", blank=True, null=True, verbose_name="Фото с главной страницы")
+    image_the_main_page = models.ImageField(upload_to="medical/", blank=True, null=True,
+                                            verbose_name="Фото с главной страницы")
     company_history = models.TextField(null=True, blank=True,
                                        verbose_name="История компании со страницы \"О компании\"")
     mission = models.CharField(max_length=100, null=True, blank=True, verbose_name="Миссия со страницы \"О компании\"")
     purposes = models.CharField(max_length=100, null=True, blank=True, verbose_name="Цели со страницы \"О компании\"")
     image_from_the_company = models.ImageField(upload_to="medical/", blank=True, null=True,
-                                            verbose_name="Фото со страницы \"О компании\"")
+                                               verbose_name="Фото со страницы \"О компании\"")
     phone = models.CharField(max_length=11, verbose_name="Номер телефона")
     email = models.EmailField(unique=True, verbose_name="Email")
     address = models.CharField(max_length=255, verbose_name="Адрес центральной клиники", null=True, blank=True)
@@ -163,7 +164,7 @@ class AddressHospital(models.Model):
                                     help_text='Например, г. Москва, ул. Примерная, д. 10')
     reception_phone = models.CharField(max_length=11, null=True, blank=True, verbose_name="Номер телефона", )
     latitude = models.FloatField(verbose_name='Широта', null=True, blank=True, )
-    longitude = models.FloatField(verbose_name='Долгота', null=True, blank=True,)
+    longitude = models.FloatField(verbose_name='Долгота', null=True, blank=True, )
 
     def save(self, *args, **kwargs):
         if not self.latitude or not self.longitude:

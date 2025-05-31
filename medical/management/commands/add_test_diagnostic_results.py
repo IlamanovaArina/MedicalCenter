@@ -1,8 +1,7 @@
 from django.core.management import BaseCommand
 
-from medical.models import Services, DiagnosticResults, Appointment
+from medical.models import DiagnosticResults, Appointment
 from users.models import User
-
 
 
 class Command(BaseCommand):

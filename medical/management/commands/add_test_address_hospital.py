@@ -1,7 +1,4 @@
-import os
-from django.core.files import File
 from django.core.management import BaseCommand
-
 from medical.models import AddressHospital
 
 

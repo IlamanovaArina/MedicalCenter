@@ -3,6 +3,7 @@ from django.core.files import File
 from django.core.management import BaseCommand
 from medical.models import Information
 
+
 class Command(BaseCommand):
     help = "Добавить или обновить тестовые данные в Information"
 
@@ -12,7 +13,7 @@ class Command(BaseCommand):
 
         # Открываем файлы
         with open(os.path.join('static', 'images', 'doctors.webp'), 'rb') as f1, \
-             open(os.path.join('static', 'images', 'hospital.avif'), 'rb') as f2:
+                open(os.path.join('static', 'images', 'hospital.avif'), 'rb') as f2:
             image_the_main_page = File(f1)
             image_from_the_company = File(f2)
 

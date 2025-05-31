@@ -1,8 +1,6 @@
-import os
-from django.core.files import File
 from django.core.management import BaseCommand
 
-from medical.models import Doctors, MedicalDirection, CompanyValues
+from medical.models import CompanyValues
 
 
 class Command(BaseCommand):

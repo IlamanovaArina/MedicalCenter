@@ -5,8 +5,8 @@ from django.utils import timezone
 
 class User(AbstractUser):
     username = None
-    first_name = models.CharField(max_length=50, verbose_name="Имя",  blank=True, null=True,)
-    last_name = models.CharField(max_length=50, verbose_name="Фамилия",  blank=True, null=True,)
+    first_name = models.CharField(max_length=50, verbose_name="Имя", blank=True, null=True)
+    last_name = models.CharField(max_length=50, verbose_name="Фамилия", blank=True, null=True)
     patronymic = models.CharField(max_length=50, blank=True, null=True, verbose_name="Отчество")
     email = models.EmailField(unique=True, verbose_name="Email")
     avatar = models.ImageField(upload_to="users/", blank=True, null=True, verbose_name="Фотография")

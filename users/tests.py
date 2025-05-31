@@ -5,6 +5,7 @@ from django.urls import reverse
 
 User = get_user_model()
 
+
 class UserModelTest(TestCase):
 
     def setUp(self):
@@ -65,6 +66,7 @@ class RegisterViewTest(TestCase):
         response = self.client.post(self.register_url, data)
         self.assertEqual(response.status_code, 302)
         self.assertTrue(User.objects.filter(email='newuser@example.com').exists())
+
 
 class ProfileUpdateViewTest(TestCase):
 

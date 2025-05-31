@@ -1,9 +1,7 @@
 from django.core.management import BaseCommand
 
-from medical.models import Appointment, AddressHospital, Doctors, Services, Reviews
+from medical.models import Services, Reviews
 from users.models import User
-from datetime import timedelta
-from django.utils import timezone
 
 
 class Command(BaseCommand):

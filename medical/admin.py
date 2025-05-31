@@ -1,4 +1,5 @@
-from .models import *
+from .models import MedicalDirection, Reviews, Doctors, Services, Information, CompanyValues, Appointment, \
+    DiagnosticResults, TestResult, Feedback
 
 from django.contrib import admin
 from .models import AddressHospital
@@ -28,7 +29,7 @@ class AddressHospitalAdmin(admin.ModelAdmin):
 
 # Направление в медицине
 @admin.register(MedicalDirection)
-class ReviewsAdmin(admin.ModelAdmin):
+class MedicalDirectionAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "description",)
     list_filter = ("name",)
     search_fields = ("name",)
@@ -70,8 +71,8 @@ class InformationAdmin(admin.ModelAdmin):
 
 # Ценности
 @admin.register(CompanyValues)
-class  CompanyValuesAdmin(admin.ModelAdmin):
-    list_display = ("name", "description", )
+class CompanyValuesAdmin(admin.ModelAdmin):
+    list_display = ("name", "description")
 
 
 # Запись на приём
@@ -92,7 +93,7 @@ class DiagnosticResultsAdmin(admin.ModelAdmin):
 
 # Медицинские тесты. Результаты
 @admin.register(TestResult)
-class DiagnosticResultsAdmin(admin.ModelAdmin):
+class TestResultAdmin(admin.ModelAdmin):
     list_display = ("id", "diagnostic_result", "name", "value", "norm", "comment",)
     list_filter = ("name",)
     search_fields = ("name",)
@@ -100,5 +101,5 @@ class DiagnosticResultsAdmin(admin.ModelAdmin):
 
 # Обратная связь
 @admin.register(Feedback)
-class  CompanyValuesAdmin(admin.ModelAdmin):
+class FeedbackAdmin(admin.ModelAdmin):
     list_display = ("subject", "feedback", "user", "created_at",)

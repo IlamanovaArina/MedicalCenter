@@ -4,6 +4,7 @@ import requests
 
 API_KEY_YANDEX = os.getenv("API_KEY_YANDEX")
 
+
 def get_coordinates(address):
     """ Функция получает адрес, делает запрос на yandex.ru и возвращает широту и долготу """
     api_key = API_KEY_YANDEX

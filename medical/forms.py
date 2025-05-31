@@ -66,7 +66,6 @@ class AppointmentForm(forms.ModelForm):
         )
 
 
-
 # Обратная связь
 class FeedbackForm(forms.ModelForm):
     """ Форма для обратной связи """

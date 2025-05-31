@@ -6,7 +6,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -18,8 +17,11 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=255, verbose_name='Название адреса')),
-                ('address_line', models.CharField(help_text='Например, г. Москва, ул. Примерная, д. 10', max_length=255, verbose_name='Адрес')),
-                ('reception_phone', models.CharField(blank=True, max_length=11, null=True, verbose_name='Номер телефона')),
+                ('address_line', models.CharField(help_text='Например, г. Москва, ул. Примерная, д. 10',
+                                                  max_length=255,
+                                                  verbose_name='Адрес')),
+                ('reception_phone',
+                 models.CharField(blank=True, max_length=11, null=True, verbose_name='Номер телефона')),
                 ('latitude', models.FloatField(blank=True, null=True, verbose_name='Широта')),
                 ('longitude', models.FloatField(blank=True, null=True, verbose_name='Долгота')),
             ],
@@ -56,7 +58,8 @@ class Migration(migrations.Migration):
                 ('last_name', models.CharField(blank=True, max_length=255, null=True, verbose_name='Фамилия')),
                 ('patronymic', models.CharField(blank=True, max_length=50, null=True, verbose_name='Отчество')),
                 ('avatar', models.ImageField(blank=True, null=True, upload_to='medical/', verbose_name='Фотография')),
-                ('specialization', models.CharField(blank=True, max_length=255, null=True, verbose_name='Специальность')),
+                ('specialization',
+                 models.CharField(blank=True, max_length=255, null=True, verbose_name='Специальность')),
                 ('experience', models.CharField(blank=True, max_length=255, null=True, verbose_name='Стаж работы')),
             ],
             options={
@@ -70,7 +73,8 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('subject', models.CharField(max_length=100, verbose_name='Тема обращения')),
                 ('feedback', models.CharField(max_length=500, verbose_name='Сообщение')),
-                ('created_at', models.DateTimeField(default=django.utils.timezone.now, help_text='Дата и время создания')),
+                ('created_at',
+                 models.DateTimeField(default=django.utils.timezone.now, help_text='Дата и время создания')),
             ],
             options={
                 'verbose_name': 'Сообщение',
@@ -81,15 +85,24 @@ class Migration(migrations.Migration):
             name='Information',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('text_from_the_main_page', models.CharField(blank=True, max_length=500, null=True, verbose_name='Информация с главной страницы')),
-                ('image_the_main_page', models.ImageField(blank=True, null=True, upload_to='medical/', verbose_name='Фото с главной страницы')),
-                ('company_history', models.CharField(blank=True, max_length=500, null=True, verbose_name='История компании со страницы "О компании"')),
-                ('mission', models.CharField(blank=True, max_length=100, null=True, verbose_name='Миссия со страницы "О компании"')),
-                ('purposes', models.CharField(blank=True, max_length=100, null=True, verbose_name='Цели со страницы "О компании"')),
-                ('image_from_the_company', models.ImageField(blank=True, null=True, upload_to='medical/', verbose_name='Фото со страницы "О компании"')),
+                ('text_from_the_main_page',
+                 models.CharField(blank=True, max_length=500, null=True,
+                                  verbose_name='Информация с главной страницы')),
+                ('image_the_main_page', models.ImageField(blank=True, null=True, upload_to='medical/',
+                                                          verbose_name='Фото с главной страницы')),
+                ('company_history', models.CharField(blank=True, max_length=500, null=True,
+                                                     verbose_name='История компании со страницы "О компании"')),
+                ('mission', models.CharField(blank=True, max_length=100, null=True,
+                                             verbose_name='Миссия со страницы "О компании"')),
+                ('purposes',
+                 models.CharField(blank=True, max_length=100, null=True,
+                                  verbose_name='Цели со страницы "О компании"')),
+                ('image_from_the_company', models.ImageField(blank=True, null=True, upload_to='medical/',
+                                                             verbose_name='Фото со страницы "О компании"')),
                 ('phone', models.CharField(max_length=11, verbose_name='Номер телефона')),
                 ('email', models.EmailField(max_length=254, unique=True, verbose_name='Email')),
-                ('address', models.CharField(blank=True, max_length=255, null=True, verbose_name='Адрес центральной клиники')),
+                ('address',
+                 models.CharField(blank=True, max_length=255, null=True, verbose_name='Адрес центральной клиники')),
             ],
             options={
                 'verbose_name': 'Информация',
@@ -113,7 +126,10 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('text', models.TextField(blank=True, max_length=500, null=True, verbose_name='Отзыв')),
-                ('rate', models.CharField(choices=[('5', 'Все отлично!'), ('4', 'Все хорошо.'), ('3', 'Есть замечания'), ('2', 'Не устроило'), ('1', 'Категорически не устроило')], max_length=100, verbose_name='Количество звезд')),
+                ('rate', models.CharField(
+                    choices=[('5', 'Все отлично!'), ('4', 'Все хорошо.'), ('3', 'Есть замечания'),
+                             ('2', 'Не устроило'),
+                             ('1', 'Категорически не устроило')], max_length=100, verbose_name='Количество звезд')),
             ],
             options={
                 'verbose_name': 'Отзыв',
@@ -147,10 +163,12 @@ class Migration(migrations.Migration):
             name='Appointment',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('status', models.CharField(choices=[('pending', 'В ожидании'), ('completed', 'Услуга оказана')], default='pending', max_length=50, verbose_name='Статус')),
+                ('status', models.CharField(choices=[('pending', 'В ожидании'), ('completed', 'Услуга оказана')],
+                                            default='pending', max_length=50, verbose_name='Статус')),
                 ('appointment_date', models.DateTimeField(verbose_name='Дата приёма')),
                 ('is_active', models.BooleanField(default=True, verbose_name='Статус записи')),
-                ('address', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='medical.addresshospital', verbose_name='Адрес клиники')),
+                ('address', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL,
+                                              to='medical.addresshospital', verbose_name='Адрес клиники')),
             ],
             options={
                 'verbose_name': 'Запись',

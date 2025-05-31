@@ -1,144 +1,185 @@
-/* Фон с изображением / body { background-image: url('https://i.pinimg.com/originals/b5/36/6e/b5366e76dd1d77389dc35e5dc3a6e238.jpg'); background-size: cover; background-position: center; background-attachment: fixed; / закрепление фона / min-height: 100vh; } .custom-navbar { background-color: rgba(255, 255, 255, 0.5); } .profile-img { width: 40px; height: 40px; object-fit: cover; border-radius: 50%; } .section { padding: 60px 20px; background-color: #fff; margin-bottom: 30px; border-radius: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); } h2 { font-weight: 700; margin-bottom: 30px; position: relative; display: inline-block; } h2::after { content: ""; display: block; width: 60px; height: 3px; background-color: #007bff; margin-top: 8px; border-radius: 2px; } / Фото команды */
-.team-member {
-    transition: transform 0.3s, box-shadow 0.3s;
-    height: 300px; overflow: hidden; }
-.team-member:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 12px 24px rgba(0,0,0,0.2); }
-
-.team-img {
-    width: 100%;
-    height: auto;
-    border-radius: 15px;
-    object-fit: cover;
-    object-position: center;
+/* Фон с изображением */
+        тело {
+          url: background-image('https://i.pinimg.com/originals/b5/36/6e/b5366e76dd1d77389dc35e5dc3a6e238.jpg');
+          :размер фона обложка;
+          :расположение фона по центру;
+          :прикрепление фона фиксированное; /* закрепление фона */
+          100vh :минимальная высота;
+        }
+ .панель пользовательского интерфейса {
+          rgba: цвет фона(255, 255, 255, 0,5);
+        }
+ .профиль-img {
+          40пикселей :ширина;
+          40пикселей :высота;
+          :подгонка под объект обложка;
+          50% :радиус границы;
+        }
+ .раздел {
+      20px 60px :отступы;
+      #fff :цвет фона;
+      30px :отступ снизу;
+      15пикселей :радиус границы;
+      rgba20 px 8px 0: box-shadow(0,0,0,0.1);
     }
-.team-img {
-    width: 100%; /* чтобы изображение занимало всю ширину контейнера */
-    height: 100px; /* фиксированная высота, подберите по необходимости */
+    h2 {
+      700: нагрузка на шрифт;
+      30px :отступ снизу;
+      :положение относительно;
+      :отображение в виде встроенного блока;
+    }
+    h2::после {
+      "": содержимое;
+      :отображения;
+      60пикселей :ширина;
+      3пикселя :высота;
+      #007bff :цвет фона;
+      8пикселей :верхний отступ;
+      2пикселя :радиус границы;
+    }
+    /* Фото команды */
+ .член команды {
+      :переход преобразования 0,3с, тени 0,3с;
+    }
+ участник команды:при наведении курсора {
+      translateY: transform(-10px);
+      rgba24 px 12px 0: box-shadow(0,0,0,0.2);
     }
 
-/* Адаптивные карточки команды */
-@media(max-width: 768px) {
-    .team-grid {
-       flex-direction: column;
+ .команда-img {
+      100% :ширина;
+      :высота;
+      15пикселей :радиус границы;
+      :подгонка под объект обложка;
+      :позиция объекта в центре;
+    }
+ .команда-img {
+      100% :ширина; /* чтобы изображение занимало всю ширину контейнера */
+      100px :высота; /* фиксированная высота, подберите по необходимости */
+
+    }
+
+    /* Адаптивные карточки команды */
+    @media(максимальная ширина: 768пикселей) {
+ .командная сетка {
+        :гибкая колонка с направлением столбца;
       }
     }
-/* Стиль для карточек услуг */
-.service-card {
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-.service-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 12px 24px rgba(0,0,0,0.2);
-}
-/* Адаптивные карточки команды */
-@media(max-width: 768px) {
-  .team-grid {
-    flex-direction: column;
-  }
-}
-    /* Карточки услуги */
-.service-card {
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-.service-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 12px 24px rgba(0,0,0,0.2);
-}
-/* Цены */
-.price {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #007bff;
-}
-/* Адаптивность */
-@media(max-width: 768px) {
-  .cards-row {
-    flex-direction: column;
-  }
-}
-    /* Карта */
-.map-container {
-  height: 400px;
-  width: 100%;
-  border-radius: 15px;
-  overflow: hidden;
-}
-/* Адаптивность для карты */
-@media(max-width: 768px) {
-  .map-container {
-    height: 300px;
-  }
-}
-    /* Карточки для истории и результатов */
-.record-card {
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-.record-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 24px rgba(0,0,0,0.2);
-}
-/* Адаптивность */
-@media(max-width: 768px) {
-  .records-grid {
-    flex-direction: column;
-  }
-}
-        .service-link {
-    display: block; /* чтобы ссылка занимала всю площадь карточки */
-    text-decoration: none; /* убираем подчёркивание */
-    color: inherit; /* наследуем цвет текста */
-}
-.service-link:hover {
-    text-decoration: none; /* при наведении тоже убираем подчёркивание */
-}
-    /* Карточки оборудования и врачей */
-.card-hover:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 12px 24px rgba(0,0,0,0.2);
-}
-/* Отзывы */
-.review {
-  background-color: #f1f1f1;
-  padding: 20px;
-  border-radius: 15px;
-  margin-bottom: 20px;
-}
-/* Предложения */
-.offer {
-  background-color: #e0f7fa;
-  padding: 20px;
-  border-radius: 15px;
-  margin-bottom: 20px;
-}
-/* Адаптивность */
-@media(max-width: 768px) {
-  .header-section h1 {
-    font-size: 2rem;
-  }
-}
-     /* Стиль для бокового меню */
-#service-list {
-  position: sticky;
-  top: 20px;
-}
-/* Стили для разделов услуги */
-.service-section {
-  padding: 50px 20px;
-  background-color: #fff;
-  margin-bottom: 30px;
-  border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
-/* Плавное прокручивание */
-html {
-  scroll-behavior: smooth;
-}
-/* Адаптивность для меню */
-@media(max-width: 768px) {
-  #service-list {
-    position: static;
-    margin-bottom: 20px;
-  }
-}
+    /* Стиль для карточек услуг */
+ .сервисная карта {
+      :переход преобразования 0,3с, тени 0,3с;
+    }
+ карточка услуги:при наведении {
+      translateY: transform(-10px);
+      rgba24 px 12px 0: box-shadow(0,0,0,0.2);
+    }
+    /* Адаптивные карточки команды */
+    @media(максимальная ширина: 768пикселей) {
+ .командная сетка {
+        :гибкая колонка с направлением столбца;
+      }
+    }
+        /* Карточки услуги */
+ .сервисная карта {
+      :переход преобразования 0,3с, тени 0,3с;
+    }
+ карточка услуги:при наведении {
+      translateY: transform(-10px);
+      rgba24 px 12px 0: box-shadow(0,0,0,0.2);
+    }
+    /* Цены */
+ .цена {
+      1,5rem :размер шрифта;
+      700: нагрузка на шрифт;
+      #007bff :цвет;
+    }
+    /* Адаптивность */
+    @media(максимальная ширина: 768пикселей) {
+ .карты-ряд {
+        :гибкая колонка с направлением столбца;
+      }
+    }
+        /* Карта */
+ .карта-контейнер {
+      400пикселей :высота;
+      100% :ширина;
+      15пикселей :радиус границы;
+      : скрытопереполнение;
+    }
+    /* Адаптивность для карты */
+    @media(максимальная ширина: 768пикселей) {
+ .карта-контейнер {
+        300пикселей :высота;
+      }
+    }
+        /* Карточки для истории и результатов */
+ .зачетная книжка {
+      :переход преобразования 0,3с, тени 0,3с;
+    }
+ записная книжка:при наведении курсора {
+      translateY: transform(-5px);
+      rgba24 px 12px 0: box-shadow(0,0,0,0.2);
+    }
+    /* Адаптивность */
+    @media(максимальная ширина: 768пикселей) {
+ .таблица записей {
+        :гибкая колонка с направлением столбца;
+      }
+    }
+ .ссылка на сервис {
+        :отображение блока; /* чтобы ссылка занимала всю площадь карточки */
+        :text-decoration none; /* убираем подчёркивание */
+        :цвет наследуется; /* наследуем цвет текста */
+    }
+ ссылка на сервис:при наведении {
+        :text-decoration none; /* при наведении тоже убираем подчёркивание */
+    }
+        /* Карточки оборудования и врачей */
+ .наведение курсора на карту:наведение курсора {
+      translateY: transform(-10px);
+      rgba24 px 12px 0: box-shadow(0,0,0,0.2);
+    }
+    /* Отзывы */
+ .обзор {
+      #f1f1f1 :цвет фона;
+      20пикселей :отступ;
+      15пикселей :радиус границы;
+      20px :отступ снизу;
+    }
+    /* Предложения */
+ .предложение {
+      #e0f7fa :цвет фона;
+      20пикселей :отступ;
+      15пикселей :радиус границы;
+      20px :отступ снизу;
+    }
+    /* Адаптивность */
+    @media(максимальная ширина: 768пикселей) {
+ заголовок раздела h1 {
+        2rem :размер шрифта;
+      }
+    }
+         /* Стиль для бокового меню */
+    список услуг# {
+      :положение липкое;
+      20пикселей :вверх;
+    }
+    /* Стили для разделов услуги */
+ .раздел обслуживания {
+      20px 50px :отступы;
+      #fff :цвет фона;
+      30px :отступ снизу;
+      15пикселей :радиус границы;
+      rgba15 px 4px 0: box-shadow(0,0,0,0.1);
+    }
+    /* Плавное прокручивание */
+    html {
+      :поведение при прокрутке плавное;
+    }
+    /* Адаптивность для меню */
+    @media(максимальная ширина: 768пикселей) {
+      список услуг# {
+        :положение статическое;
+        20px :отступ снизу;
+      }
+    }
