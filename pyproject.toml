@@ -18,6 +18,8 @@ requests = "^2.32.3"
 flake8 = "^7.2.0"
 isort = "^6.0.1"
 gunicorn = "^23.0.0"
+coverage = "^7.8.2"
+pytest = "^8.3.5"
 
 
 [build-system]

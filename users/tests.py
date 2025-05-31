@@ -73,8 +73,11 @@ class ProfileUpdateViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.create(
             email='test2@example.com',
-            password='Password123!'
+            first_name='Иван',
+            last_name='Иванов',
         )
+        self.user.set_password('Password123!')
+        self.user.save()
         self.client.login(email='test2@example.com', password='Password123!')
         self.update_url = reverse('users:profile_update', kwargs={'pk': self.user.pk})
 
@@ -85,14 +88,25 @@ class ProfileUpdateViewTest(TestCase):
 
     def test_post_update_profile(self):
         data = {
-            'first_name': '',
-            'last_name': '',
+            'first_name': 'Петр',
+            'last_name': 'Петров',
             'email': self.user.email,
-            'phone': self.user.phone or '',
-            'city': self.user.city or '',
-            'country': self.user.country or '',
-            'patronymic': self.user.patronymic or '',
-            # добавьте остальные поля формы, если есть
+            'phone': '89991234567',
+            'city': 'Москва',
+            'country': 'Россия',
+            'patronymic': 'Иванович',
         }
         response = self.client.post(self.update_url, data)
-        self.assertEqual(response.status_code, 200)
+        # Предположим, что после обновления происходит редирект на страницу профиля
+        # profile_url = reverse('medical:profile', kwargs={'pk': self.user.pk})
+        # self.assertRedirects(response, profile_url)
+
+        # Проверяем, что данные обновились
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.first_name, 'Петр')
+        self.assertEqual(self.user.last_name, 'Петров')
+        self.assertEqual(self.user.phone, '89991234567')
+        self.assertEqual(self.user.city, 'Москва')
+        self.assertEqual(self.user.country, 'Россия')
+        self.assertEqual(self.user.patronymic, 'Иванович')
+
