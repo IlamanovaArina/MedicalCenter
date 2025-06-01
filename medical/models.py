@@ -8,6 +8,20 @@ from medical.utils import get_coordinates
 
 # Направление в медицине
 class MedicalDirection(models.Model):
+    """
+    Модель для хранения информации о медицинских направлениях.
+
+    Атрибуты:
+        - name (CharField): Название направления, например, кардиология, неврология.
+        - description (CharField): Описание направления, более подробная информация.
+
+    Метаданные:
+        - verbose_name: "Направление в медицине"
+        - verbose_name_plural: "Направления в медицине"
+
+    Методы:
+        - __str__: возвращает название направления для удобства отображения.
+        """
     name = models.CharField(max_length=100, verbose_name="Направление")
     description = models.CharField(max_length=500, verbose_name="Описание направления")
 
@@ -24,11 +38,22 @@ class Doctors(models.Model):
     """
     Модель для хранения информации о врачах.
 
-    Attributes:
-        first_name (str): Имя врача.
-        last_name (str): Фамилия врача.
-        specialization (str): Специальность врача.
-        experience (str): Стаж работы врача.
+    Атрибуты:
+        - first_name (CharField): Имя врача.
+        - last_name (CharField): Фамилия врача.
+        - patronymic (CharField): Отчество врача, необязательное.
+        - medical_direction (ForeignKey): Связь с моделью MedicalDirection, указывающая специализацию врача.
+        - avatar (ImageField): Фото врача, необязательное.
+        - specialization (CharField): Специальность врача, например, терапевт, хирург.
+        - experience (CharField): Стаж работы врача.
+        - user (ForeignKey): Связь с пользователем, создавшим запись, необязательное.
+
+    Метаданные:
+        - verbose_name: "Доктор"
+        - verbose_name_plural: "Доктора"
+
+    Методы:
+        - __str__: возвращает полное имя врача, учитывая отчество, для удобства отображения.
     """
 
     first_name = models.CharField(max_length=255, verbose_name="Имя", blank=True, null=True)
@@ -56,6 +81,20 @@ class Doctors(models.Model):
 class Services(models.Model):
     """
     Модель для хранения информации о медицинских услугах.
+
+    Атрибуты:
+        - name (CharField): Название услуги.
+        - medical_direction (ForeignKey): Связь с моделью MedicalDirection, указывающая направление услуги.
+        - description (CharField): Описание услуги.
+        - price (IntegerField): Цена услуги, необязательное.
+        - user (ForeignKey): Связь с пользователем, создавшим услугу, необязательное.
+
+    Метаданные:
+        - verbose_name: "Услуга"
+        - verbose_name_plural: "Услуги"
+
+    Методы:
+        - __str__: возвращает название услуги для удобства отображения.
     """
 
     name = models.CharField(max_length=500, verbose_name="Название услуги")
@@ -76,13 +115,21 @@ class Services(models.Model):
 # Отзывы
 class Reviews(models.Model):
     """
-    Модель для хранения отзывов о врачах.
+    Модель для хранения отзывов о врачах и услугах клиники.
 
-    Attributes:
-        DOCTOR_RATE (list[tuple[str, str]]): Список возможных оценок и их описаний.
-        text (str): Текст отзыва, может быть пустым.
-        rate (str): Оценка врача в виде звезд, выбирается из DOCTOR_RATE.
-        user (ForeignKey): Пользователь, оставивший отзыв.
+    Атрибуты:
+        - text (CharField): Текст отзыва, необязательное.
+        - rate (CharField): Оценка в виде количества звезд, выбирается из предопределенного списка.
+        - doctors (ForeignKey): Связь с моделью Doctors, указывающая на врача, о котором оставлен отзыв.
+        - services (ForeignKey): Связь с моделью Services, указывающая на услугу, о которой оставлен отзыв.
+        - user (ForeignKey): Связь с пользователем, оставившим отзыв.
+
+    Метаданные:
+        - verbose_name: "Отзыв"
+        - verbose_name_plural: "Отзывы"
+
+    Методы:
+        - __str__: возвращает текст отзыва для отображения.
     """
 
     DOCTOR_RATE: list[tuple[str, str]] = [
@@ -113,11 +160,22 @@ class Reviews(models.Model):
 # Информация
 class Information(models.Model):
     """
-    Модель для хранения контактной информации клиники.
+    Модель для хранения контактной и общей информации о клинике.
 
-    Attributes:
-        phone (str): Номер телефона клиники.
-        address (str): Адрес клиники.
+    Атрибуты:
+        - text_from_the_main_page (TextField): Информация, отображаемая на главной странице.
+        - image_the_main_page (ImageField): Фото для главной страницы.
+        - company_history (TextField): История компании, раздел "О компании".
+        - mission (CharField): Миссия компании.
+        - purposes (CharField): Цели компании.
+        - image_from_the_company (ImageField): Фото из раздела "О компании".
+        - phone (CharField): Контактный телефон.
+        - email (EmailField): Контактный email.
+        - address (CharField): Адрес центральной клиники.
+        - user (ForeignKey): Пользователь, создавший запись.
+
+    Методы:
+        - get_solo: класс-метод для получения или создания единственной записи.
     """
     text_from_the_main_page = models.TextField(null=True, blank=True,
                                                verbose_name="Информация с главной страницы")
@@ -148,7 +206,17 @@ class Information(models.Model):
 
 # Ценности (информация со страницы)
 class CompanyValues(models.Model):
-    """ Ценности компании (информация со страницы) """
+    """
+    Модель для хранения ценностей компании (информация со страницы).
+
+    Атрибуты:
+        - name (CharField): Название ценности.
+        - description (CharField): Описание ценности.
+
+    Метаданные:
+        - verbose_name: "Ценность"
+        - verbose_name_plural: "Ценности"
+    """
     name = models.CharField(max_length=50, verbose_name="Название Ценности")
     description = models.CharField(max_length=100, verbose_name="Описание Ценности")
 
@@ -159,6 +227,20 @@ class CompanyValues(models.Model):
 
 # Адрес клиники
 class AddressHospital(models.Model):
+    """
+     Модель для хранения информации об адресах клиники.
+
+    Атрибуты:
+        - name (CharField): Название адреса.
+        - address_line (CharField): Полный адрес, например, "г. Москва, ул. Примерная, д. 10".
+        - reception_phone (CharField): Номер телефона для приема, необязательное.
+        - latitude (FloatField): Широта, вычисляется автоматически при сохранении, если не указана.
+        - longitude (FloatField): Долгота, вычисляется автоматически при сохранении, если не указана.
+
+    Методы:
+        - save: переопределен для автоматического получения координат по адресу.
+        - __str__: возвращает строковое представление в виде "Название, Адрес".
+    """
     name = models.CharField(max_length=255, verbose_name='Название адреса')
     address_line = models.CharField(max_length=255, verbose_name='Адрес',
                                     help_text='Например, г. Москва, ул. Примерная, д. 10')
@@ -183,13 +265,21 @@ class Appointment(models.Model):
     """
     Модель для хранения записей пациентов на прием к врачам.
 
-    Attributes:
-        ADDRESS_CLINIC (list[tuple[str, str]]): Список адресов клиник, доступных для записи.
-        address (str): Адрес клиники, выбирается из ADDRES_CLINIC.
-        doctor (ForeignKey): Связь с моделью Doctors, указывающая на врача, к которому записан пациент.
-        user (str): Имя пациента.
-        appointment_date (datetime): Дата и время записи на прием.
-        services (ForeignKey): Связь с моделью Services, указывающая на услуги, которые будут предоставлены.
+    Атрибуты:
+        - status (CharField): Статус записи, например, "в ожидании" или "услуга оказана".
+        - address (ForeignKey): Связь с моделью AddressHospital, указывающая на адрес клиники.
+        - doctor (ForeignKey): Связь с моделью Doctors, указывающая на врача, к которому записан пациент.
+        - services (ForeignKey): Связь с моделью Services, указывающая на услугу, которую планируют предоставить.
+        - appointment_date (DateTimeField): Дата и время приема.
+        - is_active (BooleanField): Статус активности записи.
+        - user (ForeignKey): Связь с пользователем (пациентом), сделавшим запись.
+
+    Метаданные:
+        - verbose_name: "Запись"
+        - verbose_name_plural: "Записи"
+
+    Методы:
+        - __str__: возвращает строковое представление записи, включающее адрес, врача или услугу, пациента и дату.
     """
     status = models.CharField(
         max_length=50,
@@ -225,9 +315,18 @@ class DiagnosticResults(models.Model):
     """
     Модель для хранения результатов диагностики, связанных с записями пациентов.
 
-    Attributes:
-        appointment (ForeignKey): Связь с моделью Record, указывающая на запись, к которой относятся результаты.
-        results (str): Результаты диагностики, могут быть пустыми.
+    Атрибуты:
+        - appointment (ForeignKey): Связь с моделью Appointment, указывающая на конкретную запись.
+        - recommendations (TextField): Рекомендации по результатам диагностики.
+        - user (ForeignKey): Пользователь, создавший запись.
+        - general_comments (TextField): Общие комментарии по результатам.
+
+    Метаданные:
+        - verbose_name: "Результат диагностики"
+        - verbose_name_plural: "Результаты диагностики"
+
+    Методы:
+        - __str__: возвращает строковое представление, обычно — строку записи.
     """
 
     appointment = models.ForeignKey(Appointment, max_length=255, verbose_name="Запись",
@@ -247,7 +346,16 @@ class DiagnosticResults(models.Model):
 
 # Медицинские тесты. Результаты
 class TestResult(models.Model):
-    """  """
+    """
+    Модель для хранения результатов медицинских тестов, связанных с диагностическими результатами.
+
+    Атрибуты:
+        - diagnostic_result (ForeignKey): Связь с моделью DiagnosticResults.
+        - name (CharField): Название теста.
+        - value (CharField): Значение теста.
+        - norm (CharField): Нормативное значение.
+        - comment (TextField): Комментарии по результатам теста.
+    """
     diagnostic_result = models.ForeignKey(DiagnosticResults, related_name='tests', on_delete=models.CASCADE)
     name = models.CharField(max_length=255, null=True, blank=True, verbose_name="Название")
     value = models.CharField(max_length=255, null=True, blank=True, verbose_name="Значение")
@@ -257,6 +365,19 @@ class TestResult(models.Model):
 
 # Обратная связь
 class Feedback(models.Model):
+    """
+    Модель для хранения обратной связи и сообщений от пользователей.
+
+    Атрибуты:
+        - subject (CharField): Тема обращения.
+        - feedback (CharField): Текст сообщения.
+        - user (ForeignKey): Связь с пользователем, оставившим сообщение.
+        - created_at (DateTimeField): Дата и время создания сообщения.
+
+    Метаданные:
+        - verbose_name: "Сообщение"
+        - verbose_name_plural: "Сообщения"
+    """
     subject = models.CharField(max_length=100, verbose_name="Тема обращения")
     feedback = models.CharField(max_length=500, verbose_name="Сообщение")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,

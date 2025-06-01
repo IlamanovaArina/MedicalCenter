@@ -12,6 +12,19 @@ from users.models import User
 
 
 class RegisterView(CreateView):
+    """
+     Представление для регистрации нового пользователя.
+
+    Атрибуты:
+        - model (User): модель пользователя.
+        - form_class (UserRegisterForm): форма для регистрации.
+        - template_name (str): шаблон для отображения формы регистрации.
+        - success_url (URL): URL для перенаправления после успешной регистрации.
+
+    Методы:
+        - form_valid: при успешной отправке формы сохраняет пользователя, авторизует его и отправляет приветственное письмо.
+        - send_welcome_email: отправляет письмо с подтверждением регистрации. В случае ошибок возвращает URL страницы ошибки.
+    """
     model = User
     form_class = UserRegisterForm
     template_name = 'register.html'
@@ -39,6 +52,18 @@ class RegisterView(CreateView):
 
 
 class ProfileUpdateView(UpdateView):
+    """
+    Представление для обновления профиля пользователя.
+
+    Атрибуты:
+        - model (User): модель пользователя.
+        - template_name (str): шаблон для формы обновления профиля.
+        - form_class (UserUpdateForm): форма для редактирования профиля.
+        - success_url (URL): URL для перенаправления после успешного обновления.
+
+    Методы:
+        - form_valid: сохраняет изменения, обновляя поле `updated_at` вручную.
+    """
     model = User
     template_name = "update_profile.html"
     form_class = UserUpdateForm

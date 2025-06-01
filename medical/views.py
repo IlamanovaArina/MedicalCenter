@@ -6,7 +6,17 @@ from medical.models import DiagnosticResults, Doctors, Information, Appointment,
 
 
 class DoctorsListView(ListView):
-    """  """
+    """
+        Представление для отображения списка врачей.
+
+    Контекст:
+        - doctors (list): список всех врачей, разбитый на группы по 3 для отображения.
+        - company_values (QuerySet): все ценности компании, полученные из модели CompanyValues.
+        - grouped_doctors (list): список списков врачей, сгруппированных по 3 для удобства отображения.
+
+    Шаблон:
+        - "about_the_company.html"
+    """
     model = Doctors
     template_name = "about_the_company.html"
     context_object_name = "doctors"
@@ -23,7 +33,17 @@ class DoctorsListView(ListView):
 
 
 class ServicesListView(ListView):
-    """  """
+    """
+    Представление для отображения списка медицинских услуг.
+
+    Контекст:
+        - services (QuerySet): все услуги.
+        - medical_directions (QuerySet): все направления в медицине с предзагрузкой связанных услуг.
+        - reviews (QuerySet): все отзывы.
+
+    Шаблон:
+        - "services.html"
+    """
     model = Services
     template_name = "services.html"
     context_object_name = "services"
@@ -36,13 +56,39 @@ class ServicesListView(ListView):
 
 
 class InformationListView(ListView):
-    """  """
+    """
+        Представление для создания новых результатов диагностики.
+
+    Контекст:
+        - формы: форма для заполнения результатов диагностики.
+        - при авторизации отображаются текущие записи и результаты пользователя.
+
+    Шаблон:
+        - "profile.html"
+
+    Методы:
+        - form_valid: сохраняет текущего пользователя как создателя записи.
+        - get_context_data: добавляет в контекст текущие записи и результаты пользователя, если он авторизован.
+    """
     model = Information
     template_name = "contacts.html"
 
 
 class DiagnosticListView(CreateView):
-    """  """
+    """
+    Представление для создания новых результатов диагностики.
+
+    Контекст:
+        - формы: форма для заполнения результатов диагностики.
+        - при авторизации отображаются текущие записи и результаты пользователя.
+
+    Шаблон:
+        - "profile.html"
+
+    Методы:
+        - form_valid: сохраняет текущего пользователя как создателя записи.
+        - get_context_data: добавляет в контекст текущие записи и результаты пользователя, если он авторизован.
+        """
     model = DiagnosticResults
     template_name = "profile.html"
     form_class = AppointmentForm
@@ -69,7 +115,20 @@ class DiagnosticListView(CreateView):
 
 
 class FeedbackCreateView(CreateView):
-    """  """
+    """
+    Представление для отправки обратной связи.
+
+    Контекст:
+        - форма обратной связи.
+        - список адресов клиник.
+
+    Шаблон:
+        - "contacts.html"
+
+    Методы:
+        - form_valid: сохраняет текущего пользователя как создателя сообщения.
+        - get_context_data: добавляет в контекст все адреса клиник.
+    """
     model = Feedback
     template_name = "contacts.html"
     form_class = FeedbackForm
@@ -88,7 +147,20 @@ class FeedbackCreateView(CreateView):
 
 
 class HomeCreateView(CreateView):
-    """  """
+    """
+    Представление для отправки информации с главной страницы.
+
+    Контекст:
+        - форма для отправки информации.
+        - список услуг, направлений и адресов клиник.
+
+    Шаблон:
+        - "home.html"
+
+    Методы:
+        - form_valid: сохраняет текущего пользователя как создателя.
+        - get_context_data: добавляет в контекст все услуги, направления и адреса клиник.
+    """
     model = Information
     template_name = "home.html"
     form_class = FeedbackForm
@@ -110,6 +182,19 @@ class HomeCreateView(CreateView):
 
 
 class AppointmentCreateView(CreateView):
+    """
+    Представление для создания записи на прием.
+
+    Контекст:
+        - форма для заполнения данных о приеме.
+
+    Шаблон:
+        - "appointment.html"
+
+    Методы:
+        - form_valid: сохраняет текущего пользователя как создателя записи.
+        - get_success_url: перенаправление после успешного создания.
+    """
     model = Appointment
     template_name = "appointment.html"
     form_class = AppointmentForm
@@ -124,6 +209,20 @@ class AppointmentCreateView(CreateView):
 
 
 class DiagnosticResultDetailView(DetailView):
+    """
+    Представление для отображения деталей результатов диагностики, связанных с конкретной записью.
+
+    Контекст:
+        - appointment (Объект): текущая запись.
+        - results (Объект): связанные результаты диагностики, если есть.
+
+    Шаблон:
+        - "diagnostic_result_detail.html"
+
+    Методы:
+        - get_object: получает объект записи по pk из URL.
+        - get_context_data: добавляет результаты диагностики в контекст.
+    """
     model = Appointment
     template_name = 'diagnostic_result_detail.html'
     pk_url_kwarg = 'pk'  # по умолчанию, можно не указывать
@@ -146,13 +245,3 @@ class DiagnosticResultDetailView(DetailView):
         context['appointment'] = appointment
         context['results'] = results
         return context
-
-#
-# class ReviewsListView(ListView):
-#     model = Reviews
-#     template_name = 'reviews_detail.html'
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['reviews'] = Reviews.objects.all()
-#         return context
