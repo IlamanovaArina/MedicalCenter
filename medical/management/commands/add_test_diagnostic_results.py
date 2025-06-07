@@ -5,7 +5,7 @@ from users.models import User
 
 
 class Command(BaseCommand):
-    help = "Добавить тестовые данные в Doctors"
+    help = "Добавить тестовые данные в DiagnosticResults"
 
     def handle(self, *args, **kwargs):
         data = [
@@ -13,10 +13,8 @@ class Command(BaseCommand):
                 'appointment': Appointment.objects.get(id=1),
                 'recommendations': "Рекомендации",
                 'general_comments': "Общие комментарии",
-                'user': User.objects.get(id=1),
+                'user': User.objects.get(email="admin2@gmail.com"),
             },
         ]
         for item in data:
             DiagnosticResults.objects.create(**item)
-
-        self.stdout.write(self.style.SUCCESS("Данные успешно добавлены!"))

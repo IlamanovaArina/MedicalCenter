@@ -96,10 +96,7 @@ class ProfileUpdateViewTest(TestCase):
             'country': 'Россия',
             'patronymic': 'Иванович',
         }
-        response = self.client.post(self.update_url, data)
-        # Предположим, что после обновления происходит редирект на страницу профиля
-        # profile_url = reverse('medical:profile', kwargs={'pk': self.user.pk})
-        # self.assertRedirects(response, profile_url)
+        self.client.post(self.update_url, data)
 
         # Проверяем, что данные обновились
         self.user.refresh_from_db()
@@ -109,4 +106,3 @@ class ProfileUpdateViewTest(TestCase):
         self.assertEqual(self.user.city, 'Москва')
         self.assertEqual(self.user.country, 'Россия')
         self.assertEqual(self.user.patronymic, 'Иванович')
-

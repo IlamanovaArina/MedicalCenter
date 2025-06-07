@@ -4,7 +4,7 @@ from medical.models import MedicalDirection
 
 
 class Command(BaseCommand):
-    help = "Добавить тестовые данные в Services"
+    help = "Добавить тестовые данные в MedicalDirection"
 
     def handle(self, *args, **kwargs):
         data = [
@@ -24,5 +24,3 @@ class Command(BaseCommand):
 
         for item in data:
             MedicalDirection.objects.create(**item)
-
-        self.stdout.write(self.style.SUCCESS("Данные успешно добавлены!"))

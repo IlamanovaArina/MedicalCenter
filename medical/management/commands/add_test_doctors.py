@@ -9,15 +9,20 @@ class Command(BaseCommand):
     help = "Добавить тестовые данные в Doctors"
 
     def handle(self, *args, **kwargs):
-        image_path = os.path.join('static', 'images', 'doctor1.jpg')
-        with open(image_path, 'rb') as f:
-            django_file = File(f)
+        with open(os.path.join('static', 'images', 'doctor1.jpg'), 'rb') as f1, \
+                open(os.path.join('static', 'images', 'doctor2.webp'), 'rb') as f2, \
+                open(os.path.join('static', 'images', 'doctor3.webp'), 'rb') as f3, \
+                open(os.path.join('static', 'images', 'doctor4.png'), 'rb') as f4:
+            doctor1 = File(f1)
+            doctor2 = File(f2)
+            doctor3 = File(f3)
+            doctor4 = File(f4)
 
             data = [
                 {
                     'first_name': 'Иван',
                     'last_name': 'Иванов',
-                    'avatar': django_file,
+                    'avatar': doctor1,
                     'specialization': 'Директор, врач-диагност',
                     'medical_direction': MedicalDirection.objects.get(id=2),
                     'experience': '30 лет',
@@ -25,7 +30,7 @@ class Command(BaseCommand):
                 {
                     'first_name': 'Петр',
                     'last_name': 'Петров',
-                    'avatar': django_file,
+                    'avatar': doctor2,
                     'specialization': 'Врач-гематолог',
                     'medical_direction': MedicalDirection.objects.get(id=1),
                     'experience': '8 лет',
@@ -33,7 +38,7 @@ class Command(BaseCommand):
                 {
                     'first_name': 'Григорий',
                     'last_name': 'Зайцев',
-                    'avatar': django_file,
+                    'avatar': doctor3,
                     'specialization': 'Врач-гематолог',
                     'medical_direction': MedicalDirection.objects.get(id=3),
                     'experience': '10 лет',
@@ -41,7 +46,7 @@ class Command(BaseCommand):
                 {
                     'first_name': 'Наталья',
                     'last_name': 'Зайцева',
-                    'avatar': django_file,
+                    'avatar': doctor4,
                     'specialization': 'Лабораторный врач',
                     'medical_direction': MedicalDirection.objects.get(id=2),
                     'experience': '11 лет',
@@ -50,5 +55,3 @@ class Command(BaseCommand):
 
             for item in data:
                 Doctors.objects.create(**item)
-
-            self.stdout.write(self.style.SUCCESS("Данные успешно добавлены!"))

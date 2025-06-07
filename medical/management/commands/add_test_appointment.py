@@ -7,7 +7,7 @@ from django.utils import timezone
 
 
 class Command(BaseCommand):
-    help = "Добавить тестовые данные в Doctors"
+    help = "Добавить тестовые данные в Appointment"
 
     def handle(self, *args, **kwargs):
         data = [
@@ -17,7 +17,7 @@ class Command(BaseCommand):
                 'doctor': Doctors.objects.get(id=1),
                 'services': Services.objects.get(id=4),
                 'appointment_date': timezone.now() - timedelta(days=1),
-                'user': User.objects.get(id=1),
+                'user': User.objects.get(email="admin2@gmail.com"),
             },
             {
                 'status': 'pending',
@@ -25,11 +25,9 @@ class Command(BaseCommand):
                 'doctor': Doctors.objects.get(id=2),
                 'services': Services.objects.get(id=1),
                 'appointment_date': timezone.now() + timedelta(days=120),
-                'user': User.objects.get(id=1),
+                'user': User.objects.get(email="admin2@gmail.com"),
             },
         ]
 
         for item in data:
             Appointment.objects.create(**item)
-
-        self.stdout.write(self.style.SUCCESS("Данные успешно добавлены!"))

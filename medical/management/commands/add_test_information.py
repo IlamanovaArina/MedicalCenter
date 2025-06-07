@@ -43,5 +43,3 @@ class Command(BaseCommand):
 
             # Сохраняем объект
             info_obj.save()
-
-        self.stdout.write(self.style.SUCCESS("Данные успешно добавлены или обновлены!"))

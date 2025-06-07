@@ -24,5 +24,3 @@ class Command(BaseCommand):
 
         for item in data:
             CompanyValues.objects.create(**item)
-
-        self.stdout.write(self.style.SUCCESS("Данные успешно добавлены!"))

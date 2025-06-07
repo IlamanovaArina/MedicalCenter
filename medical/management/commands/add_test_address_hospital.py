@@ -3,7 +3,7 @@ from medical.models import AddressHospital
 
 
 class Command(BaseCommand):
-    help = "Добавить тестовые данные в Doctors"
+    help = "Добавить тестовые данные в AddressHospital"
 
     def handle(self, *args, **kwargs):
         data = [
@@ -19,5 +19,3 @@ class Command(BaseCommand):
 
         for item in data:
             AddressHospital.objects.create(**item)
-
-        self.stdout.write(self.style.SUCCESS("Данные успешно добавлены!"))
