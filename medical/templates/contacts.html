@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% load my_tags %}
+{% block title %}Контакты{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+
+    <!-- Заголовок страницы -->
+    <header class="text-center mb-5">
+        <h1 class="display-4 fw-bold">Контакты</h1>
+        <p class="lead text-muted">Свяжитесь с нами или посетите наш офис</p>
+    </header>
+
+    <!-- Адрес и карта -->
+    <section class="section" id="address-map">
+        <h2 class="text-center mb-4">Наш адрес и карта проезда</h2>
+        <div class="row g-4 align-items-center">
+            <div class="col-md-6">
+                <h5>Адреса</h5>
+                <ul>
+                    {% for address_hospital in address_hospitals %}
+                    <li>
+                        <p>
+                            {{ address_hospital.address_line }}
+                        </p>
+                    </li>
+                    {% endfor %}
+                </ul>
+
+                <h5>Контакты</h5>
+                <p><strong>Телефон:</strong> {{ information.phone }}</p>
+                <p><strong>Email:</strong> {{ information.email }}</p>
+            </div>
+            <div class="col-md-6">
+                <div class="map-container">
+                    <!-- Карта -->
+                    <div id="map" style="width: 100%; height: 500px;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% if user.is_authenticated %}
+    <!-- Форма обратной связи -->
+    <section class="section" id="feedback">
+        <h2 class="text-center mb-4">Обратная связь</h2>
+        <form method="post" action="FeedbackCreateView">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </form>
+    </section>
+    {% endif %}
+
+</div>
+
+<!-- Подключение Яндекс.Карт -->
+<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=50f1bec2-1e26-43b6-bdf3-3677752ac478"></script>
+
+<script type="text/javascript">
+    var map;
+    var placemarks = [];
+
+    ymaps.ready(function() {
+        // Инициализация карты
+        map = new ymaps.Map("map", {
+            center: [55.7558, 37.6173], // Москва или ваш центр
+            zoom: 10
+        });
+
+        // Создаем метки для всех адресов
+        {% for address in address_hospitals %}
+            var placemark = new ymaps.Placemark([{{ address.latitude }}, {{ address.longitude }}], {
+                balloonContent: "<strong>{{ address.name|escapejs }}</strong><br>{{ address.address_line|escapejs }}"
+            });
+            placemarks.push(placemark);
+        {% endfor %}
+
+        // Добавляем все метки на карту
+        map.geoObjects.add(placemarks);
+
+        // Обработка кликов по ссылкам
+        document.querySelectorAll('.address-link').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                var lat = parseFloat(this.dataset.lat);
+                var lon = parseFloat(this.dataset.lon);
+                var name = this.dataset.name;
+                var addressLine = this.dataset.address;
+
+                // Центрируем карту на выбранной точке
+                map.setCenter([lat, lon], 14);
+
+                // Находим метку по координатам
+                var targetPlacemark = null;
+                for (var i = 0; i < placemarks.length; i++) {
+                    var coords = placemarks[i].geometry.getCoordinates();
+                    if (coords[0] === lat && coords[1] === lon) {
+                        targetPlacemark = placemarks[i];
+                        break;
+                    }
+                }
+
+                // Открываем балун выбранной метки
+                if (targetPlacemark) {
+                    targetPlacemark.balloon.open();
+                }
+            });
+        });
+    });
+</script>
+
+
+{% endblock %}
