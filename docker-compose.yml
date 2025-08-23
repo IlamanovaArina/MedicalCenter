@@ -1,0 +1,42 @@
+services:
+  web:
+    build: .
+    hostname: web
+    command: sh -c "python manage.py collectstatic --no-input && python manage.py migrate && gunicorn config.wsgi:application --bind 0.0.0.0:8000"
+    volumes:
+      - static_volume:/media
+    environment:
+     - SECRET_KEY=settings.SECRET_KEY
+     - DEBUG=True
+     - HOST=db
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:17
+    env_file:
+      - .env
+    environment:
+      POSTGRES_PORT: db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  default:
+
+volumes:
+  postgres_data:
+  static_volume:

@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% load my_tags %}
+{% block title %}О компании{% endblock %}
+
+{% block content %}
+
+<div class="container my-5">
+
+    <!-- Заголовок страницы -->
+    <header class="text-center mb-5">
+        <h1 class="display-4 fw-bold">О компании</h1>
+        <p class="lead text-muted">Узнайте больше о нашей истории, миссии и команде профессионалов</p>
+    </header>
+
+    <!-- История компании -->
+    <section class="section" id="history">
+        <h2 class="text-center  mb-4">История компании</h2>
+        <div class="row align-items-center">
+            <div class="col-md-6 mb-4 mb-md-0">
+                {% load static %}
+                {% if information.image_from_the_company and information.image_from_the_company.url %}
+                <img src="{{information.image_from_the_company.url}}" class="img-fluid rounded shadow"
+                     alt="История компании"/>
+                {% else %}
+                <img src="{% static 'images/doctor1.jpg' %}" alt="История компании" class="img-fluid rounded shadow"/>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <p>
+                    {{ information.company_history }}
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Миссия и ценности -->
+    <section class="section bg-light" id="mission-values">
+        <h2 class="text-center mb-4">Миссия и ценности</h2>
+        <div class="row text-center">
+            <div class="col-md-4 mb-4">
+                <div class="p-4 bg-white rounded shadow h-100">
+                    <h4 class="mb-3">Миссия</h4>
+                    <p>{{ information.mission }}</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="p-4 bg-white rounded shadow h-100">
+                    <h4 class="mb-3">Ценности</h4>
+                    <ul class="list-unstyled">
+                        {% for value in company_values %}
+                        <li class="mb-2"><strong>{{ value.name }}:</strong> {{ value.description }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="p-4 bg-white rounded shadow h-100">
+                    <h4 class="mb-3">Наши цели</h4>
+                    <p>{{ information.purposes }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Команда врачей  -->
+    <section class="section" id="team">
+        <h2 class="text-center mb-4">Команда врачей</h2>
+        <div id="doctorCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+
+                {% for doctors in grouped_doctors %}
+
+                <!-- Первый слайд -->
+                {% load static %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <div class="row g-4 justify-content-center">
+                        {% for doctor in doctors %}
+                        <div class="col-md-3 col-sm-6">
+                            <div class="card border-0 shadow team-member">
+                                {% if doctor.avatar %}
+                                <img src="{{ doctor.avatar.url }}" class="card-img-top team-img" alt="Врач"/>
+                                {% else %}
+                                <img src="{% static 'images/default_doctor.webp' %}" class="card-img-top team-img"
+                                     alt="Врач"/>
+                                {% endif %}
+                                <div class="card-body text-center">
+                                    <h5 class="card-title mb-0">{{ doctor.first_name }} {{ doctor.last_name }}</h5>
+                                    <p class="text-muted small">{{ doctor.specialization }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                {% endfor %}
+
+            </div>
+            <!-- Стрелки навигации -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#doctorCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Предыдущий</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#doctorCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Следующий</span>
+            </button>
+        </div>
+    </section>
+
+</div>
+
+{% endblock %}

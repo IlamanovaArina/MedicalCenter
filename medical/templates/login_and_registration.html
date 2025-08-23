@@ -1,0 +1,26 @@
+<!-- Регистрация -->
+<div class="col-md-5">
+    <div class="card p-4 shadow-sm border-0">
+        <h4 class="mb-3 text-center">Регистрация</h4>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            {{ form.as_p }}
+            <button type="submit" formmethod="post" class="btn btn-primary">Зарегистрироваться</button>
+        </form>
+    </div>
+</div>
+<!-- Вход -->
+<div class="col-md-5">
+    <div class="card p-4 shadow-sm border-0">
+        <h4 class="mb-3 text-center">Вход</h4>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" formmethod="post" class="btn btn-primary">Войти</button>
+        </form>
+
+    </div>
+</div>
